@@ -16,6 +16,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', 			'3.1.10'
 gem 'braintree',    '2.60.0'
 gem 'figaro',       '1.1.1'
+gem 'faker', '~> 1.6', '>= 1.6.3'
+
 # style
 gem 'bootstrap-sass', '3.3.6'
 

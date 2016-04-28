@@ -11,18 +11,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426200946) do
+ActiveRecord::Schema.define(version: 20160427182713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "gifts", force: :cascade do |t|
-    t.string   "total"
+  create_table "campaigns", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "user_id"
     t.integer  "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "campaigns", ["school_id"], name: "index_campaigns_on_school_id", using: :btree
+  add_index "campaigns", ["user_id"], name: "index_campaigns_on_user_id", using: :btree
+
+  create_table "donors", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "school_id"
+  end
+
+  add_index "donors", ["school_id"], name: "index_donors_on_school_id", using: :btree
+
+  create_table "gifts", force: :cascade do |t|
+    t.string   "total"
+    t.integer  "school_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "donor_id"
+    t.integer  "campaign_id"
+  end
+
+  add_index "gifts", ["campaign_id"], name: "index_gifts_on_campaign_id", using: :btree
+  add_index "gifts", ["donor_id"], name: "index_gifts_on_donor_id", using: :btree
   add_index "gifts", ["school_id"], name: "index_gifts_on_school_id", using: :btree
 
   create_table "schools", force: :cascade do |t|
@@ -42,6 +68,11 @@ ActiveRecord::Schema.define(version: 20160426200946) do
 
   add_index "users", ["school_id"], name: "index_users_on_school_id", using: :btree
 
+  add_foreign_key "campaigns", "schools"
+  add_foreign_key "campaigns", "users"
+  add_foreign_key "donors", "schools"
+  add_foreign_key "gifts", "campaigns"
+  add_foreign_key "gifts", "donors"
   add_foreign_key "gifts", "schools"
   add_foreign_key "users", "schools"
 end
