@@ -25,6 +25,10 @@ Donor.all.each do |x|
 		total = rand(10..100000)
 		Gift.create!(total: total, school_id: x.school_id, donor_id: x.id)
 	end
+	5.times do |n|
+		title = Faker::Company.buzzword
+		Campaign.create!(title: title)
+	end
 end
 
 User.all.each do |x|
@@ -33,4 +37,13 @@ User.all.each do |x|
 		Campaign.create!(title: title, user_id: x.id)
 	end
 end
+
+Campaign.all.each do |x|
+	3.times do |n|
+		first_name = Faker::Name.first_name
+		x.donors.create(first_name: first_name)
+	end
+end
+
+
 
