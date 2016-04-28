@@ -16,3 +16,11 @@ To deploy to Production:
 
 git push production master
 ```
+When using heroku commands must specify remote
+
+```
+#!bash
+
+heroku <command> <argument> --remote staging (or production)
+```
+ 
