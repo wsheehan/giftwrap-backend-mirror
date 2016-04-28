@@ -2,6 +2,5 @@ class Donor < ActiveRecord::Base
 	has_many :gifts
 	belongs_to :school
 
-	# The Campaign Donor Relationship is something we need to discuss...
-  	# has_many :campaigns
+	has_and_belongs_to_many :campaigns
 end
