@@ -22,5 +22,4 @@ When using heroku commands must specify remote
 #!bash
 
 heroku <command> <argument> --remote staging (or production)
-```
- 
+```  
