@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   root 'static_pages#home'
 
-  resources :gifts, only: [:create, :index]
+  namespace :api do
+  	namespace :v1 do
+  		resources :gifts, only: [:create, :index]
+  	end
+  end
 
 end
