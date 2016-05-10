@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428173816) do
+ActiveRecord::Schema.define(version: 20160509174619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,14 @@ ActiveRecord::Schema.define(version: 20160428173816) do
 
   add_index "donors", ["school_id"], name: "index_donors_on_school_id", using: :btree
 
+  create_table "forms", force: :cascade do |t|
+    t.integer  "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "forms", ["school_id"], name: "index_forms_on_school_id", using: :btree
+
   create_table "gifts", force: :cascade do |t|
     t.string   "total"
     t.integer  "school_id"
@@ -79,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160428173816) do
   add_foreign_key "campaigns", "schools"
   add_foreign_key "campaigns", "users"
   add_foreign_key "donors", "schools"
+  add_foreign_key "forms", "schools"
   add_foreign_key "gifts", "campaigns"
   add_foreign_key "gifts", "donors"
   add_foreign_key "gifts", "schools"
