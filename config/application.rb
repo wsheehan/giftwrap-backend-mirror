@@ -24,6 +24,7 @@ module Giving
       allow do
         origins '*'
         resource '/api/v1/gifts', :headers => :any, :methods => [:post]
+        resource '/forms/:id', :headers => :any, :methods => [:get]
       end
     end
 
