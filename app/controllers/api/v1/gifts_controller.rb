@@ -5,25 +5,21 @@ module Api
 			skip_before_filter :verify_authenticity_token
 
 			def create
-				# Find if donor has given before
-				donor = Donor.find_by(donor_params)
+				school = School.find_by(school_params)
+				donor = school.donors.find_by(donor_params)
 				if donor.nil?
-					# If they haven't, create new Donor
-					donor = Donor.new(donor_params)
-					if donor.save
-						puts "New Donor Created: #{donor.inspect}"
-					else
-						puts "Donor not saved: #{donor.errors}"
-					end
+					donor = school.donors.build(donor_params)
 				end
-				gift = donor.gifts.build(gift_params)
-				# Save Gift
-				if gift.save
-					puts "New Gift Created: #{gift.inspect}"
-					render json: gift.to_json
+				if donor.save
+					gift = donor.gifts.build(gift_params)
+					if gift.save
+						school.gifts << gift
+						render json: gift.to_json
+					else
+						render json: gift.errors.to_json
+					end
 				else
-					puts "Gift not saved: #{gift.errors}"
-					render json: gift.errors.to_json
+					render json: donor.errors.to_json
 				end
 			end
 
@@ -35,6 +31,10 @@ module Api
 
 				def donor_params
 					params.require(:donor).permit(:first_name, :last_name, :email)
+				end
+
+				def school_params
+					params.require(:school).permit(:id)
 				end
 
 		end
