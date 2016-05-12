@@ -1,8 +1,11 @@
 class FormsController < ApplicationController
 	after_action :allow_iframe, only: :show
+	layout false
 
   def show
-  	render partial: 'forms/show'
+  	@form = Form.find(params[:id])
+  	@params = request.params
+  	puts @params
   end
 
   private

@@ -1,0 +1,26 @@
+
+<h2><%= @form.school.name %></h2>
+
+<%= form_tag("https://localhost:3000/api/v1/gifts", method: "post") do %>
+
+	<%= hidden_field_tag(:school, :id, value: "1") %>
+	<div>
+		<%= label_tag "donor[first_name]", "First Name" %>
+		<%= text_field_tag(:donor, :first_name, value: @params[:first_name].nil? ? "" : @params[:first_name]) %>
+	</div>
+	<div>
+		<%= label_tag "donor[last_name]", "Last Name" %>
+		<%= text_field_tag(:donor, :last_name, value: @params[:last_name].nil? ? "" : @params[:last_name]) %>
+	</div>
+	<div>
+		<%= label_tag "donor[email]", "Email" %>
+		<%= email_field(:donor, :email, value: @params[:email].nil? ? "" : @params[:email]) %>
+	</div>
+
+	<div><%= label_tag "gift[total]", "50" %><%= radio_button_tag(:gift, :total, "50") %></div>
+	<div><%= label_tag "gift[total]", "100" %><%= radio_button_tag(:gift, :total, "100") %></div>
+	<div><%= label_tag "gift[total]", "250" %><%= radio_button_tag(:gift, :total, "250") %></div>
+	<div><%= submit_tag("Give") %></div>
+
+<% end %>
+
