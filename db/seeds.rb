@@ -15,12 +15,13 @@ School.all.each do |x|
 		first_name = Faker::Name.first_name
 		last_name = Faker::Name.last_name
 		email = Faker::Internet.email
-		Donor.create!(first_name: first_name, last_name: last_name, email: email, school_id: x.id)
+		Donor.create!(first_name: first_name, last_name: last_name, email: email, school_id: x.id, key: SecureRandom.urlsafe_base64(16))
 	end
+	x.create_form()
 end
 
 Donor.all.each do |x|
-	rand  = rand(50..100)
+	rand  = rand(5..10)
 	rand.times do |n|
 		total = rand(10..100000)
 		Gift.create!(total: total, school_id: x.school_id, donor_id: x.id)

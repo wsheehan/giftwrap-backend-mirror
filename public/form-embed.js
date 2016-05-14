@@ -4,6 +4,7 @@ window.onload = function() {
 	var scriptPram = document.getElementById('load_form');
 	var id = scriptPram.getAttribute('data-page');
 	var query = window.location.search;
+	console.log(query);
 
 	// iFrame
 	var iframe = document.createElement('iframe');

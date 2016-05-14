@@ -3,9 +3,9 @@ class FormsController < ApplicationController
 	layout false
 
   def show
+    @donor = Donor.find_by(key: params[:key])
+    @school = @donor.school unless @donor.nil?
   	@form = Form.find(params[:id])
-  	@params = request.params
-  	puts @params
   end
 
   private
