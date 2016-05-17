@@ -1,5 +1,4 @@
 class Donor < ActiveRecord::Base
-	after_create :create_key
 
 	# Associations
 	has_many :gifts
@@ -11,10 +10,8 @@ class Donor < ActiveRecord::Base
 	validates :last_name, presence: true
 	validates :email, presence: true
 
-  private
-
-  	def create_key
-  		self.key = SecureRandom.urlsafe_base64(16)
-  	end
+  def create_key
+	  update_attribute :key, SecureRandom.urlsafe_base64(16)
+	end
 
 end

@@ -3,23 +3,23 @@
 
 <%= form_tag("https://localhost:3000/api/v1/gifts", method: "post") do %>
 
-	<%= hidden_field_tag(:school, :id, value: "1") %>
+	<input type="hidden" name="school[id]", value="1">
 	<div>
 		<%= label_tag "donor[first_name]", "First Name" %>
-		<%= text_field_tag(:donor, :first_name, value: (@donor.first_name unless @donor.nil?)) %>
+		<input type="text" name="donor[first_name]", value="<%= @donor.first_name unless @donor.nil? %>">		
 	</div>
 	<div>
 		<%= label_tag "donor[last_name]", "Last Name" %>
-		<%= text_field_tag(:donor, :last_name, value: (@donor.last_name unless @donor.nil?)) %>
+		<input type="text" name="donor[last_name]", value="<%= @donor.last_name unless @donor.nil? %>">
 	</div>
 	<div>
 		<%= label_tag "donor[email]", "Email" %>
-		<%= email_field(:donor, :email, value: (@donor.email unless @donor.nil?)) %>
+		<input type="email" name="donor[email]", value="<%= @donor.email unless @donor.nil? %>">
 	</div>
 
-	<div><%= label_tag "gift[total]", "50" %><%= radio_button_tag(:gift, :total, "50") %></div>
-	<div><%= label_tag "gift[total]", "100" %><%= radio_button_tag(:gift, :total, "100") %></div>
-	<div><%= label_tag "gift[total]", "250" %><%= radio_button_tag(:gift, :total, "250") %></div>
+	<div><%= label_tag "gift[total]", "50" %><input type="radio" name="gift[total]" value="50"></div>
+	<div><%= label_tag "gift[total]", "100" %><input type="radio" name="gift[total]" value="100"></div>
+	<div><%= label_tag "gift[total]", "250" %><input type="radio" name="gift[total]" value="250"></div>
 	<div><%= submit_tag("Give") %></div>
 
 <% end %>

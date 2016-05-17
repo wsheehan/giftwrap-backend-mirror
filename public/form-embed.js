@@ -1,8 +1,8 @@
 window.onload = function() {
 
 	// Params
-	var scriptPram = document.getElementById('load_form');
-	var id = scriptPram.getAttribute('data-page');
+	var scriptParam = document.getElementById('load_form');
+	var id = scriptParam.getAttribute('data-page');
 	var query = window.location.search;
 	console.log(query);
 
@@ -13,6 +13,7 @@ window.onload = function() {
 	iframe.frameBorder = "0";
 	iframe.scrolling = "no";
 	iframe.src = "https://localhost:3000/forms/" + id + query;
+	console.log(iframe.src)
 	document.getElementById("form-wrapper").appendChild(iframe);
 	
 };
