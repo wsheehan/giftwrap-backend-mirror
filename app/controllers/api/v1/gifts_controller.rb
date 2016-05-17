@@ -11,6 +11,7 @@ module Api
 					donor = school.donors.build(donor_params)
 				end
 				if donor.save
+					donor.create_key
 					gift = donor.gifts.build(gift_params)
 					if gift.save
 						school.gifts << gift

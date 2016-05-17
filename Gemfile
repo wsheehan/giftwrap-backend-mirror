@@ -23,7 +23,7 @@ gem 'rack-cors', '~> 0.4.0'
 group :development, :test do
   gem 'byebug'
   gem 'thin',		 		'1.6.3'
-  gem 'rspec-rails', 		'3.3.2'
+  gem 'rspec-rails', '~> 3.4', '>= 3.4.2'
   gem 'factory_girl_rails', '4.5.0'
   gem 'database_cleaner',   '1.5.1'
   gem 'spring'

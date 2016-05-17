@@ -1,8 +1,11 @@
 class FormsController < ApplicationController
 	after_action :allow_iframe, only: :show
+	layout false
 
   def show
-  	render partial: 'forms/show'
+    @donor = Donor.find_by(key: params[:key])
+    @school = @donor.school unless @donor.nil?
+  	@form = Form.find(params[:id])
   end
 
   private
