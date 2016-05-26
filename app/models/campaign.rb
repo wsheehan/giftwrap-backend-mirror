@@ -5,4 +5,8 @@ class Campaign < ActiveRecord::Base
   belongs_to :school
   has_one :donor_list
 
+  def donors
+    donor_list.donors
+  end
+
 end
