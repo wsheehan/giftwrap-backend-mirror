@@ -1,6 +1,8 @@
 class Campaign < ActiveRecord::Base
+
+  # Associations
   belongs_to :user
   belongs_to :school
+  has_one :donor_list
 
-  has_and_belongs_to_many :donors
 end
