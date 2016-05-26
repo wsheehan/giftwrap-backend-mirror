@@ -3,7 +3,7 @@ class Donor < ActiveRecord::Base
 	# Associations
 	has_many :gifts
 	belongs_to :school
-	has_and_belongs_to_many :campaigns
+	has_and_belongs_to_many :donor_lists
 
 	# Validations
 	validates :first_name, presence: true
