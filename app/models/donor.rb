@@ -14,4 +14,12 @@ class Donor < ActiveRecord::Base
 	  update_attribute :key, SecureRandom.urlsafe_base64(16)
 	end
 
+	def suggested_gift
+		gifts.last.total.to_f * 1.25
+	end
+
+	def has_payment_info?
+		braintree_customer_id
+  end
+
 end

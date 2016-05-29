@@ -1,26 +1,110 @@
 
-<h2><%= @form.school.name %></h2>
-
-<%= form_tag("https://localhost:3000/api/v1/gifts", method: "post") do %>
+<%= form_tag("https://localhost:3000/api/v1/gifts", method: "post", id: "form") do %>
 
 	<input type="hidden" name="school[id]", value="1">
 	<div>
-		<%= label_tag "donor[first_name]", "First Name" %>
+		<label for="donor_first_name">First Name</label><br>
 		<input type="text" name="donor[first_name]", value="<%= @donor.first_name unless @donor.nil? %>">		
 	</div>
 	<div>
-		<%= label_tag "donor[last_name]", "Last Name" %>
+		<label for="donor_last_name">Last Name</label><br>
 		<input type="text" name="donor[last_name]", value="<%= @donor.last_name unless @donor.nil? %>">
 	</div>
 	<div>
-		<%= label_tag "donor[email]", "Email" %>
+		<label for="donor_email">Email</label><br>
 		<input type="email" name="donor[email]", value="<%= @donor.email unless @donor.nil? %>">
 	</div>
 
-	<div><%= label_tag "gift[total]", "50" %><input type="radio" name="gift[total]" value="50"></div>
-	<div><%= label_tag "gift[total]", "100" %><input type="radio" name="gift[total]" value="100"></div>
-	<div><%= label_tag "gift[total]", "250" %><input type="radio" name="gift[total]" value="250"></div>
-	<div><%= submit_tag("Give") %></div>
+	<% if @donor.nil? %>
+
+	<div class="gift-total">
+		<div>
+			<input type="radio" name="gift[total]" value="50">
+			<label>50</label>
+		</div>
+		<div>
+			<input type="radio" name="gift[total]" value="100">
+			<label>100</label>
+		</div>
+		<div>
+			<input type="radio" name="gift[total]" value="250">
+			<label>250</label>
+		</div>
+		<div>
+			<input type="radio" name="gift[total]"" for="gift_total_other"><input type="text" name="gift_total_other" id="gift_total_other" placeholder="Other">
+		</div>
+	</div>
+
+	<% else %>
+
+	<div>
+		<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
+		<input type="radio" name="gift[total]" value="50">
+	</div>
+	<div>
+		<label for="gift_total">Other</label>
+		<input type="radio" name="gift[total]" for="gift_total_other"><input type="text" name="gift[total]" id="gift_total_other">
+	</div>
+
+	<% end %>
+
+	<div>
+		<p id="designate-link">I'd Like to specially designate this gift</p>
+		<select id="designate">
+			<option value="1">Where KUA needs it the most</option>
+			<option value="2">Access Fund for Financial Aid</option>
+			<option value="3">Leadership Fund for Faculty Excellence</option>
+			<option value="4">Community Fund for Student Achievement</option>
+			<option value="5">Coaches Fund for Athletics</option>
+			<option value="6">Encore Fund for Creative Arts</option>
+			<option value="7">Senior Class Gift 2016</option>
+		</select>
+	</div>
+
+	<div id="braintree-dropin"></div>
+
+	<div><input type="submit" name="commit" value="Give to <%= @form.school.name %>"></div>
 
 <% end %>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+
+<script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
+
+<style type="text/css">
+	#form {
+		margin-left: 25vw;
+		margin-right: 25vw;
+	}
+	#designate-link {
+		text-decoration: underline;
+		color: blue;
+	}
+	#designate {
+		display: none;
+	}
+	#form {
+		border: 1px dotted red;
+	}
+	#braintree-dropin {
+		border: 1px solid gray;
+		border-radius: 3px;
+		padding: 10px;
+	}
+</style>
+
+<script type="text/javascript">
+
+	braintree.setup('<%= @client_token %>', "dropin", {
+	  container: "braintree-dropin"
+	});
+
+	$(document).ready(function() {
+
+		$('#designate-link').click(function(){
+			$('#designate').show(250)
+		});
+
+	})
+</script>
 
