@@ -1,4 +1,6 @@
 
+School.create!(name: "Kimball Union")
+
 20.times do |n|
 	name = Faker::Company.name
 	School.create!(name: name)
@@ -26,10 +28,14 @@ Donor.all.each do |x|
 		total = rand(10..100000)
 		Gift.create!(total: total, school_id: x.school_id, donor_id: x.id)
 	end
-	5.times do |n|
-		title = Faker::Company.buzzword
-		Campaign.create!(title: title)
-	end
+end
+
+10.times do |x|
+	title = Faker::Company.buzzword
+	list = DonorList.create(title: title )
+	rand = rand(10..20)
+	donors = Donor.all.sample(rand)
+	donors.each {|x| list.donors << x }
 end
 
 User.all.each do |x|
@@ -39,12 +45,7 @@ User.all.each do |x|
 	end
 end
 
-Campaign.all.each do |x|
-	3.times do |n|
-		first_name = Faker::Name.first_name
-		x.donors.create(first_name: first_name)
-	end
-end
+
 
 
 

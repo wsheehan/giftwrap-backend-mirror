@@ -6,10 +6,11 @@ class FormsController < ApplicationController
     @donor = Donor.find_by(key: params[:key])
     @school = @donor.school unless @donor.nil?
   	@form = Form.find(params[:id])
+    @client_token = Braintree::ClientToken.generate
   end
 
   private
-  
+
   	def allow_iframe
   		response.headers.except! 'X-Frame-Options'
   	end
