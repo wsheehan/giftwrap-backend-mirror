@@ -1,5 +1,8 @@
 
-School.create!(name: "Kimball Union")
+School.create!(name: "Kimball Union", designation: ['Where KUA Needs it Most',
+	'Access Fund for Financial Aid','Leadership Fund for Faculty Excellence',
+	'Community Fund for Student Achievement','Coaches Fund for Athletics',
+	'Encore Fund for Creative Arts','Senior Class Gift 2016','Other'])
 
 20.times do |n|
 	name = Faker::Company.name

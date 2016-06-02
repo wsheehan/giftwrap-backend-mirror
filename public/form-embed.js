@@ -9,11 +9,28 @@ window.onload = function() {
 	// iFrame
 	var iframe = document.createElement('iframe');
 	iframe.style.width = "100%";
-	iframe.style.height = "500px";
+	iframe.style.height = "700px";
+	iframe.id = "giftFrame";
+	//newheight = document.getElementById(id).contentWindow.document .body.scrollHeight;
+	//console.log(newheight)
 	iframe.frameBorder = "0";
 	iframe.scrolling = "no";
 	iframe.src = "https://localhost:3000/forms/" + id + query;
-	document.getElementById("form-wrapper").appendChild(iframe);
+	document.getElementById("form-wrapper").appendChild(iframe)
+	//iframe.onload = autoResize("giftFrame");
+
+	// Resize Function
+	function autoResize(id){
+	    var newheight;
+
+	    if(document.getElementById){
+	        newheight = document.getElementById(id).contentWindow.document .body.scrollHeight;
+	        console.log(newheight)
+	    }
+
+	    document.getElementById(id).height = (newheight) + "px";
+	    console.log("hello?")
+	}
 	
 };
 

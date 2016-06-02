@@ -5,6 +5,11 @@ class Api::V1::GiftsController < ApplicationController
 	def create
 		@school = School.find_by(school_params)
 		find_or_create_donor
+    if pledge?
+      create_gift
+      render json: @gift.to_json
+      return
+    end
 		process_payment
 		if @payment.success?
       create_gift
@@ -17,7 +22,7 @@ class Api::V1::GiftsController < ApplicationController
 	private
 
 		def gift_params
-			params.require(:gift).permit(:total)
+			params.require(:gift).permit(:designation, :gift_type)
 		end
 
 		def donor_params
@@ -50,16 +55,12 @@ class Api::V1::GiftsController < ApplicationController
           }
         )
         # Update User's payment credentials in our database
-        @donor.update_attribute(:braintree_customer_id, payment.transaction.customer_details.id)
+        @donor.update_attribute(:braintree_customer_id, @payment.transaction.customer_details.id)
       end
     end
 
-  	def allow_iframe
-  		response.headers.except! 'X-Frame-Options'
-  	end
-
     def find_or_create_donor
-      @donor = @school.donors.find_by(params[:donor][:email])
+      @donor = @school.donors.find_by(email: params[:donor][:email])
       if @donor.nil?
         @donor = @school.donors.create(donor_params)
         @donor.create_key
@@ -67,8 +68,13 @@ class Api::V1::GiftsController < ApplicationController
     end
 
     def create_gift
-      @gift = @donor.gifts.create(gift_params)
+      total = (params[:gift][:total_other] != "") ? params[:gift][:total_other] : params[:gift][:total]
+      @gift = @donor.gifts.create(gift_params.merge({"total" => total}))
       @school.gifts << @gift
+    end
+
+    def pledge?
+      params[:gift][:gift_type] == "pledge"
     end
 
 end
