@@ -1,0 +1,19 @@
+#form {
+	margin-left: 25vw;
+	margin-right: 25vw;
+}
+#designate-link {
+	text-decoration: underline;
+	color: blue;
+}
+#designate {
+	display: none;
+}
+#form {
+	border: 1px dotted red;
+}
+#braintree-dropin {
+	border: 1px solid gray;
+	border-radius: 3px;
+	padding: 10px;
+}
