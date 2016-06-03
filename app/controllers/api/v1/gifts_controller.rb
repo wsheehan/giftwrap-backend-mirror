@@ -22,7 +22,7 @@ class Api::V1::GiftsController < ApplicationController
 	private
 
 		def gift_params
-			params.require(:gift).permit(:designation, :gift_type)
+			params.require(:gift).permit(:total, :designation, :gift_type)
 		end
 
 		def donor_params
@@ -68,8 +68,8 @@ class Api::V1::GiftsController < ApplicationController
     end
 
     def create_gift
-      total = (params[:gift][:total_other] != "") ? params[:gift][:total_other] : params[:gift][:total]
-      @gift = @donor.gifts.create(gift_params.merge({"total" => total}))
+      #total = (params[:gift][:total_other] != "") ? params[:gift][:total_other] : params[:gift][:total]
+      @gift = @donor.gifts.create(gift_params)
       @school.gifts << @gift
     end
 

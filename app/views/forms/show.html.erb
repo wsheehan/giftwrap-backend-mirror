@@ -40,11 +40,11 @@
 
 	<div>
 		<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
-		<input type="radio" name="gift[total]" value="50">
+		<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>">
 	</div>
 	<div>
-		<label for="gift_total">Other</label>
-		<input type="radio" name="gift[total]" for="gift_total_other"><input type="text" name="gift[total]" id="gift_total_other">
+		<input type="radio" name="gift[total]" for="gift_total_other">
+		<input type="text" name="gift[total_other]" id="gift_total_other" placeholder="Other">
 	</div>
 
 	<% end %>
@@ -52,7 +52,7 @@
 	<div>
 		<label>Gift Type</label>
 		<span><input type="radio" name="gift[gift_type]" value="gift" checked>Gift</span>
-		<span><input type="radio" name="gift[gift_type]" value="pledge">Pledge</span>
+		<span><input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">Pledge</span>
 		<span><input type="radio" name="gift[gift_type]" value="pledge_payment">Pledge Payment</span>
 	</div>
 
