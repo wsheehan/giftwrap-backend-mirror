@@ -4,15 +4,18 @@
 	<input type="hidden" name="school[id]" value="<%= @school.id %>">
 	<div>
 		<label for="donor_first_name">First Name</label><br>
-		<input type="text" name="donor[first_name]" value="<%= @donor.first_name unless @donor.nil? %>">
+		<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input" value="<%= @donor.first_name unless @donor.nil? %>">
+		<div id="donor_first_name_error" class="error"></div>
 	</div>
 	<div>
 		<label for="donor_last_name">Last Name</label><br>
-		<input type="text" name="donor[last_name]" value="<%= @donor.last_name unless @donor.nil? %>">
+		<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input" value="<%= @donor.last_name unless @donor.nil? %>">
+		<div id="donor_last_name_error" class="error"></div>
 	</div>
 	<div>
 		<label for="donor_email">Email</label><br>
-		<input type="email" name="donor[email]" value="<%= @donor.email unless @donor.nil? %>">
+		<input type="text" name="donor[email]" id="donor_email" class="form-input" value="<%= @donor.email unless @donor.nil? %>">
+		<div id="donor_email_error" class="error"></div>
 	</div>
 
 	<% if @donor.nil? %>
@@ -83,8 +86,12 @@
 <script type="text/javascript">
 
 // Braintree
-braintree.setup('<%= @client_token %>', "dropin", {
-  container: "braintree-dropin"
+braintree.setup("<%= @client_token %>", "dropin", {
+	container: "braintree-dropin",
+	onPaymentMethodReceived: function (obj) {
+	    $('#form').append("<input type='hidden' name='payment_method_nonce' value='" + obj['nonce'] + "'></input>");
+	    $('#form').submit();
+	}
 });
 
 </script>
