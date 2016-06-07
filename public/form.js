@@ -52,16 +52,21 @@ document.addEventListener("DOMContentLoaded", function() {
 		var first_name = document.getElementById("donor_first_name");
 		var last_name = document.getElementById("donor_last_name");
 		var email = document.getElementById("donor_email");
+		var phone_number = document.getElementById("donor_phone_number")
 		var arr = [];
-		if (checkBlank(first_name)) {
-			arr.push(checkBlank(first_name));
-		}
-		if (checkBlank(last_name)) {
-			arr.push(checkBlank(last_name));
-		}
-		if (checkEmail(email)) {
-			arr.push(checkEmail(email));
-		}
+
+		var first_blank = checkBlank(first_name)
+		if (first_blank) { arr.push(first_blank) }
+
+		var last_blank = checkBlank(last_name)
+		if (last_blank) { arr.push(last_blank) }
+
+		var check_email = checkEmail(email)
+		if (check_email) { arr.push(check_email) }
+
+		var phone_blank = checkBlank(phone_number)
+		if (phone_blank) { arr.push(phone_blank) }
+
 		return arr
 	}
 

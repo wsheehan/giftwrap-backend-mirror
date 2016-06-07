@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602151819) do
+ActiveRecord::Schema.define(version: 20160607182146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20160602151819) do
     t.integer  "school_id"
     t.string   "key"
     t.string   "braintree_customer_id"
+    t.string   "phone_number"
   end
 
   add_index "donors", ["school_id"], name: "index_donors_on_school_id", using: :btree

@@ -18,6 +18,11 @@
 		<input type="text" name="donor[email]" id="donor_email" class="form-input" value="<%= @donor.email unless @donor.nil? %>">
 		<div id="donor_email_error" class="error"></div>
 	</div>
+	<div>
+		<label for="donor_phone_number">Cell Number</label><br>
+		<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input" value="<%= @donor.phone_number unless @donor.nil? %>">
+		<div id="donor_phone_number_error" class="error"></div>
+	</div>
 
 	<% if @donor.nil? %>
 
