@@ -1,6 +1,7 @@
 
 <%= form_tag("https://localhost:3000/api/v1/gifts", method: "post", id: "form") do %>
 
+	<input type="hidden" value="<%= @client_token %>" id="client_token">
 	<input type="hidden" name="school[id]" value="<%= @school.id %>">
 	<div>
 		<label for="donor_first_name">First Name</label><br>
@@ -34,7 +35,7 @@
 				<label>250</label>
 			</div>
 			<div>
-				<input type="radio" name="gift[total]" for="gift_total_other">
+				<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
 				<input type="text" name="gift[total_other]" id="gift_total_other" placeholder="Other">
 			</div>
 		</div>
@@ -79,20 +80,6 @@
 <!-- Load Dependencies -->
 
 <link rel="stylesheet" type="text/css" href="https://localhost:3000/form.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
 <script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
 <script src="https://localhost:3000/form.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-
-// Braintree
-braintree.setup("<%= @client_token %>", "dropin", {
-	container: "braintree-dropin",
-	onPaymentMethodReceived: function (obj) {
-	    $('#form').append("<input type='hidden' name='payment_method_nonce' value='" + obj['nonce'] + "'></input>");
-	    $('#form').submit();
-	}
-});
-
-</script>
 

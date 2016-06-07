@@ -1,50 +1,44 @@
-// DOM
-$(document).ready(function() {
+
+
+// Ready DOM
+document.addEventListener("DOMContentLoaded", function() {
 
 	// Show designations on click
 	document.getElementById("designate-link").addEventListener("click", function() {
-		document.getElementById("designate").style.display = 'initial'
-	})
+		document.getElementById("designate").style.display = 'initial';
+	});
 
 	// Connect 'Other' Text box to Checkbox
-	$('#gift_total_other').click(function(){
-		$('[for="gift_total_other"]').prop('checked', true)
+	var gift_total_other = document.getElementById("gift_total_other")
+	gift_total_other.addEventListener('change', function() {
+		document.getElementById("gift_other_box").value = this.value;
 	});
-	$('#gift_total_other').on('change', function(){
-		$('[for="gift_total_other"]').attr('value', $(this).val())
+	gift_total_other.addEventListener('click', function() {
+		document.getElementById("gift_other_box").checked = true;
 	});
 
 	// Hide Payment on Pledge
-	// $('[name="gift[gift_type]').click(function(){
-	// 	console.log(this.id)
-	// 	if (this.id == "gift_type_pledge") {
-	// 		$('#braintree-dropin').hide(200);
-	// 	} else {
-	// 		$('#braintree-dropin').show(200);
-	// 	}
-	// })
 	var gift_types = document.getElementsByName("gift[gift_type]")
 	for (var i = 0; i < gift_types.length; i++) {
 		gift_types[i].addEventListener("click", function() {
-			dropin = document.getElementById("braintree-dropin")
+			dropin = document.getElementById("braintree-dropin");
 			if (this.id == "gift_type_pledge") {
-				dropin.style.display = 'none'
+				dropin.style.display = 'none';
 			} else {
-				dropin.style.display = 'initial'
+				dropin.style.display = 'initial';
 			}
-		})
+		});
 	}
 
 	//Validations
-	//$('#form').on('submit', function(){
 	var form = document.getElementById("form")
 	form.addEventListener("submit", function(event) {
-		event.preventDefault()
-		res = validateForm(this)
-		l = res.length
+		event.preventDefault();
+		res = validateForm();
+		l = res.length;
 		console.log(res)
 		if (l == 0) {
-			form.submit()
+			form.submit();
 		} else {
 			resetErrors();
 			for (var i = 0; i < l; i++) {
@@ -52,21 +46,21 @@ $(document).ready(function() {
 				document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
 			}
 		}
-	})
+	});
 
-	function validateForm(form) {
+	function validateForm() {
 		var first_name = document.getElementById("donor_first_name");
 		var last_name = document.getElementById("donor_last_name");
 		var email = document.getElementById("donor_email");
-		var arr = []
+		var arr = [];
 		if (checkBlank(first_name)) {
-			arr.push(checkBlank(first_name))
+			arr.push(checkBlank(first_name));
 		}
 		if (checkBlank(last_name)) {
-			arr.push(checkBlank(last_name))
+			arr.push(checkBlank(last_name));
 		}
 		if (checkEmail(email)) {
-			arr.push(checkEmail(email))
+			arr.push(checkEmail(email));
 		}
 		return arr
 	}
@@ -87,9 +81,22 @@ $(document).ready(function() {
 	function resetErrors() {
 		var inputs = document.getElementsByClassName('form-input')
 		for(var i = 0; i < inputs.length; i++) {
-			inputs[i].classList.remove("input-error")
-			document.getElementById(inputs[i].id + "_error").innerHTML = ""
+			inputs[i].classList.remove("input-error");
+			document.getElementById(inputs[i].id + "_error").innerHTML = "";
 		}
 	}
 
-})
+	var token = document.getElementById("client_token").value
+	braintree.setup(token, "dropin", {
+		container: "braintree-dropin",
+		onPaymentMethodReceived: function (obj) {
+		    var form = document.getElementById("form");
+		    var input = document.createElement("input");
+		    input.type = "hidden";
+		    input.name = "payment_method_nonce";
+		    input.value = obj["nonce"];
+		    form.appendChild(input) 
+		}
+	});
+
+});
