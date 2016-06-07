@@ -86,17 +86,56 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	}
 
+	var paypalCheckout;
 	var token = document.getElementById("client_token").value
-	braintree.setup(token, "dropin", {
-		container: "braintree-dropin",
-		onPaymentMethodReceived: function (obj) {
-		    var form = document.getElementById("form");
-		    var input = document.createElement("input");
-		    input.type = "hidden";
-		    input.name = "payment_method_nonce";
-		    input.value = obj["nonce"];
-		    form.appendChild(input) 
+	braintree.setup(token, "custom", {
+		id: "form",
+		paypal: {
+			headless: true,
+			onSuccess: function(nonce, email) {
+				paypalSuccess(email);
+			}
+		},
+		onReady: function(integration) {
+			paypalCheckout = integration;
+		},
+		onPaymentMethodReceived: function (payload) {
+ 			createHiddenNonce(payload);
 		}
 	});
+
+	document.getElementById("paypal-button").addEventListener("click", function(event) {
+		event.preventDefault();
+		paypalCheckout.paypal.initAuthFlow();
+	});
+
+	document.getElementById("paypal-cancel").addEventListener("click", function(event) {
+		event.preventDefault();
+		paypalCheckout.teardown();
+		resetPayment();	
+	})
+
+	function createHiddenNonce(payload) {
+	    var form = document.getElementById("form");
+	    var input = document.createElement("input");
+	    input.type = "hidden";
+	    input.name = "payment_method_nonce";
+	    input.value = payload["nonce"];
+	    form.appendChild(input)
+	}
+
+	function resetPayment() {
+		document.getElementById("card-payment").style.display = 'initial';
+		document.getElementById("paypal-cancel").innerHTML = "";
+		document.getElementById("paypal-email").innerHTML = "";
+		document.getElementById("paypal-button").style.display = 'initial';
+	}
+
+	function paypalSuccess(email) {
+		document.getElementById("paypal-button").style.display = 'none'
+		document.getElementById("paypal-email").innerHTML = email
+		document.getElementById("paypal-cancel").innerHTML = "change payment method"
+		document.getElementById("card-payment").style.display = 'none'
+	}
 
 });

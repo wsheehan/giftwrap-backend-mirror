@@ -21,3 +21,11 @@
 .input-error {
 	border: 3px solid red;
 }
+
+#paypal-button {
+	padding: 4px;
+	display: inline-block;
+	border-radius: 2px;
+	background-color: blue;
+	color: white;
+}
