@@ -26,7 +26,7 @@ class Api::V1::GiftsController < ApplicationController
 		end
 
 		def donor_params
-			params.require(:donor).permit(:first_name, :last_name, :email)
+			params.require(:donor).permit(:first_name, :last_name, :email, :phone_number)
 		end
 
 		def school_params
@@ -68,7 +68,6 @@ class Api::V1::GiftsController < ApplicationController
     end
 
     def create_gift
-      #total = (params[:gift][:total_other] != "") ? params[:gift][:total_other] : params[:gift][:total]
       @gift = @donor.gifts.create(gift_params)
       @school.gifts << @gift
     end
