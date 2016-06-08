@@ -3,28 +3,28 @@
 
 	<input type="hidden" value="<%= @client_token %>" id="client_token">
 	<input type="hidden" name="school[id]" value="<%= @school.id %>">
-	<div>
-		<label for="donor_first_name">First Name</label><br>
-		<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input" value="<%= @donor.first_name unless @donor.nil? %>">
-		<div id="donor_first_name_error" class="error"></div>
-	</div>
-	<div>
-		<label for="donor_last_name">Last Name</label><br>
-		<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input" value="<%= @donor.last_name unless @donor.nil? %>">
-		<div id="donor_last_name_error" class="error"></div>
-	</div>
-	<div>
-		<label for="donor_email">Email</label><br>
-		<input type="text" name="donor[email]" id="donor_email" class="form-input" value="<%= @donor.email unless @donor.nil? %>">
-		<div id="donor_email_error" class="error"></div>
-	</div>
-	<div>
-		<label for="donor_phone_number">Cell Number</label><br>
-		<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input" value="<%= @donor.phone_number unless @donor.nil? %>">
-		<div id="donor_phone_number_error" class="error"></div>
-	</div>
 
 	<% if @donor.nil? %>
+		<div>
+			<label for="donor_first_name">First Name</label><br>
+			<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input" value="<%= @donor.first_name unless @donor.nil? %>">
+			<div id="donor_first_name_error" class="error"></div>
+		</div>
+		<div>
+			<label for="donor_last_name">Last Name</label><br>
+			<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input" value="<%= @donor.last_name unless @donor.nil? %>">
+			<div id="donor_last_name_error" class="error"></div>
+		</div>
+		<div>
+			<label for="donor_email">Email</label><br>
+			<input type="text" name="donor[email]" id="donor_email" class="form-input" value="<%= @donor.email unless @donor.nil? %>">
+			<div id="donor_email_error" class="error"></div>
+		</div>
+		<div>
+			<label for="donor_phone_number">Cell Number</label><br>
+			<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input" value="<%= @donor.phone_number unless @donor.nil? %>">
+			<div id="donor_phone_number_error" class="error"></div>
+		</div>
 
 		<div class="gift-total">
 			<div>
@@ -44,8 +44,9 @@
 				<input type="text" id="gift_total_other" placeholder="Other">
 			</div>
 		</div>
-
 	<% else %>
+
+	<div>Hi, <%= @donor.full_name %></div>
 
 	<div>
 		<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
@@ -74,7 +75,6 @@
 		</select>
 	</div>
 
-	<!-- <div id="braintree-dropin"></div> -->
 	<div id="paypal-button">Paypal</div>
 	<div id="paypal-info">
 		<span id="paypal-email"></span>
@@ -84,11 +84,11 @@
 	<div id="card-payment">
 		<div>
 			<label>Card Number</label><br>
-			<input  data-braintree-name="number">
+			<input  data-braintree-name="number" class="form-input" id="card-number">
 		</div>
 		<div>
 			<label>Expiration Date</label><br>
-			<input  data-braintree-name="expiration_date">
+			<input  data-braintree-name="expiration_date" class="form-input" id="exp-date">
 		</div>
 	</div>
 
