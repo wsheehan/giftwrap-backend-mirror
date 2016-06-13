@@ -9,7 +9,7 @@ window.onload = function() {
 	// iFrame
 	var iframe = document.createElement('iframe');
 	iframe.style.width = "100%";
-	iframe.style.height = "700px";
+	//iframe.style.height = "1000px";
 	iframe.id = "giftFrame";
 	//newheight = document.getElementById(id).contentWindow.document .body.scrollHeight;
 	//console.log(newheight)

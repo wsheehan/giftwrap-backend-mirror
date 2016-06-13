@@ -5,8 +5,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	// Show designations on click
 	document.getElementById("designate-link").addEventListener("click", function() {
-		document.getElementById("designate").style.display = 'initial';
+		document.getElementById("designate-select").style.display = 'block';
 	});
+
+	var select = document.getElementById("designate-select");
+	var select_divs = select.getElementsByTagName("div");
+	var dropdownOpen = false;
+
+	select.addEventListener("click", function(event) {
+		console.log(event.target.innerHTML)
+		if (!dropdownOpen) {
+			showAll();
+			dropdownOpen = true;
+			console.log(dropdownOpen)
+		} else {
+			chooseOption(event.target);
+	 		dropdownOpen = false;
+		}
+	})
+
+	function chooseOption(div) {
+		for (i = 0; i < select_divs.length; i++) {
+			if (!(div.innerHTML == select_divs[i].innerHTML)) {
+				//select_divs[i].style.display = 'none';
+				select_divs[i].classList.remove('show-option')
+				select_divs[i].classList.add('hide-option')
+			}
+		}
+		document.getElementById('designate').value = div.innerHTML
+		console.log(document.getElementById('designate').value)
+	}
+
+	function showAll() {
+		for (i = 0; i < select_divs.length; i++) {
+			//select_divs[i].style.display = 'block';
+			select_divs[i].classList.remove('hide-option')
+			select_divs[i].classList.add('show-option')
+		}
+	}
+
+	// Connect Designations to Submission
 
 	// Connect 'Other' Text box to Checkbox
 	var gift_total_other = document.getElementById("gift_total_other")
@@ -21,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	var gift_types = document.getElementsByName("gift[gift_type]")
 	for (var i = 0; i < gift_types.length; i++) {
 		gift_types[i].addEventListener("click", function() {
-			dropin = document.getElementById("braintree-dropin");
+			dropin = document.getElementById("payment-container");
 			if (this.id == "gift_type_pledge") {
 				dropin.style.display = 'none';
 			} else {
@@ -30,23 +68,24 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	}
 
-	//Validations
-	var form = document.getElementById("form")
-	form.addEventListener("submit", function(event) {
-		event.preventDefault();
-		res = validateForm();
-		l = res.length;
-		console.log(res)
-		if (l == 0) {
-			form.submit();
-		} else {
-			resetErrors();
-			for (var i = 0; i < l; i++) {
-				res[i][0].classList.add("input-error");
-				document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
+	// Validations
+	// if (document.getElementById('donor_info') == undefined) {
+		var form = document.getElementById("form")
+		form.addEventListener("submit", function(event) {
+			event.preventDefault();
+			res = validateForm();
+			l = res.length;
+			if (l == 0) {
+				form.submit();
+			} else {
+				resetErrors();
+				for (var i = 0; i < l; i++) {
+					res[i][0].classList.add("input-error");
+					document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
+				}
 			}
-		}
-	});
+		});
+	// }
 
 	function validateForm() {
 		var first_name = document.getElementById("donor_first_name");
@@ -99,6 +138,27 @@ document.addEventListener("DOMContentLoaded", function() {
 			headless: true,
 			onSuccess: function(nonce, email) {
 				paypalSuccess(email);
+			}
+		},
+		hostedFields: {
+			styles: {
+				'input': {
+					'font-size': '16px'
+				},
+				'.valid': {
+					'color': 'green'
+				},
+				'.invalid': {
+					'color': 'red'
+				}
+			},
+			number: {
+				selector: "#card-number",
+				placeholder: "4111 1111 1111 1111"
+			},
+			expirationDate: {
+				selector: "#exp-date",
+				placeholder: "MM/YY"
 			}
 		},
 		onReady: function(integration) {

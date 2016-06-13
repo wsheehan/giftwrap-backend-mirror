@@ -4,96 +4,118 @@
 	<input type="hidden" value="<%= @client_token %>" id="client_token">
 	<input type="hidden" name="school[id]" value="<%= @school.id %>">
 
-	<% if @donor.nil? %>
+	<% if @donor %>
+
+		<div id="donor_info">Hi, <%= @donor.full_name %></div>
+		<input type="hidden" name="donor[email]">
+		<input type="hidden" name="donor[first_name]">
+		<input type="hidden" name="donor[last_name]">
+		<input type="hidden" name="donor[phone_number]">
+
 		<div>
-			<label for="donor_first_name">First Name</label><br>
-			<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input" value="<%= @donor.first_name unless @donor.nil? %>">
+			<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>">
+			<label for="gift_total_primary" checked><%= @donor.suggested_gift %></label>
+		</div>
+		<div>
+			<input type="radio" name="gift[total]" for="gift_total_other">
+			<input type="text" name="gift[total_other]" id="gift_total_other" placeholder="Other">
+		</div>
+
+	<% else %>
+
+		<div>
+			<label for="donor_first_name" class="form-input-label">First Name</label><br>
+			<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input">
 			<div id="donor_first_name_error" class="error"></div>
 		</div>
 		<div>
-			<label for="donor_last_name">Last Name</label><br>
-			<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input" value="<%= @donor.last_name unless @donor.nil? %>">
+			<label for="donor_last_name" class="form-input-label">Last Name</label><br>
+			<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input">
 			<div id="donor_last_name_error" class="error"></div>
 		</div>
 		<div>
-			<label for="donor_email">Email</label><br>
-			<input type="text" name="donor[email]" id="donor_email" class="form-input" value="<%= @donor.email unless @donor.nil? %>">
+			<label for="donor_email" class="form-input-label">Email</label><br>
+			<input type="text" name="donor[email]" id="donor_email" class="form-input">
 			<div id="donor_email_error" class="error"></div>
 		</div>
 		<div>
-			<label for="donor_phone_number">Cell Number</label><br>
-			<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input" value="<%= @donor.phone_number unless @donor.nil? %>">
+			<label for="donor_phone_number" class="form-input-label">Cell Number</label><br>
+			<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input">
 			<div id="donor_phone_number_error" class="error"></div>
 		</div>
 
-		<div class="gift-total">
-			<div>
-				<input type="radio" name="gift[total]" value="50" checked>
-				<label>50</label>
+		<div id="gift-total">
+			<div id="how-much">
+				<p>How much<br>would you like<br>to give?</p>
 			</div>
-			<div>
-				<input type="radio" name="gift[total]" value="100">
-				<label>100</label>
-			</div>
-			<div>
-				<input type="radio" name="gift[total]" value="250">
-				<label>250</label>
-			</div>
-			<div>
-				<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
-				<input type="text" id="gift_total_other" placeholder="Other">
+			<div id="totals">
+				<div>
+					<input type="radio" name="gift[total]" value="50" checked>
+					<label>50</label>
+				</div>
+				<div>
+					<input type="radio" name="gift[total]" value="100">
+					<label>100</label>
+				</div>
+				<div>
+					<input type="radio" name="gift[total]" value="250">
+					<label>250</label>
+				</div>
+				<div>
+					<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
+					<input type="text" id="gift_total_other" placeholder="Other">
+				</div>
 			</div>
 		</div>
-	<% else %>
-
-	<div>Hi, <%= @donor.full_name %></div>
-
-	<div>
-		<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
-		<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>">
-	</div>
-	<div>
-		<input type="radio" name="gift[total]" for="gift_total_other">
-		<input type="text" name="gift[total_other]" id="gift_total_other" placeholder="Other">
-	</div>
 
 	<% end %>
 
-	<div>
-		<label>Gift Type</label>
-		<span><input type="radio" name="gift[gift_type]" value="gift" checked>Gift</span>
-		<span><input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">Pledge</span>
-		<span><input type="radio" name="gift[gift_type]" value="pledge_payment">Pledge Payment</span>
-	</div>
-
-	<div>
-		<p id="designate-link">I'd Like to specially designate this gift</p>
-		<select name="gift[designation]" id="designate">
-			<% @school.designation.each do |designation| %>
-				<option value="<%= designation %>"><%= designation %></option>
-			<% end %>
-		</select>
-	</div>
-
-	<div id="paypal-button">Paypal</div>
-	<div id="paypal-info">
-		<span id="paypal-email"></span>
-		<span id="paypal-cancel"></span>
-	</div>
-
-	<div id="card-payment">
-		<div>
-			<label>Card Number</label><br>
-			<input  data-braintree-name="number" class="form-input" id="card-number">
-		</div>
-		<div>
-			<label>Expiration Date</label><br>
-			<input  data-braintree-name="expiration_date" class="form-input" id="exp-date">
+	<div id="gift-type">
+		<p>Gift Type</p>
+		<div id="gift-type-gift">
+			<input type="radio" name="gift[gift_type]" value="gift" checked>
+			<div>Gift</div>
+		</div><div>
+			<input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">
+			<div>Pledge</div>
+		</div><div>
+			<input type="radio" name="gift[gift_type]" value="pledge_payment">
+			<div>Pledge Payment</div>
 		</div>
 	</div>
 
+	<p id="designate-link">I'd Like to specially designate this gift</p>
+	<input type="hidden" name="gift[designation]" id="designate">
+	<div id="designate-select">
+		<% @school.designation.each_with_index do |designation, i| %>
+			<div class="<%= i > 0 ? 'hide-option' : 'show-option' %>"><%= designation %></div>
+		<% end %>
+	</div>
+
+	<div id="payment-container">
+		<div id="card-payment">
+			<div>
+				<label>Card Number</label><br>
+				<!-- <input  data-braintree-name="number" id="card-number"> -->
+				<div id="card-number" class="hosted"></div>
+			</div>
+			<div>
+				<label>Expiration Date</label><br>
+				<!-- <input  data-braintree-name="expiration_date" id="exp-date"> -->
+				<div id="exp-date" class="hosted"></div>
+			</div>
+		</div>
+		<div id="paypal-wrapper">
+			<img src="https://s3.amazonaws.com/giving-gael/public/paypal_button_small.png" id="paypal-button">
+			<div id="paypal-info">
+				<span id="paypal-email"></span>
+				<span id="paypal-cancel"></span>
+			</div>
+		</div>
+	</div>
+
 	<div>
-		<input type="submit" name="commit" value="Give to <%= @form.school.name %>">
+		<input type="submit" name="commit" id="submit-button" value="Give to <%= @form.school.name %>">
 	</div>
 
 <% end %>
