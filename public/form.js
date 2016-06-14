@@ -1,4 +1,20 @@
+// Height Message
+function sendHeight() {
+    if (parent.postMessage) {
+        var height= document.getElementById('form').offsetHeight;
+        parent.postMessage(height, 'https://localhost:8000');
+    }
+}
+// Create browser compatible event handler.
+var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+var eventer = window[eventMethod];
+var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
+// Listen for a message from the iframe.
+eventer(messageEvent, function(event) {
+    sendHeight();
+}, 
+false);
 
 // Ready DOM
 document.addEventListener("DOMContentLoaded", function() {
@@ -8,16 +24,17 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("designate-select").style.display = 'block';
 	});
 
+	// Initialize dropdown elements
 	var select = document.getElementById("designate-select");
 	var select_divs = select.getElementsByTagName("div");
 	var dropdownOpen = false;
 
 	select.addEventListener("click", function(event) {
-		console.log(event.target.innerHTML)
+		// If dropdown not open show all options
 		if (!dropdownOpen) {
 			showAll();
 			dropdownOpen = true;
-			console.log(dropdownOpen)
+		// If dropdown open choose option
 		} else {
 			chooseOption(event.target);
 	 		dropdownOpen = false;
@@ -25,26 +42,24 @@ document.addEventListener("DOMContentLoaded", function() {
 	})
 
 	function chooseOption(div) {
+		// Hide all options not chosen
 		for (i = 0; i < select_divs.length; i++) {
 			if (!(div.innerHTML == select_divs[i].innerHTML)) {
-				//select_divs[i].style.display = 'none';
 				select_divs[i].classList.remove('show-option')
 				select_divs[i].classList.add('hide-option')
 			}
 		}
+		// Connect Designations to Submission
 		document.getElementById('designate').value = div.innerHTML
-		console.log(document.getElementById('designate').value)
 	}
 
 	function showAll() {
+		// Loop through and show all
 		for (i = 0; i < select_divs.length; i++) {
-			//select_divs[i].style.display = 'block';
 			select_divs[i].classList.remove('hide-option')
 			select_divs[i].classList.add('show-option')
 		}
 	}
-
-	// Connect Designations to Submission
 
 	// Connect 'Other' Text box to Checkbox
 	var gift_total_other = document.getElementById("gift_total_other")
@@ -63,28 +78,28 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (this.id == "gift_type_pledge") {
 				dropin.style.display = 'none';
 			} else {
-				dropin.style.display = 'initial';
+				dropin.style.display = 'block';
 			}
 		});
 	}
 
 	// Validations
 	// if (document.getElementById('donor_info') == undefined) {
-		var form = document.getElementById("form")
-		form.addEventListener("submit", function(event) {
-			event.preventDefault();
-			res = validateForm();
-			l = res.length;
-			if (l == 0) {
-				form.submit();
-			} else {
-				resetErrors();
-				for (var i = 0; i < l; i++) {
-					res[i][0].classList.add("input-error");
-					document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
-				}
+	var form = document.getElementById("form")
+	form.addEventListener("submit", function(event) {
+		event.preventDefault();
+		res = validateForm();
+		l = res.length;
+		if (l == 0) {
+			form.submit();
+		} else {
+			resetErrors();
+			for (var i = 0; i < l; i++) {
+				res[i][0].classList.add("input-error");
+				document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
 			}
-		});
+		}
+	});
 	// }
 
 	function validateForm() {

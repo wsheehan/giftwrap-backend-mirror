@@ -96,12 +96,10 @@
 		<div id="card-payment">
 			<div>
 				<label>Card Number</label><br>
-				<!-- <input  data-braintree-name="number" id="card-number"> -->
 				<div id="card-number" class="hosted"></div>
 			</div>
 			<div>
 				<label>Expiration Date</label><br>
-				<!-- <input  data-braintree-name="expiration_date" id="exp-date"> -->
 				<div id="exp-date" class="hosted"></div>
 			</div>
 		</div>
@@ -124,5 +122,4 @@
 
 <link rel="stylesheet" type="text/css" href="https://localhost:3000/form.css">
 <script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
-<script src="<%= ENV['host'] %>form.js" type="text/javascript"></script>
-
+<script src="https://localhost:3000/form.js" type="text/javascript"></script>
