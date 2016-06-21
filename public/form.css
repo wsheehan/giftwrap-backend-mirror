@@ -1,31 +1,153 @@
+@import url(https://fonts.googleapis.com/css?family=Cousine);
+
 #form {
-	margin-left: 25vw;
-	margin-right: 25vw;
-}
-#designate-link {
-	text-decoration: underline;
-	color: blue;
-}
-#designate {
-	display: none;
-}
-#form {
+	max-width: 500px;
+	margin-left: calc(50vw - 250px);
 	border: 1px dotted red;
-}
-#braintree-dropin {
-	border: 1px solid gray;
-	border-radius: 3px;
-	padding: 10px;
+	padding: 25px;
+	font-family: 'Cousine', sans-serif;
+	font-weight: 500;
 }
 
 .input-error {
 	border: 3px solid red;
 }
 
-#paypal-button {
-	padding: 4px;
-	display: inline-block;
-	border-radius: 2px;
-	background-color: blue;
-	color: white;
+/* Text Inputs */
+
+.form-input, .hosted {
+	border: 1px dotted red;
+	font-family: 'Cousine', sans-serif;
+	width: 100%;
+	height: 30px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-size: 1em;
 }
+
+.form-input:focus {
+	border: 1px dotted black;
+	outline: none;
+}
+
+.form-input-label {}
+
+/* Total */
+
+#gift-total {
+	border: 1px dotted green;
+	width: 80%;
+	height: 140px;
+	margin: auto;
+}
+
+
+#how-much {
+	text-align: center;
+	height: 140px;
+	width: 40%;
+	margin-top: 10px;
+	float: left;
+}
+
+#totals {
+	height: 140px;
+	margin-left: 40%;
+}
+
+#totals div {
+	padding: 5px;
+}
+
+/* Gift Type */
+
+#gift-type > div {
+	display: inline-block;
+	width: 25%;
+}
+
+#gift-type #gift-type-gift {
+	margin-left: 12.5%;
+}
+
+#gift-type > div > div {
+	text-align: center;
+	padding: 5px;
+}
+
+#gift-type input {
+	display: block;
+	margin: 0 auto;
+}
+
+#gift-type > p {
+	text-align: center;
+	font-size: 1.3em;
+}
+
+#gift-type > div:nth-child(4) div {
+	font-size: 0.8em;
+}
+
+/* Designate */
+
+#designate-link {
+	text-decoration: underline;
+	color: blue;
+	text-align: center;
+}
+
+#designate-select {
+	border: 1px dotted yellow;
+	display: none;
+}
+
+#designate-select div {
+	text-align: center;
+	-webkit-transition: all 1s linear;
+    -moz-transition: all 1s linear;
+    -o-transition: all 1s linear;
+	transition: all 1s linear;
+}
+
+.hide-option {
+    opacity: 0; 
+    height: 0;
+    overflow: hidden;	
+}
+
+.show-option {
+	opacity: 1;
+    height: auto;
+   	border: 1px solid black;
+	padding: 4px;
+}
+
+/* Payment */
+
+#payment-container {
+	border: 1px solid orange;
+}
+
+#card-payment > div {
+	padding: 10px;
+}
+
+#paypal-wrapper {
+	width: calc( 40% - 1px );
+	display: inline-block;
+}
+
+
+#paypal-button {
+	width: 90%;
+	margin-left: 5%;
+	height: auto;
+	border-radius: 3px;
+	display: block;
+}
+
+/* Submit */
+
+#submit-button {}
