@@ -37,7 +37,7 @@ class Api::V1::GiftsController < ApplicationController
       if @donor.has_payment_info?
         # Already in database
         @payment = Braintree::Transaction.sale(
-          customer_id: params[:donor][:customer_id]
+          #customer_id: params[:donor][:customer_id]
           :amount => params[:gift][:total],
           :payment_method_nonce => params[:payment_method_nonce]
         )
@@ -56,10 +56,7 @@ class Api::V1::GiftsController < ApplicationController
           }
         )
         if @payment.success?
-          puts @payment.transaction.inspect
           @donor.update_attribute(:braintree_customer_id, @payment.transaction.customer_details.id)
-        else
-          puts @payment.errors.inspect
         end
       end
     end

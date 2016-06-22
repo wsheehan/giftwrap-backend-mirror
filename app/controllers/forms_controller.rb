@@ -5,7 +5,7 @@ class FormsController < ApplicationController
   def show
     @donor = Donor.find_by(key: params[:key])
     @payment_method = find_payment_method @donor if @donor && @donor.braintree_customer_id
-  	@form = Form.find(params[:id])
+    @form = Form.find(params[:id])
     @school = @form.school
     @client_token = Braintree::ClientToken.generate
   end
