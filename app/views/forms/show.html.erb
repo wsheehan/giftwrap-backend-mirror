@@ -1,24 +1,31 @@
-
-<%= form_tag("https://localhost:3000/api/v1/gifts", method: "post", id: "form") do %>
+<form action="<%= ENV['host'] %>api/v1/gifts" method="post" id="form">
 
 	<input type="hidden" value="<%= @client_token %>" id="client_token">
 	<input type="hidden" name="school[id]" value="<%= @school.id %>">
+	<input type="hidden" name="payment_method_nonce" id="nonce">
 
 	<% if @donor %>
 
 		<div id="donor_info">Hi, <%= @donor.full_name %></div>
-		<input type="hidden" name="donor[email]">
-		<input type="hidden" name="donor[first_name]">
-		<input type="hidden" name="donor[last_name]">
-		<input type="hidden" name="donor[phone_number]">
+		<input type="hidden" name="donor[email]" value="<%= @donor.email %>">
+		<!-- <input type="hidden" name="donor[customer_id]" value="<%= @donor.braintree_id %>"> -->
 
 		<div>
-			<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>">
-			<label for="gift_total_primary" checked><%= @donor.suggested_gift %></label>
+			<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>" checked>
+			<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
 		</div>
 		<div>
-			<input type="radio" name="gift[total]" for="gift_total_other">
-			<input type="text" name="gift[total_other]" id="gift_total_other" placeholder="Other">
+			<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
+			<input type="text" id="gift_total_other" placeholder="Other">
+		</div>
+		<div id="saved-payment">
+			<% if @payment_method[:type] == 'Paypal' %>
+				<span><%= @payment_method[:card_holder] %></span>
+				<span><%= @payment_method[:masked_number] %></span>
+				<span><img src="<%= @payment_method[:image_url] %>"></span>
+			<% else %>
+				<span><%= @paymeny_method[:email] %></span>
+			<% end %>
 		</div>
 
 	<% else %>
@@ -115,8 +122,7 @@
 	<div>
 		<input type="submit" name="commit" id="submit-button" value="Give to <%= @form.school.name %>">
 	</div>
-
-<% end %>
+</form>
 
 <!-- Load Dependencies -->
 

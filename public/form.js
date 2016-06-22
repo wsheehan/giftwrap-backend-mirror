@@ -84,23 +84,26 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	// Validations
-	// if (document.getElementById('donor_info') == undefined) {
 	var form = document.getElementById("form")
-	form.addEventListener("submit", function(event) {
-		event.preventDefault();
-		res = validateForm();
-		l = res.length;
-		if (l == 0) {
-			form.submit();
-		} else {
-			resetErrors();
-			for (var i = 0; i < l; i++) {
-				res[i][0].classList.add("input-error");
-				document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
+	function validator(){
+		if (document.getElementById('donor_info') == null) {
+			res = validateForm();
+			l = res.length;
+			if (l == 0) {
+				return true
+			} else {
+				resetErrors();
+				for (var i = 0; i < l; i++) {
+					res[i][0].classList.add("input-error");
+					document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
+				}
+				return false
 			}
+		} else {
+			// Existing donor Error Suite
+			return true
 		}
-	});
-	// }
+	}
 
 	function validateForm() {
 		var first_name = document.getElementById("donor_first_name");
@@ -180,7 +183,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			paypalCheckout = integration;
 		},
 		onPaymentMethodReceived: function (payload) {
- 			createHiddenNonce(payload);
+ 			document.getElementById("nonce").value = payload['nonce']
+ 			console.log("Payment Received");
+ 			if (validator()) {
+	 			form.submit();
+	 		} else {
+	 			validator();
+	 		}
 		}
 	});
 
@@ -193,16 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		event.preventDefault();
 		paypalCheckout.teardown();
 		resetPayment();	
-	})
-
-	function createHiddenNonce(payload) {
-	    var form = document.getElementById("form");
-	    var input = document.createElement("input");
-	    input.type = "hidden";
-	    input.name = "payment_method_nonce";
-	    input.value = payload["nonce"];
-	    form.appendChild(input)
-	}
+	});
 
 	function resetPayment() {
 		document.getElementById("card-payment").style.display = 'initial';
