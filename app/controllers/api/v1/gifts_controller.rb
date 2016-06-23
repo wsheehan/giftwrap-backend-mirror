@@ -37,8 +37,8 @@ class Api::V1::GiftsController < ApplicationController
       if @donor.has_payment_info?
         # Already in database
         @payment = Braintree::Transaction.sale(
-          :amount => params[:gift][:total],
-          :payment_method_nonce => params[:payment_method_nonce]
+          customer_id: params[:donor][:braintree_customer_id],
+          amount: params[:gift][:total]
         )
       else
         # Add user into Braintree's database
@@ -54,8 +54,9 @@ class Api::V1::GiftsController < ApplicationController
             store_in_vault: true
           }
         )
-        # Update User's payment credentials in our database
-        @donor.update_attribute(:braintree_customer_id, @payment.transaction.customer_details.id)
+        if @payment.success?
+          @donor.update_attribute(:braintree_customer_id, @payment.transaction.customer_details.id)
+        end
       end
     end
 

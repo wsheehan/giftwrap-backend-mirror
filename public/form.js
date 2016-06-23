@@ -1,23 +1,41 @@
-// Height Message
-function sendHeight() {
-    if (parent.postMessage) {
-        var height= document.getElementById('form').offsetHeight;
-        parent.postMessage(height, 'https://localhost:8000');
-    }
-}
-// Create browser compatible event handler.
-var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-var eventer = window[eventMethod];
-var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+// // Height Message
+// function sendHeight() {
+//     if (parent.postMessage) {
+//         var height= document.getElementById('form').offsetHeight;
+//         parent.postMessage(height, 'https://localhost:8000');
+//     }
+// }
+// // Create browser compatible event handler.
+// var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+// var eventer = window[eventMethod];
+// var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-// Listen for a message from the iframe.
-eventer(messageEvent, function(event) {
-    sendHeight();
-}, 
-false);
+// // Listen for a message from the iframe.
+// eventer(messageEvent, function(event) {
+//     sendHeight();
+// }, 
+// false);
 
 // Ready DOM
 document.addEventListener("DOMContentLoaded", function() {
+
+	// Height Message
+	function sendHeight() {
+	    if (parent.postMessage) {
+	        var height= document.getElementById('form').offsetHeight;
+	        parent.postMessage(height, 'https://localhost:8000');
+	    }
+	}
+	// Create browser compatible event handler.
+	var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+	var eventer = window[eventMethod];
+	var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+	// Listen for a message from the iframe.
+	eventer(messageEvent, function(event) {
+	    sendHeight();
+	}, 
+	false);
 
 	// Show designations on click
 	document.getElementById("designate-link").addEventListener("click", function() {
@@ -84,23 +102,26 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	// Validations
-	// if (document.getElementById('donor_info') == undefined) {
 	var form = document.getElementById("form")
-	form.addEventListener("submit", function(event) {
-		event.preventDefault();
-		res = validateForm();
-		l = res.length;
-		if (l == 0) {
-			form.submit();
-		} else {
-			resetErrors();
-			for (var i = 0; i < l; i++) {
-				res[i][0].classList.add("input-error");
-				document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
+	function validator(){
+		if (document.getElementById('donor_info') == null) {
+			res = validateForm();
+			l = res.length;
+			if (l == 0) {
+				return true
+			} else {
+				resetErrors();
+				for (var i = 0; i < l; i++) {
+					res[i][0].classList.add("input-error");
+					document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
+				}
+				return false
 			}
+		} else {
+			// Existing donor Error Suite
+			return true
 		}
-	});
-	// }
+	}
 
 	function validateForm() {
 		var first_name = document.getElementById("donor_first_name");
@@ -145,44 +166,52 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	}
 
-	var paypalCheckout;
-	var token = document.getElementById("client_token").value
-	braintree.setup(token, "custom", {
-		id: "form",
-		paypal: {
-			headless: true,
-			onSuccess: function(nonce, email) {
-				paypalSuccess(email);
-			}
-		},
-		hostedFields: {
-			styles: {
-				'input': {
-					'font-size': '16px'
-				},
-				'.valid': {
-					'color': 'green'
-				},
-				'.invalid': {
-					'color': 'red'
+	if (document.getElementById('donor_info') == null) {
+		var paypalCheckout;
+		var token = document.getElementById("client_token").value
+		braintree.setup(token, "custom", {
+			id: "form",
+			paypal: {
+				headless: true,
+				onSuccess: function(nonce, email) {
+					paypalSuccess(email);
 				}
 			},
-			number: {
-				selector: "#card-number",
-				placeholder: "4111 1111 1111 1111"
+			hostedFields: {
+				styles: {
+					'input': {
+						'font-size': '16px'
+					},
+					'.valid': {
+						'color': 'green'
+					},
+					'.invalid': {
+						'color': 'red'
+					}
+				},
+				number: {
+					selector: "#card-number",
+					placeholder: "4111 1111 1111 1111"
+				},
+				expirationDate: {
+					selector: "#exp-date",
+					placeholder: "MM/YY"
+				}
 			},
-			expirationDate: {
-				selector: "#exp-date",
-				placeholder: "MM/YY"
+			onReady: function(integration) {
+				paypalCheckout = integration;
+			},
+			onPaymentMethodReceived: function (payload) {
+	 			document.getElementById("nonce").value = payload['nonce']
+	 			console.log("Payment Received");
+	 			if (validator()) {
+		 			form.submit();
+		 		} else {
+		 			validator();
+		 		}
 			}
-		},
-		onReady: function(integration) {
-			paypalCheckout = integration;
-		},
-		onPaymentMethodReceived: function (payload) {
- 			createHiddenNonce(payload);
-		}
-	});
+		});
+	}
 
 	document.getElementById("paypal-button").addEventListener("click", function(event) {
 		event.preventDefault();
@@ -193,16 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		event.preventDefault();
 		paypalCheckout.teardown();
 		resetPayment();	
-	})
-
-	function createHiddenNonce(payload) {
-	    var form = document.getElementById("form");
-	    var input = document.createElement("input");
-	    input.type = "hidden";
-	    input.name = "payment_method_nonce";
-	    input.value = payload["nonce"];
-	    form.appendChild(input)
-	}
+	});
 
 	function resetPayment() {
 		document.getElementById("card-payment").style.display = 'initial';
@@ -216,6 +236,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("paypal-email").innerHTML = email
 		document.getElementById("paypal-cancel").innerHTML = "change payment method"
 		document.getElementById("card-payment").style.display = 'none'
+	}
+
+	if (document.getElementById('donor_info') != null) {
+		document.getElementById('payment-container').style.display = 'none'
 	}
 
 });
