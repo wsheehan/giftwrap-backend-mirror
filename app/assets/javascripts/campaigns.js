@@ -12,13 +12,6 @@ $(document).ready(function(){
 	$(".donorlist-show").click(function(){
 		$(".check-mark", this).toggleClass("checked")
 	})
-	// checkMarks = document.getElementsByClassName("check-mark")
-	// for (i = 0; i < checkMarks.length; i++) {
-	// 	checkMarks[i].addEventListener('click', function() {
-	// 		this.style.backgroundColor = 'red';
-	// 		console.log("hello")
-	// 	});
-	// }
 
 });
 
