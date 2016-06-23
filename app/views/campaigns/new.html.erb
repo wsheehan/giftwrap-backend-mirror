@@ -1,2 +1,38 @@
-<h1>Campaigns#new</h1>
-<p>Find me in app/views/campaigns/new.html.erb</p>
+<div id="choose-header">Choose Your Donors</div>
+<div id="choose-donors" class="flex-grid">
+	<div id="existing-donorlists" class="col">
+		<% @donor_lists.each do |list| %>
+			<div class="donorlist-show">
+				<span class="check-mark"></span>
+				<span><%= list.title %></span>
+				<span> Donors: <%= list.donors.length %></span>
+			</div>
+		<% end %>
+	</div>
+	<div id="new-donorlist" class="col">
+		<p>Make new list</p>
+	</div>	
+</div>
+
+<div class="flex-grid">
+	<div id="campaign-form" class="col">
+		<%= form_for @campaign do |f| %>
+			<div>
+				<div><%= f.label :title, "Title" %></div>
+				<div><%= f.text_field :title %></div>
+			</div>
+			<div>
+				<div><%= f.label :body, "Email Body" %></div>
+				<div><%= f.text_area :body, size: "60x12" %></div>
+			</div>
+			<div>
+				<%= f.submit "Send Campaign" %>
+			</div>
+		<% end %>
+	</div>
+	<div id="campaign-preview" class="col">
+		<div>Preview</div>
+		<div id="title-preview">Subject: <span></span></div>
+		<div id="body-preview"></div>
+	</div>
+</div>
