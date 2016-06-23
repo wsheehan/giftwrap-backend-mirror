@@ -8,7 +8,7 @@
 
 		<div id="donor_info">Hi, <%= @donor.full_name %></div>
 		<input type="hidden" name="donor[email]" value="<%= @donor.email %>">
-		<!-- <input type="hidden" name="donor[customer_id]" value="<%= @donor.braintree_id %>"> -->
+		<input type="hidden" name="donor[braintree_customer_id]" value="<%= @donor.braintree_customer_id %>">
 
 		<div>
 			<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>" checked>
@@ -20,11 +20,11 @@
 		</div>
 		<div id="saved-payment">
 			<% if @payment_method[:type] == 'Paypal' %>
+				<span><%= @payment_method[:email] %></span>
+			<% else %>
 				<span><%= @payment_method[:card_holder] %></span>
 				<span><%= @payment_method[:masked_number] %></span>
 				<span><img src="<%= @payment_method[:image_url] %>"></span>
-			<% else %>
-				<span><%= @paymeny_method[:email] %></span>
 			<% end %>
 		</div>
 
