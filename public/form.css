@@ -67,7 +67,7 @@
 	width: 25%;
 }
 
-#gift-type #gift-type-gift {
+#gift-type .first-radio {
 	margin-left: 12.5%;
 }
 
@@ -146,6 +146,32 @@
 	height: auto;
 	border-radius: 3px;
 	display: block;
+}
+
+/* Recurring */
+
+#recurring p {
+	text-align: center;
+	font-size: 1.1em;
+}
+
+#recurring > div {
+	display: inline-block;
+	width: 25%;
+}
+
+#recurring .first-radio {
+	margin-left: 12.5%;
+}
+
+#recurring > div > div {
+	text-align: center;
+	padding: 5px;
+}
+
+#recurring input {
+	display: block;
+	margin: 0 auto;
 }
 
 /* Submit */

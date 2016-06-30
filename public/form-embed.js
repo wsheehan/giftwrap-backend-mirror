@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	// iFrame
 	var iframe = document.createElement('iframe');
 	iframe.style.width = "100%";
-	iframe.style.height = "700px";
+	iframe.style.height = "1000px";
 	iframe.id = "giftFrame";
 	iframe.frameBorder = "0";
 	iframe.marginheight = "0";
@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		var setHeight = (event.data + 30).toString();
 		giftFrame.height = setHeight + 'px';
   	}, false);
+
 });
 
 // This is what should be put on the client's site

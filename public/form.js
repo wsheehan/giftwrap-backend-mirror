@@ -1,21 +1,3 @@
-// // Height Message
-// function sendHeight() {
-//     if (parent.postMessage) {
-//         var height= document.getElementById('form').offsetHeight;
-//         parent.postMessage(height, 'https://localhost:8000');
-//     }
-// }
-// // Create browser compatible event handler.
-// var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-// var eventer = window[eventMethod];
-// var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-// // Listen for a message from the iframe.
-// eventer(messageEvent, function(event) {
-//     sendHeight();
-// }, 
-// false);
-
 // Ready DOM
 document.addEventListener("DOMContentLoaded", function() {
 
