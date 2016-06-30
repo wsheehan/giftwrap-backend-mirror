@@ -95,7 +95,10 @@ ActiveRecord::Schema.define(version: 20160630165941) do
     t.string   "frequency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "school_id"
   end
+
+  add_index "subscriptions", ["school_id"], name: "index_subscriptions_on_school_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -117,5 +120,6 @@ ActiveRecord::Schema.define(version: 20160630165941) do
   add_foreign_key "gifts", "campaigns"
   add_foreign_key "gifts", "donors"
   add_foreign_key "gifts", "schools"
+  add_foreign_key "subscriptions", "schools"
   add_foreign_key "users", "schools"
 end
