@@ -23,6 +23,9 @@ School.all.each do |x|
 		Donor.create!(first_name: first_name, last_name: last_name, email: email, school_id: x.id, key: SecureRandom.urlsafe_base64(16))
 	end
 	x.create_form()
+	Subscription.create!(frequency: "monthly")
+	Subscription.create!(frequency: "quarterly")
+	Subscription.create!(frequency: "annually")
 end
 
 Donor.all.each do |x|
