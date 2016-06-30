@@ -1,6 +1,6 @@
 class Donor < ActiveRecord::Base
 
-	# Associations
+  # Associations
   has_many :gifts
   belongs_to :school
   has_and_belongs_to_many :donor_lists
