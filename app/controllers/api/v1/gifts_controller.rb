@@ -26,7 +26,7 @@ class Api::V1::GiftsController < ApplicationController
 		end
 
 		def donor_params
-			params.require(:donor).permit(:first_name, :last_name, :email, :phone_number)
+			params.require(:donor).permit(:first_name, :last_name, :email, :phone_number, :gift_frequency)
 		end
 
 		def school_params
@@ -65,6 +65,9 @@ class Api::V1::GiftsController < ApplicationController
       if @donor.nil?
         @donor = @school.donors.create(donor_params)
         @donor.create_key
+      elsif params[:donor][:gift_frequency]
+        subscription = Subscription.find_by(frequency: params[:donor][:gift_frequency])
+        subscription.donors << @donor
       end
     end
 

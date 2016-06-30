@@ -79,7 +79,7 @@
 
 	<div id="gift-type">
 		<p>Gift Type</p>
-		<div id="gift-type-gift">
+		<div class="first-radio">
 			<input type="radio" name="gift[gift_type]" value="gift" checked>
 			<div>Gift</div>
 		</div><div>
@@ -119,6 +119,20 @@
 		</div>
 	</div>
 
+	<div id="recurring">
+		<p>Make this a Recurring Gift</p>
+		<div class="first-radio">
+			<input type="radio" name="donor[gift_frequency]" value="monthly">
+			<div>Monthly</div>
+		</div><div>
+			<input type="radio" name="donor[gift_frequency]" value="quarterly">
+			<div>Quarterly</div>
+		</div><div>
+			<input type="radio" name="donor[gift_frequency]" value="annually">
+			<div>Annually</div>
+		</div>
+	</div>
+
 	<div>
 		<input type="submit" name="commit" id="submit-button" value="Give to <%= @form.school.name %>">
 	</div>
@@ -126,6 +140,6 @@
 
 <!-- Load Dependencies -->
 
-<link rel="stylesheet" type="text/css" href="https://localhost:3000/form.css">
+<link rel="stylesheet" type="text/css" href="<%= ENV['host'] %>form.css">
 <script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
-<script src="https://localhost:3000/form.js" type="text/javascript"></script>
+<script src="<%= ENV['host'] %>form.js" type="text/javascript"></script>
