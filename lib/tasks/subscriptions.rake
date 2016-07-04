@@ -6,7 +6,7 @@ task subscriptions: :environment do
     Subscription.each do |sub|
       if donor.gift_frequency == sub.frequency
         target_date = donor.subscription_date + sub.interval.month
-        if Date.today = target_date
+        if Date.today == target_date
           payment = Braintree::Transaction.sale(
             customer_id: donor.braintree_customer_id,
             amount: donor.subscription_total

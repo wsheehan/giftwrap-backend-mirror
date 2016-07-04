@@ -24,7 +24,7 @@ School.all.each do |x|
 	end
 	x.create_form()
 	Subscription.create!(frequency: "monthly", interval: 1)
-	Subscription.create!(frequency: "quarterly", interval: 2)
+	Subscription.create!(frequency: "quarterly", interval: 3)
 	Subscription.create!(frequency: "annually", interval: 12)
 end
 
