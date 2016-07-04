@@ -19,6 +19,7 @@ gem 'figaro',       '1.1.1'
 gem 'faker', '~> 1.6', '>= 1.6.3'
 gem 'bootstrap-sass', '3.3.6'
 gem 'rack-cors', '~> 0.4.0'
+gem 'whenever', '~> 0.9.7'
 
 group :development, :test do
   gem 'byebug'
