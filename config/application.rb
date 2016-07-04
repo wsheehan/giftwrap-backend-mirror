@@ -23,9 +23,10 @@ module Giving
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
-        resource '/api/v1/gifts', headers: :any, methods: [:post]
-        resource '/forms/:id', headers: :any, methods: [:get]
-        resource '/form-embed.js', headers: :any, methods: [:get]
+        # resource '/api/v1/gifts', headers: :any, methods: [:post]
+        # resource '/forms/:id', headers: :any, methods: [:get]
+        # resource '/form-embed.js', headers: :any, methods: [:get]
+        resource "*", headers: :any, methods: [:get, :post]
       end
     end
 
