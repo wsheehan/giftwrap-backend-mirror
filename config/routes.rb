@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   resources :forms, only: [:create, :show]
   resources :campaigns, only: [:index, :show, :create, :new]
+  resources :donors, only: [:index, :show, :update, :edit]
 
 end
