@@ -28,7 +28,11 @@ module Giving
         resource '/form-embed.js', headers: :any, methods: [:get]
       end
       allow do
-        origins 'localhost:4200', 'giving.pagefrontapp.com'
+        if Rails.env == 'production'
+          origins 'https://giving.pagefrontapp.com'
+        else
+          origins 'localhost:4200'
+        end
         resource "*", headers: :any
       end
     end
