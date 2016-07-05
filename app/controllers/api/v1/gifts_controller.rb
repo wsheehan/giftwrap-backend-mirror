@@ -65,9 +65,11 @@ class Api::V1::GiftsController < ApplicationController
       if @donor.nil?
         @donor = @school.donors.create(donor_params)
         @donor.create_key
-      elsif params[:donor][:gift_frequency]
+      end
+      if params[:donor][:gift_frequency]
         subscription = Subscription.find_by(frequency: params[:donor][:gift_frequency])
         subscription.donors << @donor
+        @donor.update_attributes(subscription_start: Date.today, subscription_total: params[:gift][:total])
       end
     end
 

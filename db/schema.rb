@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630165941) do
+ActiveRecord::Schema.define(version: 20160630190223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 20160630165941) do
     t.string   "phone_number"
     t.string   "gift_frequency"
     t.integer  "subscription_id"
+    t.date     "subscription_start"
+    t.string   "subscription_total"
   end
 
   add_index "donors", ["school_id"], name: "index_donors_on_school_id", using: :btree
@@ -96,6 +98,7 @@ ActiveRecord::Schema.define(version: 20160630165941) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "school_id"
+    t.integer  "interval"
   end
 
   add_index "subscriptions", ["school_id"], name: "index_subscriptions_on_school_id", using: :btree

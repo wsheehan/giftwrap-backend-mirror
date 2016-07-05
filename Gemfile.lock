@@ -44,6 +44,7 @@ GEM
       builder (>= 2.0.0)
     builder (3.2.2)
     byebug (9.0.5)
+    chronic (0.10.2)
     concurrent-ruby (1.0.2)
     daemons (1.2.3)
     database_cleaner (1.5.3)
@@ -164,6 +165,8 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    whenever (0.9.7)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -187,6 +190,7 @@ DEPENDENCIES
   spring
   thin (~> 1.7)
   web-console (~> 3.3, >= 3.3.1)
+  whenever (~> 0.9.7)
 
 BUNDLED WITH
    1.12.5
