@@ -1,13 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'donors/index'
-
-  get 'donors/show'
-
-  get 'donors/update'
-
-  get 'donors/edit'
-
   namespace :api do
   	namespace :v1 do
   		resources :gifts, only: [:create, :index]
