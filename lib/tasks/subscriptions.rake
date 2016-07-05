@@ -11,7 +11,13 @@ task subscriptions: :environment do
             customer_id: donor.braintree_customer_id,
             amount: donor.subscription_total
           )
-          donor.update_attribute(:subscription_start, Date.today)
+          if payment.success?
+            donor.update_attribute(:subscription_start, Date.today)
+          else
+            donor.update_attributes(subscription_start: nil, subscription_total: nil, subsciption_id: nil)
+            sub.donors.delete(donor)
+            # Perhaps send an email to inform the end of the subscription?
+          end
         end
       end
     end
