@@ -20,6 +20,8 @@ module Giving
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.api_only = true
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*' # Will be an array of school domains
