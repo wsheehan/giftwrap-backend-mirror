@@ -1,6 +1,5 @@
 class Api::V1::GiftsController < ApplicationController
 	after_action :allow_iframe, only: :create
-	skip_before_filter :verify_authenticity_token
 
 	def create
 		@school = School.find_by(school_params)
