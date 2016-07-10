@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630190223) do
+ActiveRecord::Schema.define(version: 20160710151332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,11 +23,20 @@ ActiveRecord::Schema.define(version: 20160630190223) do
     t.datetime "updated_at",    null: false
     t.integer  "donor_list_id"
     t.string   "body"
+    t.index ["donor_list_id"], name: "index_campaigns_on_donor_list_id", using: :btree
+    t.index ["school_id"], name: "index_campaigns_on_school_id", using: :btree
+    t.index ["user_id"], name: "index_campaigns_on_user_id", using: :btree
   end
 
-  add_index "campaigns", ["donor_list_id"], name: "index_campaigns_on_donor_list_id", using: :btree
-  add_index "campaigns", ["school_id"], name: "index_campaigns_on_school_id", using: :btree
-  add_index "campaigns", ["user_id"], name: "index_campaigns_on_user_id", using: :btree
+  create_table "conversions", force: :cascade do |t|
+    t.boolean  "converted",  default: false
+    t.datetime "hit_time"
+    t.string   "identifier"
+    t.integer  "school_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["school_id"], name: "index_conversions_on_school_id", using: :btree
+  end
 
   create_table "donor_lists", force: :cascade do |t|
     t.string   "title"
@@ -39,10 +47,9 @@ ActiveRecord::Schema.define(version: 20160630190223) do
   create_table "donor_lists_donors", id: false, force: :cascade do |t|
     t.integer "donor_id",      null: false
     t.integer "donor_list_id", null: false
+    t.index ["donor_id"], name: "index_donor_lists_donors_on_donor_id", using: :btree
+    t.index ["donor_list_id"], name: "index_donor_lists_donors_on_donor_list_id", using: :btree
   end
-
-  add_index "donor_lists_donors", ["donor_id"], name: "index_donor_lists_donors_on_donor_id", using: :btree
-  add_index "donor_lists_donors", ["donor_list_id"], name: "index_donor_lists_donors_on_donor_list_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
     t.string   "first_name"
@@ -58,18 +65,16 @@ ActiveRecord::Schema.define(version: 20160630190223) do
     t.integer  "subscription_id"
     t.date     "subscription_start"
     t.string   "subscription_total"
+    t.index ["school_id"], name: "index_donors_on_school_id", using: :btree
+    t.index ["subscription_id"], name: "index_donors_on_subscription_id", using: :btree
   end
-
-  add_index "donors", ["school_id"], name: "index_donors_on_school_id", using: :btree
-  add_index "donors", ["subscription_id"], name: "index_donors_on_subscription_id", using: :btree
 
   create_table "forms", force: :cascade do |t|
     t.integer  "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_forms_on_school_id", using: :btree
   end
-
-  add_index "forms", ["school_id"], name: "index_forms_on_school_id", using: :btree
 
   create_table "gifts", force: :cascade do |t|
     t.string   "total"
@@ -80,11 +85,10 @@ ActiveRecord::Schema.define(version: 20160630190223) do
     t.integer  "campaign_id"
     t.string   "designation"
     t.string   "gift_type"
+    t.index ["campaign_id"], name: "index_gifts_on_campaign_id", using: :btree
+    t.index ["donor_id"], name: "index_gifts_on_donor_id", using: :btree
+    t.index ["school_id"], name: "index_gifts_on_school_id", using: :btree
   end
-
-  add_index "gifts", ["campaign_id"], name: "index_gifts_on_campaign_id", using: :btree
-  add_index "gifts", ["donor_id"], name: "index_gifts_on_donor_id", using: :btree
-  add_index "gifts", ["school_id"], name: "index_gifts_on_school_id", using: :btree
 
   create_table "schools", force: :cascade do |t|
     t.string   "name"
@@ -99,9 +103,8 @@ ActiveRecord::Schema.define(version: 20160630190223) do
     t.datetime "updated_at", null: false
     t.integer  "school_id"
     t.integer  "interval"
+    t.index ["school_id"], name: "index_subscriptions_on_school_id", using: :btree
   end
-
-  add_index "subscriptions", ["school_id"], name: "index_subscriptions_on_school_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -110,13 +113,13 @@ ActiveRecord::Schema.define(version: 20160630190223) do
     t.integer  "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_users_on_school_id", using: :btree
   end
-
-  add_index "users", ["school_id"], name: "index_users_on_school_id", using: :btree
 
   add_foreign_key "campaigns", "donor_lists"
   add_foreign_key "campaigns", "schools"
   add_foreign_key "campaigns", "users"
+  add_foreign_key "conversions", "schools"
   add_foreign_key "donors", "schools"
   add_foreign_key "donors", "subscriptions"
   add_foreign_key "forms", "schools"

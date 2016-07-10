@@ -6,12 +6,14 @@ class Api::V1::GiftsController < ApplicationController
 		find_or_create_donor
     if pledge?
       create_gift
+      update_conversion
       render json: @gift.to_json
       return
     end
 		process_payment
 		if @payment.success?
       create_gift
+      update_conversion
 			render json: @gift.to_json
 		else
 			render json: {}, status: :bad_request
@@ -75,6 +77,11 @@ class Api::V1::GiftsController < ApplicationController
     def create_gift
       @gift = @donor.gifts.create(gift_params)
       @school.gifts << @gift
+    end
+
+    def update_conversion
+      conv = @school.conversions.find_by(identifier: params[:conversion][:identifier])
+      conv.update_attribute(:converted, true)
     end
 
     def pledge?

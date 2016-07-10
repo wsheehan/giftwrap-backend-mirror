@@ -1,4 +1,4 @@
-class DonorList < ActiveRecord::Base
+class DonorList < ApplicationRecord
 
   # Associations
   belongs_to :campaign
