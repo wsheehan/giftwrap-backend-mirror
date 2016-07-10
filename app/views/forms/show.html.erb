@@ -1,7 +1,9 @@
 <form action="<%= ENV['host'] %>api/v1/gifts" method="post" id="form">
 
 	<input type="hidden" value="<%= @client_token %>" id="client_token">
-	<input type="hidden" name="school[id]" value="<%= @school.id %>">
+	<input type="hidden" value="<%= ENV['host'] %>" id="host">
+	<input type="hidden" name="school[id]" value="<%= @school.id %>" id="school_id">
+	<input type="hidden" name="conversion[identifier]" id="conversion_identifier">
 	<input type="hidden" name="payment_method_nonce" id="nonce">
 
 	<% if @donor %>

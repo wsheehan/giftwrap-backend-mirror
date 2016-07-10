@@ -1,4 +1,4 @@
-class Donor < ActiveRecord::Base
+class Donor < ApplicationRecord
 
   # Associations
   has_many :gifts

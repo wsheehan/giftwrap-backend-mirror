@@ -1,3 +1,3 @@
-class Form < ActiveRecord::Base
+class Form < ApplicationRecord
   belongs_to :school
 end

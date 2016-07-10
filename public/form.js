@@ -1,6 +1,9 @@
 // Ready DOM
 document.addEventListener("DOMContentLoaded", function() {
 
+	// Host
+	var host = document.getElementById('host').value
+
 	// Height Message
 	function sendHeight() {
 	    if (parent.postMessage) {
@@ -18,6 +21,15 @@ document.addEventListener("DOMContentLoaded", function() {
 	    sendHeight();
 	}, 
 	false);
+
+	// Initiate page hit
+	var school_id = document.getElementById("school_id").value
+	var current_time = Date()
+	var identifier = Math.random().toString(36).slice(2)
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", host + "conversions?hit_time=" + current_time + "&identifier=" + identifier + "&school_id=" + school_id, true);
+	xhttp.send();
+	document.getElementById('conversion_identifier').value = identifier
 
 	// Show designations on click
 	document.getElementById("designate-link").addEventListener("click", function() {
