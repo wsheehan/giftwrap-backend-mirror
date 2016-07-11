@@ -53,9 +53,23 @@
 			<div id="donor_phone_number_error" class="error"></div>
 		</div>
 
+		<p id="gift-type-link">Is this a pledge or pledge payment?</p>
+		<div id="gift-type">
+			<div class="first-radio">
+				<input type="radio" name="gift[gift_type]" value="gift" checked>
+				<div>Gift</div>
+			</div><div>
+				<input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">
+				<div>Pledge</div>
+			</div><div>
+				<input type="radio" name="gift[gift_type]" value="pledge_payment">
+				<div>Pledge Payment</div>
+			</div>
+		</div>
+
 		<div id="gift-total">
 			<div id="how-much">
-				<p>How much<br>would you like<br>to give?</p>
+				<p>How much would you like to give?</p>
 			</div>
 			<div id="totals">
 				<div>
@@ -79,29 +93,8 @@
 
 	<% end %>
 
-	<div id="gift-type">
-		<p>Gift Type</p>
-		<div class="first-radio">
-			<input type="radio" name="gift[gift_type]" value="gift" checked>
-			<div>Gift</div>
-		</div><div>
-			<input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">
-			<div>Pledge</div>
-		</div><div>
-			<input type="radio" name="gift[gift_type]" value="pledge_payment">
-			<div>Pledge Payment</div>
-		</div>
-	</div>
-
-	<p id="designate-link">I'd Like to specially designate this gift</p>
-	<input type="hidden" name="gift[designation]" id="designate">
-	<div id="designate-select">
-		<% @school.designation.each_with_index do |designation, i| %>
-			<div class="<%= i > 0 ? 'hide-option' : 'show-option' %>"><%= designation %></div>
-		<% end %>
-	</div>
-
 	<div id="payment-container">
+		<p>Payment Options</p>
 		<div id="card-payment">
 			<div>
 				<label>Card Number</label><br>
@@ -111,8 +104,7 @@
 				<label>Expiration Date</label><br>
 				<div id="exp-date" class="hosted"></div>
 			</div>
-		</div>
-		<div id="paypal-wrapper">
+		</div><div id="paypal-wrapper">
 			<img src="https://s3.amazonaws.com/giving-gael/public/paypal_button_small.png" id="paypal-button">
 			<div id="paypal-info">
 				<span id="paypal-email"></span>
@@ -120,6 +112,14 @@
 			</div>
 		</div>
 	</div>
+
+	<p id="designate-link">I'd Like to specially designate this gift</p>
+	<!-- <input type="hidden" name="gift[designation]" id="designate"> -->
+	<select id="designate-select" name="gift[designation]">
+		<% @school.designation.each do |designation| %>
+			<option value="<%= designation %>"><%= designation %></option>
+		<% end %>
+	</select>
 
 	<div id="recurring">
 		<p>Make this a Recurring Gift</p>

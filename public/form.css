@@ -1,11 +1,11 @@
-@import url(https://fonts.googleapis.com/css?family=Cousine);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 #form {
 	max-width: 500px;
 	margin-left: calc(50vw - 250px);
-	border: 1px dotted red;
+	border: 1px solid #d3d3d3;
 	padding: 25px;
-	font-family: 'Cousine', sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	font-weight: 500;
 }
 
@@ -16,7 +16,7 @@
 /* Text Inputs */
 
 .form-input, .hosted {
-	border: 1px dotted red;
+	border: 1px solid #a9a9a9;
 	font-family: 'Cousine', sans-serif;
 	width: 100%;
 	height: 30px;
@@ -27,7 +27,7 @@
 }
 
 .form-input:focus {
-	border: 1px dotted black;
+	border: 1px solid #d3d3d3;
 	outline: none;
 }
 
@@ -36,31 +36,31 @@
 /* Total */
 
 #gift-total {
-	border: 1px dotted green;
 	width: 80%;
-	height: 140px;
 	margin: auto;
+	margin-bottom: 10px;
 }
-
 
 #how-much {
 	text-align: center;
-	height: 140px;
-	width: 40%;
 	margin-top: 10px;
-	float: left;
-}
-
-#totals {
-	height: 140px;
-	margin-left: 40%;
 }
 
 #totals div {
 	padding: 5px;
 }
 
+#gift_total_other {
+	height: 25px;
+	font-size: 0.9em;
+	width: 100px;
+}
+
 /* Gift Type */
+
+#gift-type {
+	display: none;
+}
 
 #gift-type > div {
 	display: inline-block;
@@ -86,63 +86,45 @@
 	font-size: 1.3em;
 }
 
-#gift-type > div:nth-child(4) div {
+#gift-type > div:nth-child(3) div {
 	font-size: 0.8em;
 }
 
 /* Designate */
 
-#designate-link {
+#designate-link, #gift-type-link {
 	text-decoration: underline;
 	color: blue;
 	text-align: center;
 }
 
 #designate-select {
-	border: 1px dotted yellow;
 	display: none;
-}
-
-#designate-select div {
-	text-align: center;
-	-webkit-transition: all 1s linear;
-    -moz-transition: all 1s linear;
-    -o-transition: all 1s linear;
-	transition: all 1s linear;
-}
-
-.hide-option {
-    opacity: 0; 
-    height: 0;
-    overflow: hidden;	
-}
-
-.show-option {
-	opacity: 1;
-    height: auto;
-   	border: 1px solid black;
-	padding: 4px;
 }
 
 /* Payment */
 
-#payment-container {
-	border: 1px solid orange;
+#payment-container p {
+	text-align: center;
 }
 
 #card-payment > div {
-	padding: 10px;
+	margin-left: calc(50% - 75px);
 }
 
-#paypal-wrapper {
-	width: calc( 40% - 1px );
+#card-number, #exp-date {
+	width: 150px;
+}
+
+#card-payment, #paypal-wrapper {
 	display: inline-block;
+	width: 50%;
+	/*border: 1px dotted black;*/
 }
-
 
 #paypal-button {
-	width: 90%;
-	margin-left: 5%;
+	width: 161px;
+	margin-left: calc(50% - 75px);
 	height: auto;
 	border-radius: 3px;
 	display: block;
