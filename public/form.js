@@ -33,45 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	// Show designations on click
 	document.getElementById("designate-link").addEventListener("click", function() {
-		document.getElementById("designate-select").style.display = 'block';
+		document.getElementById("designate-select").style.display = 'inline-block';
 	});
-
-	// Initialize dropdown elements
-	var select = document.getElementById("designate-select");
-	var select_divs = select.getElementsByTagName("div");
-	var dropdownOpen = false;
-
-	select.addEventListener("click", function(event) {
-		// If dropdown not open show all options
-		if (!dropdownOpen) {
-			showAll();
-			dropdownOpen = true;
-		// If dropdown open choose option
-		} else {
-			chooseOption(event.target);
-	 		dropdownOpen = false;
-		}
-	})
-
-	function chooseOption(div) {
-		// Hide all options not chosen
-		for (i = 0; i < select_divs.length; i++) {
-			if (!(div.innerHTML == select_divs[i].innerHTML)) {
-				select_divs[i].classList.remove('show-option')
-				select_divs[i].classList.add('hide-option')
-			}
-		}
-		// Connect Designations to Submission
-		document.getElementById('designate').value = div.innerHTML
-	}
-
-	function showAll() {
-		// Loop through and show all
-		for (i = 0; i < select_divs.length; i++) {
-			select_divs[i].classList.remove('hide-option')
-			select_divs[i].classList.add('show-option')
-		}
-	}
 
 	// Connect 'Other' Text box to Checkbox
 	var gift_total_other = document.getElementById("gift_total_other")
@@ -81,6 +44,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	gift_total_other.addEventListener('click', function() {
 		document.getElementById("gift_other_box").checked = true;
 	});
+
+	// Show Pledge options on click
+	document.getElementById("gift-type-link").addEventListener("click", function() {
+		document.getElementById("gift-type").style.display = 'block';
+	})
 
 	// Hide Payment on Pledge
 	var gift_types = document.getElementsByName("gift[gift_type]")
