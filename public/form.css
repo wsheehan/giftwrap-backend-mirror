@@ -1,12 +1,17 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 #form {
-	max-width: 500px;
-	margin-left: calc(50vw - 250px);
+	max-width: 600px;
 	border: 1px solid #d3d3d3;
 	padding: 25px;
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 500;
+}
+
+@media (min-width: 600px) {
+	#form {
+		margin-left: calc(50vw - 300px);
+	}
 }
 
 .input-error {
@@ -24,6 +29,7 @@
 	border-radius: 4px;
 	padding-left: 10px;
 	font-size: 1em;
+	background-color: #FCFCFC;
 }
 
 .form-input:focus {
@@ -63,12 +69,7 @@
 }
 
 #gift-type > div {
-	display: inline-block;
-	width: 25%;
-}
-
-#gift-type .first-radio {
-	margin-left: 12.5%;
+	display: inline-block;	
 }
 
 #gift-type > div > div {
@@ -98,6 +99,10 @@
 	text-align: center;
 }
 
+#designation-wrapper {
+	text-align: center;
+}
+
 #designate-select {
 	display: none;
 }
@@ -106,20 +111,6 @@
 
 #payment-container p {
 	text-align: center;
-}
-
-#card-payment > div {
-	margin-left: calc(50% - 75px);
-}
-
-#card-number, #exp-date {
-	width: 150px;
-}
-
-#card-payment, #paypal-wrapper {
-	display: inline-block;
-	width: 50%;
-	/*border: 1px dotted black;*/
 }
 
 #paypal-button {
@@ -158,4 +149,76 @@
 
 /* Submit */
 
-#submit-button {}
+#button-wrapper {
+	text-align: center;
+	margin: 15px;
+}
+
+#submit-button {
+	font-size: 1.5em;
+	padding: 6px 12px;
+	border-radius: 4px;
+	background-color: #5cb85c;
+	border: 1px solid #4cae4c;
+	color: white;
+	cursor: pointer;
+}
+
+#submit-button:hover {
+	opacity: 0.8;
+}
+
+/* Media Queries */
+
+@media (min-width: 500px) {
+	#gift-type > div { 
+		width: 25%; 
+	}
+	#gift-type .first-radio { 
+		margin-left: 12.5%; 
+	}
+	#card-payment, #paypal-wrapper {
+		display: inline-block;
+		width: 50%;
+	}
+	#card-number, #exp-date {
+		width: 150px;
+	}
+	#or { 
+		display: none; 
+	}
+	#card-payment > div {
+		margin-left: calc(50% - 75px);
+	}
+}
+@media (max-width: 500px) {
+	#gift-type > div {
+		width: 30%; 
+	}
+	#gift-type .first-radio { 
+		margin-left: 5%; 
+	}
+	#card-payment label {
+		margin-left: 5%;
+	}
+	#card-payment, #paypal-wrapper {
+		display: block;
+	}
+	#card-number, #exp-date {
+		width: 90%;
+		margin-left: 5%;
+	}
+	#or {
+		display: block;
+		text-align: center;
+	}
+}
+
+@media (max-width: 400px) {
+	#recurring {
+		font-size: 0.8em;
+	}
+	#gift-type {
+		font-size: 0.8em;
+	}
+}
