@@ -77,12 +77,12 @@
 					<label>50</label>
 				</div>
 				<div>
-					<input type="radio" name="gift[total]" value="100">
-					<label>100</label>
-				</div>
-				<div>
 					<input type="radio" name="gift[total]" value="250">
 					<label>250</label>
+				</div>
+				<div>
+					<input type="radio" name="gift[total]" value="1000">
+					<label>1000</label>
 				</div>
 				<div>
 					<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
@@ -104,6 +104,8 @@
 				<label>Expiration Date</label><br>
 				<div id="exp-date" class="hosted"></div>
 			</div>
+		</div><div id="or">
+			<p>Or</p>
 		</div><div id="paypal-wrapper">
 			<img src="https://s3.amazonaws.com/giving-gael/public/paypal_button_small.png" id="paypal-button">
 			<div id="paypal-info">
@@ -115,11 +117,13 @@
 
 	<p id="designate-link">I'd Like to specially designate this gift</p>
 	<!-- <input type="hidden" name="gift[designation]" id="designate"> -->
-	<select id="designate-select" name="gift[designation]">
-		<% @school.designation.each do |designation| %>
-			<option value="<%= designation %>"><%= designation %></option>
-		<% end %>
-	</select>
+	<div id="designation-wrapper">
+		<select id="designate-select" name="gift[designation]">
+			<% @school.designation.each do |designation| %>
+				<option value="<%= designation %>"><%= designation %></option>
+			<% end %>
+		</select>
+	</div>
 
 	<div id="recurring">
 		<p>Make this a Recurring Gift</p>
@@ -135,8 +139,8 @@
 		</div>
 	</div>
 
-	<div>
-		<input type="submit" name="commit" id="submit-button" value="Give to <%= @form.school.name %>">
+	<div id="button-wrapper">
+		<input type="submit" name="commit" id="submit-button" value="Give Now">
 	</div>
 </form>
 
