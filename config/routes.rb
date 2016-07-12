@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   resources :campaigns, only: [:index, :show, :create, :new]
   resources :donors, only: [:index, :show, :update, :edit]
   resources :conversions, only: [:create]
-
-  get '/donorLists' => "donor_lists#index"
-  #resources :donor_lists, only: [:index, :show, :create, :new, :update]
+  resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
 end
