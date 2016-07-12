@@ -35,7 +35,7 @@ module Giving
         else
           origins 'localhost:4200'
         end
-        resource "*", headers: :any
+        resource "*", headers: :any, methods: [:get, :post, :patch, :put]
       end
     end
 

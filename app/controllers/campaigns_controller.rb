@@ -5,15 +5,18 @@ class CampaignsController < ApplicationController
   def create
     @campaign = Campaign.new(campaign_params)
     if @campaign.save
-      list = @campaign.donorlists.donors.each do |donor|
-        #CampaignMailer.campaign_email(@campaign, donor).deliver_now
-      end
+      # list = @campaign.donorlists.donors.each do |donor|
+      #   #CampaignMailer.campaign_email(@campaign, donor).deliver_now
+      # end
+      render json: { "campaign": @campaign }
     else
-      render 'new'
+      render json: { "errors": @campaign.errors }
     end
   end
 
   def show
+    @campaign = Campaign.find(params[:id])
+    render json: { "campaign": @campaign }
   end
 
   def new
@@ -24,7 +27,7 @@ class CampaignsController < ApplicationController
   private
 
     def campaign_params
-      params.require(:campaign).permit(:title, :school_id, :user_id, donor_list_ids: [])
+      params.require(:campaign).permit(:title, :body, :school_id, :user_id, donor_list_ids: [])
     end
 
 end
