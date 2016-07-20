@@ -14,13 +14,31 @@
 	}
 }
 
-.input-error {
-	border: 3px solid red;
+div .input-error {
+	border: 1px solid red;
+}
+
+.error {
+	color: red;
+	text-align: center;
+	font-size: 0.8em;
+	margin-top: -5px;
+}
+
+/* Donor Info */
+
+#donor_info {
+	text-align: center;
+	background-color: #FCFCFC;
+	border: 1px solid #a9a9a9;
+	border-radius: 5px;
 }
 
 /* Text Inputs */
 
-.form-input, .hosted {
+#inputs-wrapper {}
+
+.form-input, .hosted, #designation_other{
 	border: 1px solid #a9a9a9;
 	font-family: 'Cousine', sans-serif;
 	width: 100%;
@@ -97,6 +115,7 @@
 	text-decoration: underline;
 	color: blue;
 	text-align: center;
+	font-size: 0.85em;
 }
 
 #designation-wrapper {
@@ -107,10 +126,32 @@
 	display: none;
 }
 
+#designation-wrapper > div {
+	text-align: center;
+}
+
+#designation-wrapper #designation_other {
+	display: none;
+	width: 50%;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
 /* Payment */
 
 #payment-container p {
 	text-align: center;
+}
+
+#payment-error {
+	display: none;
+	text-align: center;
+	padding: 5px;
+	margin: 10px;
+	border-radius: 4px;
+	border: 1px solid #EBCCD1;
+	background-color: #F2DEDE; 
+	color: #A94442;
 }
 
 #paypal-button {
@@ -119,6 +160,52 @@
 	height: auto;
 	border-radius: 3px;
 	display: block;
+}
+
+#paypal-info {
+	display: none;
+	padding: 5px;
+	border: 1px solid gray;
+	border-radius: 3px;
+	background-color: #FCFCFC;
+}
+
+#paypal-info div {
+	text-align: center;
+}
+
+#paypal-info #paypal-email {
+	font-size: 1.2em;
+}
+
+#paypal-info #paypal-cancel {
+	text-decoration: underline;
+	color: blue;
+	cursor: pointer;
+	font-size: 0.7em;
+}
+
+#paypal-logo {
+	height: 50px;
+	width: auto;
+}
+
+#saved-payment > div {
+	text-align: center;
+	padding: 3px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	background-color: #FCFCFC;
+}
+
+#saved-payment span {
+	position: relative;
+	bottom: 20px;
+}
+
+#saved-payment #saved-card span {
+	bottom: 12px;
+	padding-left: 5px;
 }
 
 /* Recurring */
