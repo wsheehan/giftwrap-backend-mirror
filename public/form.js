@@ -169,7 +169,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	function resetErrors() {
 		var inputs = document.getElementsByClassName('form-input')
-		console.log('Reset Errors')
 		for(var i = 0; i < inputs.length; i++) {
 			inputs[i].classList.remove("input-error");
 			document.getElementById(inputs[i].id + "_error").innerHTML = "";
@@ -207,8 +206,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						'font-size': '16px'
 					},
 					'.valid': {
-						'color': 'green',
-						'background-color': 'orange'
+						'color': 'green'
 					},
 					'.invalid': {
 						'color': 'red'
