@@ -16,7 +16,7 @@ class Donor < ApplicationRecord
   end
 
   def suggested_gift
-    gifts.last.total.to_f * 1.25
+    ((gifts.last.total.to_f * 1.25) + 10).round(-1)
   end
 
   def has_payment_info?

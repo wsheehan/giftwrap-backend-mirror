@@ -7,66 +7,68 @@
 	<input type="hidden" name="payment_method_nonce" id="nonce">
 
 	<% if @donor %>
-
-		<div id="donor_info">Hi, <%= @donor.full_name %></div>
+		<div id="donor_info">
+			<p>Welcome Back <%= @donor.first_name %> <%= @donor.last_name %>!</p>
+		</div>
 		<input type="hidden" name="donor[email]" value="<%= @donor.email %>">
-		<input type="hidden" name="donor[braintree_customer_id]" value="<%= @donor.braintree_customer_id %>">
-
-		<div>
-			<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>" checked>
-			<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
-		</div>
-		<div>
-			<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
-			<input type="text" id="gift_total_other" placeholder="Other">
-		</div>
-		<div id="saved-payment">
-			<% if @payment_method[:type] == 'Paypal' %>
-				<span><%= @payment_method[:email] %></span>
-			<% else %>
-				<span><%= @payment_method[:card_holder] %></span>
-				<span><%= @payment_method[:masked_number] %></span>
-				<span><img src="<%= @payment_method[:image_url] %>"></span>
-			<% end %>
-		</div>
-
+		<input type="hidden" name="donor[first_name]" value="<%= @donor.first_name %>">
+		<input type="hidden" name="donor[last_name]" value="<%= @donor.last_name %>">
 	<% else %>
-
-		<div>
-			<label for="donor_first_name" class="form-input-label">First Name</label><br>
-			<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input">
-			<div id="donor_first_name_error" class="error"></div>
-		</div>
-		<div>
-			<label for="donor_last_name" class="form-input-label">Last Name</label><br>
-			<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input">
-			<div id="donor_last_name_error" class="error"></div>
-		</div>
-		<div>
-			<label for="donor_email" class="form-input-label">Email</label><br>
-			<input type="text" name="donor[email]" id="donor_email" class="form-input">
-			<div id="donor_email_error" class="error"></div>
-		</div>
-		<div>
-			<label for="donor_phone_number" class="form-input-label">Cell Number</label><br>
-			<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input">
-			<div id="donor_phone_number_error" class="error"></div>
-		</div>
-
-		<p id="gift-type-link">Is this a pledge or pledge payment?</p>
-		<div id="gift-type">
-			<div class="first-radio">
-				<input type="radio" name="gift[gift_type]" value="gift" checked>
-				<div>Gift</div>
-			</div><div>
-				<input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">
-				<div>Pledge</div>
-			</div><div>
-				<input type="radio" name="gift[gift_type]" value="pledge_payment">
-				<div>Pledge Payment</div>
+		<div id="inputs-wrapper">
+			<div>
+				<label for="donor_email" class="form-input-label">Email</label><br>
+				<input type="text" name="donor[email]" id="donor_email" class="form-input">
+				<div id="donor_email_error" class="error"></div>
+			</div>
+			<div>
+				<label for="donor_first_name" class="form-input-label">First Name</label><br>
+				<input type="text" name="donor[first_name]" id="donor_first_name" class="form-input">
+				<div id="donor_first_name_error" class="error"></div>
+			</div>
+			<div>
+				<label for="donor_last_name" class="form-input-label">Last Name</label><br>
+				<input type="text" name="donor[last_name]" id="donor_last_name" class="form-input">
+				<div id="donor_last_name_error" class="error"></div>
+			</div>
+			<div>
+				<label for="donor_phone_number" class="form-input-label">Cell Number</label><br>
+				<input type="text" name="donor[phone_number]" id="donor_phone_number" class="form-input">
+				<div id="donor_phone_number_error" class="error"></div>
 			</div>
 		</div>
+	<% end %>
 
+	<p id="gift-type-link">Is this a pledge or pledge payment?</p>
+	<div id="gift-type">
+		<div class="first-radio">
+			<input type="radio" name="gift[gift_type]" value="gift" checked>
+			<div>Gift</div>
+		</div><div>
+			<input type="radio" name="gift[gift_type]" value="pledge" id="gift_type_pledge">
+			<div>Pledge</div>
+		</div><div>
+			<input type="radio" name="gift[gift_type]" value="pledge_payment">
+			<div>Pledge Payment</div>
+		</div>
+	</div>
+
+	<% if @donor %>
+		<div id="gift-total">
+			<div id="how-much">
+				<p>How much would you like to give?</p>
+			</div>
+			<div id="totals">
+				<div>
+					<input type="radio" name="gift[total]" value="<%= @donor.suggested_gift %>" checked>
+					<label for="gift_total_primary"><%= @donor.suggested_gift %></label>
+				</div>
+				<div>
+					<input type="radio" name="gift[total]" for="gift_total_other" id="gift_other_box">
+					<input type="text" id="gift_total_other" placeholder="Other">
+				</div>
+			</div>
+		</div>
+	<% else %>
 		<div id="gift-total">
 			<div id="how-much">
 				<p>How much would you like to give?</p>
@@ -90,39 +92,57 @@
 				</div>
 			</div>
 		</div>
-
 	<% end %>
 
-	<div id="payment-container">
-		<p>Payment Options</p>
-		<div id="card-payment">
-			<div>
-				<label>Card Number</label><br>
-				<div id="card-number" class="hosted"></div>
+	<% if @payment_method %>
+		<input type="hidden" name="donor[braintree_customer_id]" value="<%= @donor.braintree_customer_id %>">
+		<div id="saved-payment">
+			<% if @payment_method[:method] == 'Paypal' %>
+				<div>
+					<img src="https://s3.amazonaws.com/giving-gael/public/paypal_logo_small.png" id="paypal-logo" />
+					<span><%= @payment_method[:email] %></span>
+				</div>
+			<% else %>
+				<div id="saved-card">
+					<img src="<%= @payment_method[:image_url] %>" />
+					<span><%= @payment_method[:card_holder] %></span>
+					<span><%= @payment_method[:masked_number] %></span>
+				</div>
+			<% end %>
+		</div>
+	<% else %>
+		<div id="payment-container">
+			<p>Payment Options</p>
+			<div id="payment-error">Please Enter a Payment Method</div>
+			<div id="card-payment">
+				<div>
+					<label>Card Number</label><br>
+					<div id="card-number" class="hosted"></div>
+				</div>
+				<div>
+					<label>Expiration Date</label><br>
+					<div id="exp-date" class="hosted"></div>
+				</div>
+			</div><div id="or">
+				<p>Or</p>
+			</div><div id="paypal-wrapper">
+				<img src="https://s3.amazonaws.com/giving-gael/public/paypal_button_small.png" id="paypal-button">
 			</div>
-			<div>
-				<label>Expiration Date</label><br>
-				<div id="exp-date" class="hosted"></div>
-			</div>
-		</div><div id="or">
-			<p>Or</p>
-		</div><div id="paypal-wrapper">
-			<img src="https://s3.amazonaws.com/giving-gael/public/paypal_button_small.png" id="paypal-button">
 			<div id="paypal-info">
-				<span id="paypal-email"></span>
-				<span id="paypal-cancel"></span>
+				<div id="paypal-email"></div>
+				<!-- <div id="paypal-cancel"></div> -->
 			</div>
 		</div>
-	</div>
+	<% end %>
 
 	<p id="designate-link">I'd Like to specially designate this gift</p>
-	<!-- <input type="hidden" name="gift[designation]" id="designate"> -->
 	<div id="designation-wrapper">
 		<select id="designate-select" name="gift[designation]">
 			<% @school.designation.each do |designation| %>
-				<option value="<%= designation %>"><%= designation %></option>
+				<option value="<%= designation %>" id="<%= 'other_select' if designation == 'Other' %>"><%= designation %></option>
 			<% end %>
 		</select>
+		<div><input type="text" id="designation_other" placeholder="Other Designation"></div>
 	</div>
 
 	<div id="recurring">
@@ -148,4 +168,5 @@
 
 <link rel="stylesheet" type="text/css" href="<%= ENV['host'] %>form.css">
 <script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
 <script src="<%= ENV['host'] %>form.js" type="text/javascript"></script>

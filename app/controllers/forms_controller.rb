@@ -13,7 +13,7 @@ class FormsController < ApplicationController
 
     def find_payment_method donor
       customer = Braintree::Customer.find(donor.braintree_customer_id)
-      payment_method = Braintree::PaymentMethod.find(customer.payment_methods[0].token) # Will this always be the default?
+      payment_method = Braintree::PaymentMethod.find(customer.payment_methods[0].token)
       if payment_method.class == Braintree::PayPalAccount
         { method: 'Paypal', email: payment_method.email }
       else

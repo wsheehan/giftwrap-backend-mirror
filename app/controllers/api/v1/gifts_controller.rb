@@ -16,7 +16,7 @@ class Api::V1::GiftsController < ApplicationController
       update_conversion
 			render json: @gift.to_json
 		else
-			render json: {}, status: :bad_request
+			render json: @payment.errors, status: :bad_request
 		end
 	end
 

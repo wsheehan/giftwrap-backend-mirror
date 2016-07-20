@@ -1,8 +1,12 @@
 // Ready DOM
 document.addEventListener("DOMContentLoaded", function() {
 
-	// Host
+	// Variables
 	var host = document.getElementById('host').value
+	var first_name = document.getElementById("donor_first_name");
+	var last_name = document.getElementById("donor_last_name");
+	var email = document.getElementById("donor_email");
+	var phone_number = document.getElementById("donor_phone_number")
 
 	// Height Message
 	function sendHeight() {
@@ -26,15 +30,38 @@ document.addEventListener("DOMContentLoaded", function() {
 	var school_id = document.getElementById("school_id").value
 	var current_time = Date()
 	var identifier = Math.random().toString(36).slice(2)
-	var xhttp = new XMLHttpRequest();
-	xhttp.open("POST", host + "conversions?hit_time=" + current_time + "&identifier=" + identifier + "&school_id=" + school_id, true);
-	xhttp.send();
+	var newConversion = new XMLHttpRequest();
+	newConversion.open("POST", host + "conversions?hit_time=" + current_time + "&identifier=" + identifier + "&school_id=" + school_id, true);
+	newConversion.send();
 	document.getElementById('conversion_identifier').value = identifier
 
-	// Show designations on click
-	document.getElementById("designate-link").addEventListener("click", function() {
-		document.getElementById("designate-select").style.display = 'inline-block';
-	});
+	// Find Email on blur
+	email.addEventListener('blur', function() {
+		var donor = null;
+		var checkEmail = new XMLHttpRequest();
+		checkEmail.onreadystatechange = function() {
+			if (checkEmail.readyState == 4 && checkEmail.status == 200) {
+				donor = checkEmail.responseText;
+				showDonor(JSON.parse(donor));
+			}
+		};
+		checkEmail.open("POST", host + school_id + "/find_by_email?donor_email=" + encodeURIComponent(email.value), true);
+		checkEmail.send();
+	})
+
+	// Handle if Email Found
+	function showDonor(donor) {
+		if (donor) {
+			document.getElementById('inputs-wrapper').innerHTML = '<div id="donor_info"> \
+			<p>Welcome Back ' + donor.first_name + ' ' + donor.last_name + '!</p></div>  \
+			<input type="hidden" name="donor[email]" value=' + donor.email + '>        \
+			<input type="hidden" name="donor[first_name]" value='  + donor.first_name + '> \
+			<input type="hidden" name="donor[last_name]" value='  + donor.last_name + '>';
+			if (donor.braintree_customer_id) {
+				// Do something with payment info
+			}
+		}
+	}
 
 	// Connect 'Other' Text box to Checkbox
 	var gift_total_other = document.getElementById("gift_total_other")
@@ -63,16 +90,38 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	}
 
+	// Show designations on click
+	document.getElementById("designate-link").addEventListener("click", function() {
+		document.getElementById("designate-select").style.display = 'inline-block';
+	});
+
+	// 'Other Designation'
+	var select_other = false;
+	document.getElementById('designate-select').addEventListener('change', function(e){
+		if (e.target.value === 'Other') {
+			select_other = true;
+			document.getElementById('designation_other').style.display = 'inline-block';
+		} else {
+			if (select_other) {
+				document.getElementById('designation_other').style.display = 'none';
+			}
+		}
+	});
+
+	document.getElementById('designation_other').addEventListener('change', function() {
+		document.getElementById('other_select').value = this.value
+	});
+
 	// Validations
 	var form = document.getElementById("form")
 	function validator(){
+		resetErrors();
 		if (document.getElementById('donor_info') == null) {
 			res = validateForm();
 			l = res.length;
 			if (l == 0) {
 				return true
 			} else {
-				resetErrors();
 				for (var i = 0; i < l; i++) {
 					res[i][0].classList.add("input-error");
 					document.getElementById(res[i][0].id + "_error").innerHTML = res[i][1];
@@ -86,10 +135,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	function validateForm() {
-		var first_name = document.getElementById("donor_first_name");
-		var last_name = document.getElementById("donor_last_name");
-		var email = document.getElementById("donor_email");
-		var phone_number = document.getElementById("donor_phone_number")
 		var arr = [];
 
 		var first_blank = checkBlank(first_name)
@@ -122,13 +167,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	function resetErrors() {
 		var inputs = document.getElementsByClassName('form-input')
+		console.log('Reset Errors')
 		for(var i = 0; i < inputs.length; i++) {
 			inputs[i].classList.remove("input-error");
 			document.getElementById(inputs[i].id + "_error").innerHTML = "";
 		}
 	}
 
-	if (document.getElementById('donor_info') == null) {
+	// Braintree
+	var isPaymentMethod = false;
+	if (document.getElementById('saved-payment') === null) {
+		braintreeInit();
+	}
+
+		// If no payment method still do errors
+	document.getElementById("submit-button").addEventListener("click", function() {
+		if (!isPaymentMethod) {
+			validator();
+			paymentEmpty();
+		}
+	})
+
+	function braintreeInit() {
 		var paypalCheckout;
 		var token = document.getElementById("client_token").value
 		braintree.setup(token, "custom", {
@@ -145,7 +205,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						'font-size': '16px'
 					},
 					'.valid': {
-						'color': 'green'
+						'color': 'green',
+						'background-color': 'orange'
 					},
 					'.invalid': {
 						'color': 'red'
@@ -165,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			},
 			onPaymentMethodReceived: function (payload) {
 	 			document.getElementById("nonce").value = payload['nonce']
-	 			console.log("Payment Received");
+	 			isPaymentMethod = true;
 	 			if (validator()) {
 		 			form.submit();
 		 		} else {
@@ -173,35 +234,30 @@ document.addEventListener("DOMContentLoaded", function() {
 		 		}
 			}
 		});
+
+		function paymentEmpty() {
+			document.getElementById("payment-error").style.display = 'block'
+		}
+
+		document.getElementById("paypal-button").addEventListener("click", function(event) {
+			event.preventDefault();
+			paypalCheckout.paypal.initAuthFlow();
+		});
 	}
 
-	document.getElementById("paypal-button").addEventListener("click", function(event) {
-		event.preventDefault();
-		paypalCheckout.paypal.initAuthFlow();
-	});
-
-	document.getElementById("paypal-cancel").addEventListener("click", function(event) {
-		event.preventDefault();
-		paypalCheckout.teardown();
-		resetPayment();	
-	});
 
 	function resetPayment() {
-		document.getElementById("card-payment").style.display = 'initial';
-		document.getElementById("paypal-cancel").innerHTML = "";
+		document.getElementById("card-payment").style.display = 'block';
 		document.getElementById("paypal-email").innerHTML = "";
-		document.getElementById("paypal-button").style.display = 'initial';
+		document.getElementById("paypal-button").style.display = 'block';
+		document.getElementById("paypal-info").style.display = 'none'
 	}
 
 	function paypalSuccess(email) {
 		document.getElementById("paypal-button").style.display = 'none'
 		document.getElementById("paypal-email").innerHTML = email
-		document.getElementById("paypal-cancel").innerHTML = "change payment method"
 		document.getElementById("card-payment").style.display = 'none'
-	}
-
-	if (document.getElementById('donor_info') != null) {
-		document.getElementById('payment-container').style.display = 'none'
+		document.getElementById("paypal-info").style.display = 'block'
 	}
 
 });
