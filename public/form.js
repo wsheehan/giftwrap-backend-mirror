@@ -36,18 +36,20 @@ document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById('conversion_identifier').value = identifier
 
 	// Find Email on blur
-	email.addEventListener('blur', function() {
-		var donor = null;
-		var checkEmail = new XMLHttpRequest();
-		checkEmail.onreadystatechange = function() {
-			if (checkEmail.readyState == 4 && checkEmail.status == 200) {
-				donor = checkEmail.responseText;
-				showDonor(JSON.parse(donor));
-			}
-		};
-		checkEmail.open("POST", host + school_id + "/find_by_email?donor_email=" + encodeURIComponent(email.value), true);
-		checkEmail.send();
-	})
+	if (email) {
+		email.addEventListener('blur', function() {
+			var donor = null;
+			var checkEmail = new XMLHttpRequest();
+			checkEmail.onreadystatechange = function() {
+				if (checkEmail.readyState == 4 && checkEmail.status == 200) {
+					donor = checkEmail.responseText;
+					showDonor(JSON.parse(donor));
+				}
+			};
+			checkEmail.open("POST", host + school_id + "/find_by_email?donor_email=" + encodeURIComponent(email.value), true);
+			checkEmail.send();
+		})
+	}
 
 	// Handle if Email Found
 	function showDonor(donor) {
