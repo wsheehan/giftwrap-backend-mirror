@@ -18,7 +18,7 @@ class DonorsController < ApplicationController
 
     def find_by_email
       @school = School.find(params[:school_id])
-      @school.donors.find_by_email(params[:email])
+      @school.donors.find_by(email: params[:email])
     end
 
 end
