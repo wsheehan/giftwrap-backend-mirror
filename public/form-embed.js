@@ -33,5 +33,5 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // This is what should be put on the client's site
-// <script id="load_form" src="https://localhost:3000/form-embed.js" data-page="1"></script>
+// <script id="load_form" src="https://localhost:3000/form-embed.js" data-app-id="GAIddf32b793508fb6c" data-form-id="1"></script>
 // <div id="form-wrapper"></div>
