@@ -18,6 +18,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.7'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
   gem 'spring'
+  gem 'pry'
 end
 
 group :development do
