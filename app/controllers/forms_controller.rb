@@ -1,12 +1,19 @@
 class FormsController < ApplicationController
+  include Client::Logic
+
 	after_action :allow_iframe, only: :show
 
   def show
-    @donor = Donor.find_by(key: params[:key])
-    @payment_method = find_payment_method @donor if @donor && @donor.braintree_customer_id
-    @form = Form.find(params[:id])
-    @school = @form.school
-    @client_token = Braintree::ClientToken.generate
+    if client_validated?(params)
+      @donor = Donor.find_by(key: params[:key])
+      @payment_method = find_payment_method @donor if @donor && @donor.braintree_customer_id
+      @form = Form.find(params[:id])
+      @school = @form.school
+      @client_token = Braintree::ClientToken.generate
+      @request_url = params[:request_url]
+    else
+      render :file => "#{Rails.root}/public/404.html",  :status => 404
+    end
   end
 
   private
