@@ -1,0 +1,2 @@
+class TextCampaignsController < ApplicationController
+end
