@@ -18,5 +18,6 @@ end
   resources :donors, only: [:index, :show, :update, :edit]
   resources :conversions, only: [:create]
   resources :donor_lists, only: [:index, :show, :create, :new, :update]
+  resources :text_campaigns, only: [:index, :show, :create, :edit, :update]
 
 end
