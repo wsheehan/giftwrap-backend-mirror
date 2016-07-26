@@ -1,5 +1,6 @@
 class Api::V1::GiftsController < ApplicationController
 	after_action :allow_iframe, only: :create
+  include GiftsHelper
 
 	def create
 		@school = School.find_by(school_params)
@@ -14,7 +15,8 @@ class Api::V1::GiftsController < ApplicationController
 		if @payment.success?
       create_gift
       update_conversion
-			render json: @gift.to_json
+			#render json: @gift.to_json
+      render html: gift_response_html(@donor.id).html_safe
 		else
 			render json: {}, status: :bad_request
 		end

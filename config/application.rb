@@ -26,6 +26,7 @@ module Giving
       allow do
         origins '*' # Will be an array of school domains
         resource '/api/v1/gifts', headers: :any, methods: [:post]
+        resource '/donors/update/:id', headers: :any, methods: [:put]
         resource '/forms/:id', headers: :any, methods: [:get]
         resource '/form-embed.js', headers: :any, methods: [:get]
       end

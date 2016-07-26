@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
   post '/:school_id/find_by_email' => "donors#find_by_email"
+  post '/donors/update/:id' => "donors#update"
 
 end

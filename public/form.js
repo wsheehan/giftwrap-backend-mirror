@@ -181,11 +181,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		braintreeInit();
 	}
 
-		// If no payment method still do errors
+	// If no payment method still do errors
 	document.getElementById("submit-button").addEventListener("click", function() {
 		if (!isPaymentMethod) {
 			validator();
-			paymentEmpty();
+			//paymentEmpty();
 		}
 	})
 
