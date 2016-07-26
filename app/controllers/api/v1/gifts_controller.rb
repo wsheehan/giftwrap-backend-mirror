@@ -51,7 +51,7 @@ class Api::V1::GiftsController < ApplicationController
             first_name: @donor.first_name,
             last_name: @donor.last_name,
             email: @donor.email
-        },
+          },
           options: {
             store_in_vault: true
           }
