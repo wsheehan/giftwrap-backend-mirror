@@ -2,24 +2,24 @@ class Api::V1::GiftsController < ApplicationController
   after_action :allow_iframe, only: :create
   include GiftsHelper
 
-def create
-  @school = School.find_by(school_params)
-  find_or_create_donor
-  if pledge?
-    create_gift
-    update_conversion
-    render html: gift_response_html(@donor.id).html_safe
-    return
+  def create
+    @school = School.find_by(school_params)
+    find_or_create_donor
+    if pledge?
+      create_gift
+      update_conversion
+      render html: gift_response_html(@donor.id).html_safe
+      return
+    end
+    process_payment
+    if @payment.success?
+      create_gift
+      update_conversion
+      render html: gift_response_html(@donor.id).html_safe
+    else
+      render json: {}, status: :bad_request
+    end
   end
-  process_payment
-  if @payment.success?
-    create_gift
-    update_conversion
-    render html: gift_response_html(@donor.id).html_safe
-  else
-    render json: {}, status: :bad_request
-  end
-end
 
   private
 
