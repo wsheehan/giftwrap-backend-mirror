@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById("submit-button").addEventListener("click", function() {
 		if (!isPaymentMethod) {
 			validator();
-			//paymentEmpty();
+			paymentEmpty();
 		}
 	})
 
