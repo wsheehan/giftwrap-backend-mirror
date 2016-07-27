@@ -2,7 +2,7 @@ class Donor < ApplicationRecord
 
   # Associations
   has_many :gifts
-  belongs_to :school
+  belongs_to :client
   has_and_belongs_to_many :donor_lists
   belongs_to :subsciption
 

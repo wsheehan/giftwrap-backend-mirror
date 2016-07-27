@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721194620) do
+ActiveRecord::Schema.define(version: 20160727215151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 20160721194620) do
     t.string   "email"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-    t.integer  "school_id"
     t.string   "key"
     t.string   "braintree_customer_id"
     t.string   "phone_number"
@@ -104,7 +103,9 @@ ActiveRecord::Schema.define(version: 20160721194620) do
     t.string   "subscription_total"
     t.string   "affiliation"
     t.integer  "class_year"
+    t.integer  "client_id"
     t.index ["school_id"], name: "index_donors_on_school_id", using: :btree
+    t.index ["client_id"], name: "index_donors_on_client_id", using: :btree
     t.index ["subscription_id"], name: "index_donors_on_subscription_id", using: :btree
   end
 
@@ -162,7 +163,6 @@ ActiveRecord::Schema.define(version: 20160721194620) do
   add_foreign_key "campaigns", "schools"
   add_foreign_key "campaigns", "users"
   add_foreign_key "conversions", "schools"
-  add_foreign_key "donors", "schools"
   add_foreign_key "donors", "subscriptions"
   add_foreign_key "forms", "schools"
   add_foreign_key "gifts", "campaigns"

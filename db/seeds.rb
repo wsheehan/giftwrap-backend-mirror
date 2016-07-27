@@ -24,12 +24,6 @@ School.all.each do |x|
 		email = Faker::Internet.email
 		User.create!(first_name: first_name, last_name: last_name, email: email, school_id: x.id)
 	end
-	20.times do |n|
-		first_name = Faker::Name.first_name
-		last_name = Faker::Name.last_name
-		email = Faker::Internet.email
-		Donor.create!(first_name: first_name, last_name: last_name, email: email, school_id: x.id, key: SecureRandom.urlsafe_base64(16))
-	end
 	x.create_form()
 	Subscription.create!(frequency: "monthly", interval: 1)
 	Subscription.create!(frequency: "quarterly", interval: 3)
@@ -56,6 +50,14 @@ User.all.each do |x|
 	7.times do |n|
 		title = Faker::Company.buzzword
 		Campaign.create!(user_id: x.id)
+	end
+end
+
+5.times do
+	c = FactoryGirl.create :client
+	20.times do
+		d = FactoryGirl.create :donor
+		c.donors << d
 	end
 end
 
