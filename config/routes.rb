@@ -5,8 +5,10 @@ namespace :api do
     resources :gifts, only: [:create]
     scope ":school_id/" do
       resources :donors, only: [:edit]
-      post '/donors/:donor_id' => 'donors#update'
-      get '/donors/:email' => 'donors#show', constraints: { email: /[^\/]+/ }
+      scope '/donors' do
+        post '/:donor_id' => 'donors#update'
+        get '/:email' => 'donors#show', constraints: { email: /[^\/]+/ }
+      end
     end
   end
 end
