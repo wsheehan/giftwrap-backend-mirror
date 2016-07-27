@@ -9,9 +9,9 @@ class Api::V1::DonorsController < ApplicationController
   def update
     @donor = Donor.find(params[:id])
     if @donor.update_attributes(donor_params)
-      render json: {"Update":"Succeeded"}
+      render json: { "Update": "Succeeded" }
     else
-      render json: {"Update":"Failed"}
+      render json: { "Update": "Failed" }
     end
   end
 
