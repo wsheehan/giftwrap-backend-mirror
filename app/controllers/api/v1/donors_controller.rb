@@ -1,5 +1,5 @@
 class Api::V1::DonorsController < ApplicationController
-  after_action :allow_iframe, only: [:show, :update]
+  after_action :allow_iframe, only: [:show, :edit, :update]
 
   def show
     @school = School.find(params[:school_id])
@@ -9,11 +9,13 @@ class Api::V1::DonorsController < ApplicationController
 
   def edit
     @id = params[:id]
+    @school_id = params[:school_id]
     render "forms/update_donor"
   end
 
   def update
-    @donor = Donor.find(params[:id])
+    @school = School.find(params[:school_id])
+    @donor = @school.donors.find(params[:donor_id])
     if @donor.update_attributes(donor_params)
       render json: { "Update": "Succeeded" }
     else
