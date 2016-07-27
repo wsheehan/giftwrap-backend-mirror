@@ -1,6 +1,4 @@
 class DonorsController < ApplicationController
-  after_action :allow_iframe, only: :update
-
   def index
     render json: { "donors": Donor.all }
   end
@@ -11,12 +9,6 @@ class DonorsController < ApplicationController
   end
 
   def update
-    @donor = Donor.find(params[:id])
-    if @donor.update_attributes(donor_params)
-      render json: @donor
-    else
-      render html: '<p>Could Not Save Donor Info</p>'
-    end
   end
 
   def edit
@@ -31,10 +23,4 @@ class DonorsController < ApplicationController
       render json: {}, status: :no_content
     end
   end
-
-  private
-
-    def donor_params
-      params.require(:donor).permit(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year)
-    end
 end
