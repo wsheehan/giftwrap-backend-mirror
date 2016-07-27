@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	// iFrame
 	var iframe = document.createElement('iframe');
 	iframe.style.width = "100%";
+	iframe.style.height = "1000px";
 	iframe.id = "giftFrame";
 	iframe.frameBorder = "0";
 	iframe.marginheight = "0";
