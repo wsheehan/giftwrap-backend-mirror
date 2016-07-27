@@ -46,9 +46,9 @@ document.addEventListener("DOMContentLoaded", function() {
 					showDonor(JSON.parse(donor));
 				}
 			};
-			checkEmail.open("POST", host + "/donors/find_by_email/", true);
+			checkEmail.open("POST", host + "donors/find_by_email", true);
 			checkEmail.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			checkEmail.send({ "school_id": school_id, "email": donor });
+			checkEmail.send('school_id=' + school_id + '&email=' + this.value);
 		})
 	}
 

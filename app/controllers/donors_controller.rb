@@ -5,7 +5,7 @@ class DonorsController < ApplicationController
 
   def show
     @donor = params[:email].present? ? find_by_email : Donor.find(params[:id])
-    render json: { "donor": @donor }
+    render json: @donor
   end
 
   def update
