@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
 
-  namespace :api do
-  	namespace :v1 do
-  		resources :gifts, only: [:create, :index]
-  	end
+namespace :api do
+  namespace :v1 do
+    resources :gifts, only: [:create]
+    resources :donors, only: [:show, :edit]
+    scope ":school_id/donors" do
+      post '/:id' => 'donors#update'
+      get '/:email' => 'donors#show', constraints: { email: /[^\/]+/ }
+    end
   end
+end
 
   resources :forms, only: [:create, :show]
   resources :campaigns, only: [:index, :show, :create, :new]

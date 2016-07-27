@@ -1,0 +1,52 @@
+<form action="/api/v1/donors/<%= @id.to_s %>" method="POST", id="update-form">
+  <h2>Thank You For Your Generous Gift</h2>
+  <p>We Would Love a little more information about you!</p>
+  <div>
+    <div>
+      <div>Affiliation</div>
+      <div>
+        <select name='donor[affiliation]'>                  
+          <option value='alumni'>Alumni</option>
+          <option value='current_parent'>Current Parent</option>
+          <option value='alumni_parent'>Parent of Alumni</option>
+          <option value='grandparent'>Grandparent</option>
+          <option value='friend'>Friend</option>
+          <option value='employee'>Employee</option>
+          <option value='other'>Other</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div>
+      <div>Class Year</div>
+      <div><input type='text' name='donor[class_year]' /></div>
+    </div>
+  </div>
+  <div><input type='submit' name='commit' value='Update Information' /></div>
+</form>
+
+<style>
+    #update-form { 
+      max-width: 600px; 
+      border: 1px solid #d3d3d3; 
+      padding: 25px; 
+      font-family: 'Open Sans', sans-serif; 
+      font-weight: 500;
+    }
+    @media (min-width: 600px) {
+    #update-form {
+      margin-left: calc(50vw - 300px);
+    }
+  }
+    #update-form h2, #update-form p {
+      text-align: center;
+    }
+    #update-form > div {
+      margin: 20px;
+      text-align: center;
+    }
+    #update-form > div > div {
+      display: inline-block;
+    }
+</style>

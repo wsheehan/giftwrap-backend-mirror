@@ -1,40 +1,41 @@
 class Api::V1::GiftsController < ApplicationController
-	after_action :allow_iframe, only: :create
+  after_action :allow_iframe, only: :create
+  include GiftsHelper
 
-	def create
-		@school = School.find_by(school_params)
-		find_or_create_donor
+  def create
+    @school = School.find_by(school_params)
+    find_or_create_donor
     if pledge?
       create_gift
       update_conversion
-      render json: @gift.to_json
+      redirect_to "/api/v1/donors/#{@donor.id}"
       return
     end
-		process_payment
-		if @payment.success?
+    process_payment
+    if @payment.success?
       create_gift
       update_conversion
-			render json: @gift.to_json
-		else
-			render json: {}, status: :bad_request
-		end
-	end
+      redirect_to "/api/v1/donors/#{@donor.id}"
+    else
+      render json: @payment.errors, status: :bad_request
+    end
+  end
 
-	private
+  private
 
-		def gift_params
-			params.require(:gift).permit(:total, :designation, :gift_type)
-		end
+    def gift_params
+      params.require(:gift).permit(:total, :designation, :gift_type)
+    end
 
-		def donor_params
-			params.require(:donor).permit(:first_name, :last_name, :email, :phone_number, :gift_frequency)
-		end
+    def donor_params
+      params.require(:donor).permit(:first_name, :last_name, :email, :phone_number, :gift_frequency)
+    end
 
-		def school_params
-			params.require(:school).permit(:id)
-		end
+    def school_params
+      params.require(:school).permit(:id)
+    end
 
-		def process_payment
+    def process_payment
       if @donor.has_payment_info?
         # Already in database
         @payment = Braintree::Transaction.sale(
