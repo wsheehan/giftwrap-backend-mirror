@@ -8,14 +8,14 @@ class Api::V1::GiftsController < ApplicationController
     if pledge?
       create_gift
       update_conversion
-      redirect_to "/api/v1/donors/#{@donor.id}"
+      redirect_to "/api/v1/#{@school.id}/donors/#{@donor.id}/edit"
       return
     end
     process_payment
     if @payment.success?
       create_gift
       update_conversion
-      redirect_to "/api/v1/donors/#{@donor.id}"
+      redirect_to "/api/v1/#{@school.id}/donors/#{@donor.id}/edit"
     else
       render json: @payment.errors, status: :bad_request
     end
