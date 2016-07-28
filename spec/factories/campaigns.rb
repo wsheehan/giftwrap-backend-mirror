@@ -1,8 +1,5 @@
 FactoryGirl.define do
   factory :campaign do
-    title "MyString"
-user nil
-school nil
+    title Faker::Company.buzzword
   end
-
 end

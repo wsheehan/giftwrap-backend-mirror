@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727215151) do
+ActiveRecord::Schema.define(version: 20160728133438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,10 +110,10 @@ ActiveRecord::Schema.define(version: 20160727215151) do
   end
 
   create_table "forms", force: :cascade do |t|
-    t.integer  "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_id"], name: "index_forms_on_school_id", using: :btree
+    t.integer  "client_id"
+    t.index ["client_id"], name: "index_forms_on_client_id", using: :btree
   end
 
   create_table "gifts", force: :cascade do |t|
@@ -152,10 +152,10 @@ ActiveRecord::Schema.define(version: 20160727215151) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.integer  "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_id"], name: "index_users_on_school_id", using: :btree
+    t.integer  "client_id"
+    t.index ["client_id"], name: "index_users_on_client_id", using: :btree
   end
 
   add_foreign_key "campaign_emails", "campaigns"
@@ -164,11 +164,9 @@ ActiveRecord::Schema.define(version: 20160727215151) do
   add_foreign_key "campaigns", "users"
   add_foreign_key "conversions", "schools"
   add_foreign_key "donors", "subscriptions"
-  add_foreign_key "forms", "schools"
   add_foreign_key "gifts", "campaigns"
   add_foreign_key "gifts", "donors"
   add_foreign_key "gifts", "schools"
   add_foreign_key "schools", "clients"
   add_foreign_key "subscriptions", "schools"
-  add_foreign_key "users", "schools"
 end

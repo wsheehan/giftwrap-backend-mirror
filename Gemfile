@@ -22,6 +22,7 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
   gem 'spring'
   gem 'pry'
+  gem 'railroady'
 end
 
 group :development do

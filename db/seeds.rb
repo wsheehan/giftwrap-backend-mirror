@@ -12,45 +12,38 @@ School.create!(name: "Kimball Union", designation: ['Where KUA Needs it Most',
 	'Community Fund for Student Achievement','Coaches Fund for Athletics',
 	'Encore Fund for Creative Arts','Senior Class Gift 2016','Other'])
 
-20.times do |n|
-	name = Faker::Company.name
-	School.create!(name: name)
+FactoryGirl.create_list :client, 20
+
+Client.all.each do |client|
+	users = FactoryGirl.create_list :user, 4
+	users.each { |u| client.users << u }
+	donors = FactoryGirl.create_list :donor, 20
+	donors.each { |d| client.donors << d }
+	client.create_form
 end
 
-School.all.each do |x|
-	4.times do |n|
-		first_name = Faker::Name.first_name
-		last_name = Faker::Name.last_name
-		email = Faker::Internet.email
-		User.create!(first_name: first_name, last_name: last_name, email: email, school_id: x.id)
-	end
-	x.create_form()
-	Subscription.create!(frequency: "monthly", interval: 1)
-	Subscription.create!(frequency: "quarterly", interval: 3)
-	Subscription.create!(frequency: "annually", interval: 12)
-end
+Subscription.create!(frequency: "monthly", interval: 1)
+Subscription.create!(frequency: "quarterly", interval: 3)
+Subscription.create!(frequency: "annually", interval: 12)
 
 Donor.all.each do |x|
 	rand  = rand(5..10)
 	rand.times do |n|
 		total = rand(10..100000)
-		Gift.create!(total: total, school_id: x.school_id, donor_id: x.id)
+		Gift.create!(total: total, donor_id: x.id)
 	end
 end
 
-10.times do |x|
-	title = Faker::Company.buzzword
-	list = DonorList.create(title: title )
+10.times do
+	list = FactoryGirl.create :donor_list
 	rand = rand(10..20)
 	donors = Donor.all.sample(rand)
 	donors.each {|x| list.donors << x }
 end
 
-User.all.each do |x|
-	7.times do |n|
-		title = Faker::Company.buzzword
-		Campaign.create!(user_id: x.id)
-	end
+
+User.all.each do |user|
+	campaigns = FactoryGirl.create_list :campaign, 7, user_id: user.id
 end
 
 5.times do

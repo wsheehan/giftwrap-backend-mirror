@@ -1,3 +1,3 @@
 class Form < ApplicationRecord
-  belongs_to :school
+  belongs_to :client
 end
