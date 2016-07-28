@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 20160728181031) do
     t.string   "from"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.string   "to"
     t.index ["campaign_id"], name: "index_campaign_texts_on_campaign_id", using: :btree
   end
 

@@ -1,45 +1,45 @@
 class Campaigns::TextsController < ApplicationController
   def create
-    if send_text
-      create_campaign
-    else
-      render json: { "errors": { "msg": @text_error }}
+    unless create_campaign
+      render json: { "errors": @campaign.errors.present? ? @campaign.errors : @text.errors }
+      return
     end
+    send_batch
+    render json: [{ "campaign": @campaign },{ "text": @text },{ "errors": @twilio_errors}]
   end
 
   private
 
-    def send_text
+    def send_batch
+      @twilio_errors = {}
+      @campaign.donor_lists.each do |list|
+        list.donors.each do |donor|
+          send_text donor.phone_number
+        end
+      end
+    end
+
+    def send_text number
       begin
         @client = Twilio::REST::Client.new
         @client.messages.create(
           from: "+#{params[:text][:from]}",
-          to: "+#{params[:text][:to]}",
+          to: "+#{number}",
           body: params[:text][:body]
         )
-        true
       rescue Twilio::REST::RequestError => error
-        @text_error = error.message
-        false
+        @twilio_errors["#{number}"] = error.message
       end
     end
 
     def create_campaign
       @campaign = Campaign.new(campaign_params)
-      if @campaign.save
-        save_text
-      else
-        render json: { "errors": @campaign }
-      end
+      @campaign.save ? save_text : false
     end
 
     def save_text
       @text = @campaign.build_text(text_params)
-      if @text.save
-        render json: { "text": @text }
-      else
-        render json: { "errors": @text.errors }
-      end
+      @text.save
     end
 
     def text_params
