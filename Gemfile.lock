@@ -38,6 +38,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.4.0)
     arel (7.0.0)
     bcrypt (3.1.11)
     braintree (2.63.0)
@@ -70,6 +71,10 @@ GEM
       multi_json (~> 1.2)
     json (1.8.3)
     jwt (1.5.4)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -191,6 +196,7 @@ DEPENDENCIES
   faker (~> 1.6, >= 1.6.3)
   figaro (= 1.1.1)
   jbuilder (~> 2.0)
+  letter_opener
   pg (~> 0.18.4)
   pry
   puma (~> 3.4)

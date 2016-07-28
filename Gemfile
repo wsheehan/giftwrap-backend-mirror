@@ -24,6 +24,7 @@ end
 
 group :development do
   gem 'web-console', '~> 3.3', '>= 3.3.1'
+  gem 'letter_opener'
 end
 
 group :production do

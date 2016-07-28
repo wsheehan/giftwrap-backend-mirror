@@ -14,10 +14,14 @@ namespace :api do
 end
 
   resources :forms, only: [:create, :show]
-  resources :campaigns, only: [:index, :show, :create, :new]
+  resources :campaigns, only: [:index, :show]
   resources :donors, only: [:index, :show, :update, :edit]
   resources :conversions, only: [:create]
   resources :donor_lists, only: [:index, :show, :create, :new, :update]
-  resources :text_campaigns, only: [:index, :show, :create, :edit, :update]
+
+  namespace :campaigns do
+    resources :texts, only: [:index, :show, :create]
+    resources :emails, only: [:index, :show, :create]
+  end
 
 end
