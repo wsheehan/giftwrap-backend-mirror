@@ -1,6 +1,9 @@
 class Campaigns::EmailsController < ApplicationController
   def create
-    create_campaign
+    unless create_campaign
+      render json: { "errors": @campaign.errors }
+      return
+    end
     @email = @campaign.build_email(email_params)
     if @email.save
       send_email
@@ -14,11 +17,7 @@ class Campaigns::EmailsController < ApplicationController
 
     def create_campaign
       @campaign = Campaign.new(campaign_params)
-      if @campaign.save
-        return
-      else
-        render json: { "errors": @campaign }
-      end
+      @campaign.save ? true : false
     end
 
     def send_email
