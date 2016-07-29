@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.2', '>= 4.2.1'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
+gem 'sass-rails', '~> 5.0'
 
 group :development, :test do
   gem 'byebug'
