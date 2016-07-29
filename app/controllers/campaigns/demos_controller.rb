@@ -3,6 +3,7 @@ class Campaigns::DemosController < ApplicationController
   layout 'application'
 
   def new
+    @donor = Donor.find(params[:donor_id])
   end
 
   def create
