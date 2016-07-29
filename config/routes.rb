@@ -1,13 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :campaigns do
-    get 'demos/new'
-  end
-
-  namespace :campaigns do
-    get 'demos/create'
-  end
-
 namespace :api do
   namespace :v1 do
     resources :gifts, only: [:create]
