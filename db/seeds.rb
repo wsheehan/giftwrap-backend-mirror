@@ -2,9 +2,9 @@ ransom = School.create!(name: "Ransom Everglades", designation: ['Annual Fund: W
 	'Annual Fund: Financial Aid', 'Annual Fund: Fine Arts', 'Annual Fund: Technology',
 	'Annual Fund: Athletics', 'Annual Fund: Faculty Development', 'Other'])
 
-ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard@ransomeverglades.org")
-ransom.donors.create!(first_name: "Ben", last_name: "Sheehan", email: "sheehan1102@gmail.com")
-ransom.donors.create!(first_name: "Will", last_name: "Sheehan", email: "willsheehan95@gmail.com")
+ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard@ransomeverglades.org", key: SecureRandom.urlsafe_base64(16))
+ransom.donors.create!(first_name: "Ben", last_name: "Sheehan", email: "sheehan1102@gmail.com", key: SecureRandom.urlsafe_base64(16))
+ransom.donors.create!(first_name: "Will", last_name: "Sheehan", email: "willsheehan95@gmail.com", key: SecureRandom.urlsafe_base64(16))
 
 
 School.create!(name: "Kimball Union", designation: ['Where KUA Needs it Most',
