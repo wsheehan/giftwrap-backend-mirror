@@ -1,8 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
+#header {
+	text-align: center;
+}
+
 #form {
 	max-width: 600px;
-	border: 1px solid #d3d3d3;
 	padding: 25px;
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 500;
@@ -11,6 +14,7 @@
 @media (min-width: 600px) {
 	#form {
 		margin-left: calc(50vw - 300px);
+		border: 1px solid #d3d3d3;
 	}
 }
 
@@ -245,10 +249,11 @@ div .input-error {
 	font-size: 1.5em;
 	padding: 6px 12px;
 	border-radius: 4px;
-	background-color: #5cb85c;
-	border: 1px solid #4cae4c;
+	background-color: #f0ad4e;
+	border: 1px solid #f0ad4e;
 	color: white;
 	cursor: pointer;
+	font-family: helvetica, sans-serif;
 }
 
 #submit-button:hover {

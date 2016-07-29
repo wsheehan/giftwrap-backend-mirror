@@ -1,3 +1,9 @@
+ransom = School.create!(name: "Ransom Everglades", designation: ['Annual Fund: Wherever needed most',
+	'Annual Fund: Financial Aid', 'Annual Fund: Fine Arts', 'Annual Fund: Technology',
+	'Annual Fund: Athletics', 'Annual Fund: Faculty Development', 'Other'])
+
+ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard@ransomeverglades.org")
+
 
 School.create!(name: "Kimball Union", designation: ['Where KUA Needs it Most',
 	'Access Fund for Financial Aid','Leadership Fund for Faculty Excellence',
