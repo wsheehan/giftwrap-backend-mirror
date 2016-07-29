@@ -1,5 +1,7 @@
 class Api::V1::DonorsController < ApplicationController
   after_action :allow_iframe, only: [:show, :edit, :update]
+  include ActionView::Layouts
+  layout 'application'
 
   def show
     @school = School.find(params[:school_id])
