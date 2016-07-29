@@ -1,13 +1,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<form action="/campaigns/demos" method="POST", id="new-demo-form">
+<div>Send Text to <%= @donor.first_name %></div>
+
+<form action="/campaigns/<%= @donor.id %>/demos" method="POST", id="new-demo-form">
 	<div>
 		<div><label>Recipient Number</label></div>
 		<div><input type="text" name="text[number]" id="number-input" /></div>
 	</div>
 	<div>
 		<div><label>Text Content</label></div>
-		<div><textarea name="text[body]" maxlength="70"></textarea></div>
+		<div><textarea name="text[body]" maxlength="50"></textarea></div>
 	</div>
 	<div id="send-wrapper">
 		<input type="submit" value="Send" id="demo-send">

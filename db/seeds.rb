@@ -3,6 +3,8 @@ ransom = School.create!(name: "Ransom Everglades", designation: ['Annual Fund: W
 	'Annual Fund: Athletics', 'Annual Fund: Faculty Development', 'Other'])
 
 ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard@ransomeverglades.org")
+ransom.donors.create!(first_name: "Ben", last_name: "Sheehan", email: "sheehan1102@gmail.com")
+ransom.donors.create!(first_name: "Will", last_name: "Sheehan", email: "willsheehan95@gmail.com")
 
 
 School.create!(name: "Kimball Union", designation: ['Where KUA Needs it Most',
@@ -53,7 +55,7 @@ end
 User.all.each do |x|
 	7.times do |n|
 		title = Faker::Company.buzzword
-		Campaign.create!(title: title, user_id: x.id)
+		Campaign.create!(user_id: x.id)
 	end
 end
 

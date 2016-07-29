@@ -22,7 +22,9 @@ end
   namespace :campaigns do
     resources :texts, only: [:index, :show, :create]
     resources :emails, only: [:index, :show, :create]
-    resources :demos, only: [:new, :create]
+    scope '/:donor_id' do
+      resources :demos, only: [:new, :create]
+    end
   end
 
 end
