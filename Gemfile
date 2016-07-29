@@ -11,6 +11,7 @@ gem 'faker',          '~> 1.6', '>= 1.6.3'
 gem 'rack-cors',      '~> 0.4.0'
 gem 'whenever', '~> 0.9.7'
 gem 'twilio-ruby', '~> 4.11.1'
+gem 'coffee-rails', '~> 4.2', '>= 4.2.1'
 
 group :development, :test do
   gem 'byebug'
