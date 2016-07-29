@@ -10,7 +10,7 @@ class Campaigns::DemosController < ApplicationController
     @client.messages.create(
       from: "+18023597135",
       to: "+#{params[:text][:number]}",
-      body: params[:text][:body] + "\n\nGive Today: https://give-staging.herokuapp.com/campaigns/demos"
+      body: params[:text][:body] + "\n\nGive Today: https://give-staging.herokuapp.com/forms/1"
     )
     render json: { "Text": "Sent" }
   end
