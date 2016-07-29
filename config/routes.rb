@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  namespace :campaigns do
+    get 'demos/new'
+  end
+
+  namespace :campaigns do
+    get 'demos/create'
+  end
+
 namespace :api do
   namespace :v1 do
     resources :gifts, only: [:create]
@@ -22,6 +30,7 @@ end
   namespace :campaigns do
     resources :texts, only: [:index, :show, :create]
     resources :emails, only: [:index, :show, :create]
+    resources :demos, only: [:new, :create]
   end
 
 end

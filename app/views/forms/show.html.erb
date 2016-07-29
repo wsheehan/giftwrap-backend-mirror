@@ -6,6 +6,10 @@
 	<input type="hidden" name="conversion[identifier]" id="conversion_identifier">
 	<input type="hidden" name="payment_method_nonce" id="nonce">
 
+	<div id="header">
+		<h2>Give to <%= @school.name %></h2>
+	</div>
+
 	<% if @donor %>
 		<div id="donor_info">
 			<p>Welcome Back <%= @donor.first_name %> <%= @donor.last_name %>!</p>
