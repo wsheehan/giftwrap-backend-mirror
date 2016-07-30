@@ -1,7 +1,5 @@
 class FormsController < ApplicationController
 	after_action :allow_iframe, only: :show
-  include ActionView::Layouts
-  layout "application"
 
   def show
     @donor = Donor.find_by(key: params[:key])
