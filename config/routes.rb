@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
 
-namespace :api do
-  namespace :v1 do
-    resources :gifts, only: [:create]
-    scope ":school_id/" do
-      resources :donors, only: [:edit]
-      scope '/donors' do
-        post '/:donor_id' => 'donors#update'
-        get '/:email' => 'donors#show', constraints: { email: /[^\/]+/ }
+  namespace :api do
+    namespace :v1 do
+      resources :gifts, only: [:create]
+      scope ":school_id/" do
+        resources :donors, only: [:edit]
+        scope '/donors' do
+          post '/:donor_id' => 'donors#update'
+          get '/:email' => 'donors#show', constraints: { email: /[^\/]+/ }
+        end
       end
     end
   end
-end
 
   resources :forms, only: [:create, :show]
   resources :campaigns, only: [:index, :show]
@@ -22,9 +22,7 @@ end
   namespace :campaigns do
     resources :texts, only: [:index, :show, :create]
     resources :emails, only: [:index, :show, :create]
-    scope '/:donor_id' do
-      resources :demos, only: [:new, :create]
-    end
+    resources :demos, only: [:new, :create]
   end
 
 end

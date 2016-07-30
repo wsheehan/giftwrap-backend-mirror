@@ -1,11 +1,4 @@
 class Campaigns::DemosController < ApplicationController
-  include ActionView::Layouts
-  layout 'application'
-
-  def new
-    @donor = Donor.find(params[:donor_id])
-  end
-
   def create
     @donor = Donor.find(params[:donor_id])
     @client = Twilio::REST::Client.new
