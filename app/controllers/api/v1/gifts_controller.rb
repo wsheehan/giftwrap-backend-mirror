@@ -1,6 +1,5 @@
 class Api::V1::GiftsController < ApplicationController
   after_action :allow_iframe, only: :create
-  include GiftsHelper
 
   def create
     @school = School.find_by(school_params)
