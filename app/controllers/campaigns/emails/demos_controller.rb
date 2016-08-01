@@ -3,7 +3,7 @@ class Campaigns::Emails::DemosController < ApplicationController
     @donor = Donor.find_by email: params[:donor][:email]
     @campaign = Campaign.create(campaign_params)
     @email = @campaign.build_email(email_params)
-    CampaignMailer.send_email_campaign(@campaign, @email, @donor)
+    CampaignMailer.send_email_campaign(@campaign, @email, @donor).deliver_now
     render json: { "Demo Email": "Sent" }
   end
 
