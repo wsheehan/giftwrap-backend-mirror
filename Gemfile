@@ -11,6 +11,8 @@ gem 'faker',          '~> 1.6', '>= 1.6.3'
 gem 'rack-cors',      '~> 0.4.0'
 gem 'whenever', '~> 0.9.7'
 gem 'twilio-ruby', '~> 4.11.1'
+gem 'griddler', '~> 1.3', '>= 1.3.1'
+gem 'griddler-sendgrid', '~> 0.0.1'
 
 group :development, :test do
   gem 'byebug'
