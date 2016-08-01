@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       resources :gifts, only: [:create]
     end
     namespace :emails do
-      post '/gifts' => "griddler/emails#create"
+      post '/gifts' => "/griddler/emails#create"
       resources :demos, only: :create
     end
   end
