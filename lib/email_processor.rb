@@ -5,7 +5,7 @@ class EmailProcessor
 
   def process
     @donor = Donor.find_by email: @email.from[:email]
-    @donor.gifts.build(total: @email.body)
+    @gift = @donor.gifts.build(total: @email.body)
     if @gift.save
       # Send Confirmation email
     else
