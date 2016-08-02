@@ -1,6 +1,6 @@
 class Campaigns::DemosController < ApplicationController
   def create
-    @donor = Donor.find(params[:donor_id])
+    @donor = Donor.find(params[:text][:donor_id])
     @client = Twilio::REST::Client.new
     @client.messages.create(
       from: "+18023597135",
