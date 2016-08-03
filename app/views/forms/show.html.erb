@@ -1,3 +1,5 @@
+<div id="request-url" data-request-url="<%= @request_url %>"></div>
+
 <form action="<%= ENV['host'] %>api/v1/gifts" method="post" id="form">
 
 	<input type="hidden" value="<%= @client_token %>" id="client_token">
@@ -170,7 +172,7 @@
 
 <!-- Load Dependencies -->
 
-<link rel="stylesheet" type="text/css" href="<%= ENV['host'] %>form.css">
+<link rel="stylesheet" type="text/css" href="/form.css">
 <script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
-<script src="<%= ENV['host'] %>form.js" type="text/javascript"></script>
+<script src="/form.js" type="text/javascript"></script>

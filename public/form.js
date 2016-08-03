@@ -7,12 +7,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	var last_name = document.getElementById("donor_last_name");
 	var email = document.getElementById("donor_email");
 	var phone_number = document.getElementById("donor_phone_number")
+	var requestUrl = document.getElementById("request-url").dataset.requestUrl;
 
 	// Height Message
 	function sendHeight() {
 	    if (parent.postMessage) {
 	        var height= document.getElementById('form').offsetHeight;
-	        parent.postMessage(height, 'https://localhost:8000');
+	        parent.postMessage(height, requestUrl);
 	    }
 	}
 	// Create browser compatible event handler.

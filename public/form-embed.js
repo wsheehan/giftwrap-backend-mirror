@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	// Params
 	var scriptParam = document.getElementById('load_form');
-	var id = scriptParam.getAttribute('data-page');
+	var id = scriptParam.dataset.formId;
+	var appId = scriptParam.dataset.appId;
 	var query = window.location.search;
 
 	// iFrame
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	iframe.frameBorder = "0";
 	iframe.marginheight = "0";
 	iframe.scrolling = "no";
-	iframe.src = "https://localhost:3000/forms/" + id + query;
+	iframe.src = "http://localhost:3001/forms/" + id + "?request_url=" + window.location.href + "&app_id=" + appId + query;
 	document.getElementById("form-wrapper").appendChild(iframe)
 	
 	// Create browser compatible event handler.
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
   	// Listen for a message from the iframe.
   	eventer(messageEvent, function(event) {
 	  	var origin = event.origin || event.originalEvent.origin;
-	  	if (origin !== 'https://localhost:3000')
+	  	if (origin !== 'http://localhost:3001')
 	  		return;
 	  	var giftFrame = document.getElementById('giftFrame');
 		var setHeight = (event.data + 30).toString();
@@ -32,5 +33,5 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // This is what should be put on the client's site
-// <script id="load_form" src="https://localhost:3000/form-embed.js" data-page="1"></script>
+// <script id="load_form" src="https://localhost:3000/form-embed.js" data-app-id="GAIddf32b793508fb6c" data-form-id="1"></script>
 // <div id="form-wrapper"></div>

@@ -107,6 +107,7 @@ GEM
     rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
+    railroady (1.5.1)
     rails (5.0.0)
       actioncable (= 5.0.0)
       actionmailer (= 5.0.0)
@@ -209,6 +210,7 @@ DEPENDENCIES
   pry
   puma (~> 3.4)
   rack-cors (~> 0.4.0)
+  railroady
   rails (= 5.0.0)
   rails_12factor (= 0.0.3)
   rspec-rails (~> 3.5)
