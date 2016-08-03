@@ -3,8 +3,9 @@ class Donor < ApplicationRecord
   # Associations
   has_many :gifts
   belongs_to :client
-  has_and_belongs_to_many :donor_lists
   belongs_to :subsciption
+  belongs_to :campaign
+  has_and_belongs_to_many :donor_lists
 
   # Validations
   validates :first_name, presence: true
