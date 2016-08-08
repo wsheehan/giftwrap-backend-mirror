@@ -12,8 +12,12 @@ class ApplicationController < ActionController::API
     end
 
     def authenticated?
-      user = (JWT.decode request.headers["token"], Rails.application.secrets.secret_key_base, true, {:algorithm => 'HS256'})[0]
-      user["email"].present?
+      begin
+        user = (JWT.decode request.headers["token"], Rails.application.secrets.secret_key_base, true, {:algorithm => 'HS256'})[0]
+        user["email"].present?
+      rescue Exception
+        false
+      end
     end
 
     def allow_iframe
