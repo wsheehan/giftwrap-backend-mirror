@@ -33,4 +33,8 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :users do
+    resources :authentication, only: :create
+  end
+
 end
