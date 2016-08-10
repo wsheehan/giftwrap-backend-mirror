@@ -104,13 +104,10 @@ ActiveRecord::Schema.define(version: 20160803174436) do
     t.string   "affiliation"
     t.integer  "class_year"
     t.integer  "client_id"
-    t.string   "affiliation"
-    t.integer  "class_year"
     t.integer  "campaign_id"
     t.index ["campaign_id"], name: "index_donors_on_campaign_id", using: :btree
     t.index ["client_id"], name: "index_donors_on_client_id", using: :btree
     t.index ["subscription_id"], name: "index_donors_on_subscription_id", using: :btree
-    t.index ["school_id"], name: "index_donors_on_school_id", using: :btree
   end
 
   create_table "forms", force: :cascade do |t|
@@ -156,8 +153,9 @@ ActiveRecord::Schema.define(version: 20160803174436) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "password_digest"
     t.integer  "client_id"
     t.index ["client_id"], name: "index_users_on_client_id", using: :btree
   end
@@ -168,10 +166,13 @@ ActiveRecord::Schema.define(version: 20160803174436) do
   add_foreign_key "campaigns", "users"
   add_foreign_key "conversions", "schools"
   add_foreign_key "donors", "campaigns"
+  add_foreign_key "donors", "clients"
   add_foreign_key "donors", "subscriptions"
+  add_foreign_key "forms", "clients"
   add_foreign_key "gifts", "campaigns"
   add_foreign_key "gifts", "donors"
   add_foreign_key "gifts", "schools"
   add_foreign_key "schools", "clients"
   add_foreign_key "subscriptions", "schools"
+  add_foreign_key "users", "clients"
 end

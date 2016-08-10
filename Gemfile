@@ -13,6 +13,7 @@ gem 'whenever', '~> 0.9.7'
 gem 'twilio-ruby', '~> 4.11.1'
 gem 'griddler', '~> 1.3', '>= 1.3.1'
 gem 'griddler-sendgrid', '~> 0.0.1'
+gem 'jwt', '~> 1.5', '>= 1.5.4'
 
 group :development, :test do
   gem 'byebug'
