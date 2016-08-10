@@ -13,8 +13,8 @@ class ApplicationController < ActionController::API
 
     def authenticated?
       begin
-        user = (JWT.decode request.headers["token"], Rails.application.secrets.secret_key_base, true, {:algorithm => 'HS256'})[0]
-        user["email"].present?
+        user = (JWT.decode request.headers["Authorization"].sub!("Bearer ", ""), Rails.application.secrets.secret_key_base, true, {:algorithm => 'HS256'})[0]
+        user["user_id"].present?
       rescue Exception
         false
       end
