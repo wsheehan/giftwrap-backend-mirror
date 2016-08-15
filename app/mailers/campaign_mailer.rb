@@ -1,6 +1,6 @@
 class CampaignMailer < ApplicationMailer
 
-  def send_email_campaign campaign email donor)
+  def send_email_campaign campaign email donor
     @campaign = campaign
     @email = email
     @donor = donor
