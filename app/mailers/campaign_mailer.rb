@@ -8,4 +8,14 @@ class CampaignMailer < ApplicationMailer
     mail(to: @donor.email, subject: @email.title)
   end
 
+  def successful_gift donor
+    @donor = donor
+    mail(to: @donor.email, subject: "#{@donor.first_name}, Thank You for Your Gift")
+  end
+
+  def unsuccessful_gift donor
+    @donor = donor
+    mail(to: @donor.email, subject: "We could not process your response, please try again")
+  end
+
 end

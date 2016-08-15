@@ -7,9 +7,9 @@ class EmailProcessor
     @donor = Donor.find_by email: @email.from[:email]
     @gift = @donor.gifts.build(total: @email.body)
     if @gift.save
-      # Send Confirmation email
+      CampaignMailer.successful_gift @donor
     else
-      # Send Retry email
+      CampaignMailer.unsuccessful_gift @donor
     end
   end
 end
