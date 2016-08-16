@@ -10,12 +10,14 @@ class CampaignMailer < ApplicationMailer
 
   def successful_gift(donor, subject)
     @donor = donor
-    mail(to: @donor.email, subject: subject)
+    @subject = subject
+    mail(to: @donor.email, subject: @subject)
   end
 
   def unsuccessful_gift(donor, subject)
     @donor = donor
-    mail(to: @donor.email, subject: subject)
+    @subject = subject
+    mail(to: @donor.email, subject: @subject)
   end
 
 end
