@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   resources :campaigns, only: [:index, :show]
   resources :gifts, only: [:create, :show, :index, :update]
   resources :donors, only: [:index, :show, :update, :edit]
-  resources :conversions, only: [:create]
   resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
   namespace :campaigns do
@@ -35,6 +34,12 @@ Rails.application.routes.draw do
 
   namespace :users do
     resources :authentication, only: :create
+  end
+
+  namespace :metrics do
+    namespace :forms do
+      resources :conversions, only: :create
+    end
   end
 
 end
