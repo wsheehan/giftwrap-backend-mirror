@@ -8,6 +8,13 @@ class CampaignMailer < ApplicationMailer
     mail(to: @donor.email, subject: @email.title)
   end
 
+  def demo_campaign(email, donor, client_name)
+    @client_name = client_name
+    @email = email
+    @donor = donor
+    mail(to: @donor.email, subject: @email.title)
+  end
+
   def successful_gift(donor, subject)
     @donor = donor
     @subject = subject
