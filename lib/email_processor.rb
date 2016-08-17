@@ -11,7 +11,7 @@ class EmailProcessor
       @donor = Donor.find_by email: @email.from[:email]
       @gift = @donor.gifts.build(total: validated[0])
       if @gift.save
-        handle_subscription if validated[1]
+        handle_subscription validated if validated[1]
         CampaignMailer.successful_gift(@donor, @email.subject).deliver_now
       end
     else
@@ -19,7 +19,7 @@ class EmailProcessor
     end
   end
 
-  def handle_subscription
+  def handle_subscription validated
     @subscription = Subscription.find_by frequency: validated[1]
     @subscription.donors << @donor
     @donor.update_attributes(subscription_start: Date.today, subscription_total: validated[0])
