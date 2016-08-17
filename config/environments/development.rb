@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Render HTML debug in dev
-  config.debug_exception_response_format = :default
+  config.debug_exception_response_format = :api
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
