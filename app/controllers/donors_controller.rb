@@ -1,6 +1,7 @@
 class DonorsController < ApplicationController
   def index
-    render json: { "donors": Donor.all }
+    client = Client.find(request.headers["AUTH_CLIENT_ID"])
+    render json: { "donors": client.donors.all }
   end
 
   def show

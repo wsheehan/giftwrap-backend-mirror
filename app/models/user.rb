@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   # Associations
-  belongs_to :school
+  belongs_to :client
   has_many :campaigns
 
   # bcrypt backed password
