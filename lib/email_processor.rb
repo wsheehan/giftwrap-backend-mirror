@@ -6,7 +6,6 @@ class EmailProcessor
   end
 
   def process
-    puts @email.
     validated = validate_response @email.body
     if validated
       @donor = Donor.find_by email: @email.from[:email]
