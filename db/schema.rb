@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803174436) do
+ActiveRecord::Schema.define(version: 20160816191241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,16 +65,6 @@ ActiveRecord::Schema.define(version: 20160803174436) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "conversions", force: :cascade do |t|
-    t.boolean  "converted",  default: false
-    t.datetime "hit_time"
-    t.string   "identifier"
-    t.integer  "school_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["school_id"], name: "index_conversions_on_school_id", using: :btree
-  end
-
   create_table "donor_lists", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
@@ -119,16 +109,33 @@ ActiveRecord::Schema.define(version: 20160803174436) do
 
   create_table "gifts", force: :cascade do |t|
     t.string   "total"
-    t.integer  "school_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "donor_id"
     t.integer  "campaign_id"
     t.string   "designation"
     t.string   "gift_type"
+    t.integer  "client_id"
     t.index ["campaign_id"], name: "index_gifts_on_campaign_id", using: :btree
+    t.index ["client_id"], name: "index_gifts_on_client_id", using: :btree
     t.index ["donor_id"], name: "index_gifts_on_donor_id", using: :btree
-    t.index ["school_id"], name: "index_gifts_on_school_id", using: :btree
+  end
+
+  create_table "metric_form_conversions", force: :cascade do |t|
+    t.boolean  "converted",  default: false
+    t.datetime "hit_time"
+    t.string   "identifier"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "metric_id"
+    t.index ["metric_id"], name: "index_metric_form_conversions_on_metric_id", using: :btree
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.integer  "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_metrics_on_client_id", using: :btree
   end
 
   create_table "schools", force: :cascade do |t|
@@ -144,9 +151,9 @@ ActiveRecord::Schema.define(version: 20160803174436) do
     t.string   "frequency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "school_id"
     t.integer  "interval"
-    t.index ["school_id"], name: "index_subscriptions_on_school_id", using: :btree
+    t.integer  "client_id"
+    t.index ["client_id"], name: "index_subscriptions_on_client_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -164,15 +171,16 @@ ActiveRecord::Schema.define(version: 20160803174436) do
   add_foreign_key "campaign_texts", "campaigns"
   add_foreign_key "campaigns", "schools"
   add_foreign_key "campaigns", "users"
-  add_foreign_key "conversions", "schools"
   add_foreign_key "donors", "campaigns"
   add_foreign_key "donors", "clients"
   add_foreign_key "donors", "subscriptions"
   add_foreign_key "forms", "clients"
   add_foreign_key "gifts", "campaigns"
+  add_foreign_key "gifts", "clients"
   add_foreign_key "gifts", "donors"
-  add_foreign_key "gifts", "schools"
+  add_foreign_key "metric_form_conversions", "metrics"
+  add_foreign_key "metrics", "clients"
   add_foreign_key "schools", "clients"
-  add_foreign_key "subscriptions", "schools"
+  add_foreign_key "subscriptions", "clients"
   add_foreign_key "users", "clients"
 end

@@ -1,5 +1,3 @@
 class School < ApplicationRecord
-  has_many :gifts
-  has_many :subscriptions
-  has_many :conversions
+  belongs_to :client
 end
