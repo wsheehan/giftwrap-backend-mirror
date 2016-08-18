@@ -88,15 +88,17 @@ div .input-error {
 
 #gift-type {
 	display: none;
-}
-
-#gift-type > div {
-	display: inline-block;	
+	> div {
+		display: inline-block;
+		> div {
+			text-align: center;
+			padding: 5px;	
+		}
+	}
 }
 
 #gift-type > div > div {
-	text-align: center;
-	padding: 5px;
+
 }
 
 #gift-type input {
