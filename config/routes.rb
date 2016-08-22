@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :campaigns, only: [:index, :show]
   resources :clients, only: [:show]
   resources :gifts, only: [:create, :show, :index, :update]
-  resources :donors, only: [:index, :show, :update, :edit]
+  resources :donors, only: [:create, :index, :show, :update, :edit]
   resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
   namespace :campaigns do
