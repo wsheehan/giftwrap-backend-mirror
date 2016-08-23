@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :gifts, only: [:create]
+      resources :forms, only: [:show]
       scope ":school_id/" do
         resources :donors, only: [:edit]
         scope '/donors' do
@@ -15,8 +16,9 @@ Rails.application.routes.draw do
 
   resources :forms, only: [:create, :show]
   resources :campaigns, only: [:index, :show]
+  resources :clients, only: [:show]
   resources :gifts, only: [:create, :show, :index, :update]
-  resources :donors, only: [:index, :show, :update, :edit]
+  resources :donors, only: [:create, :index, :show, :update, :edit]
   resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
   namespace :campaigns do
