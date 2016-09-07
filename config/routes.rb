@@ -14,7 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :forms do
+    resources :donors, only: [:show, :update, :index]
+    resources :client, only: [:show]
+  end
   resources :forms, only: [:create, :show]
+
   resources :campaigns, only: [:index, :show]
   resources :clients, only: [:show]
   resources :gifts, only: [:create, :show, :index, :update]
