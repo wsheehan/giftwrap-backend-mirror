@@ -1,7 +1,7 @@
 class GiftsController < ApplicationController
   def create
-    @donor = Donor.find(gift_params[:donor_id])
-    @gift = @donor.gifts.build(gift_params.except(:payment_method_nonce))
+    @donor = Donor.find(gift_params[:form_donor_id])
+    @gift = @donor.gifts.build(gift_params.except(:payment_method_nonce, :form_donor_id))
     if @gift.save
       if process_payment
         render json: { "gift": @gift }
@@ -16,7 +16,7 @@ class GiftsController < ApplicationController
   private
 
     def gift_params
-      params.require(:gift).permit(:total, :designation, :gift_type, :donor_id, :payment_method_nonce)
+      params.require(:gift).permit(:total, :designation, :gift_type, :donor_id, :payment_method_nonce, :form_donor_id)
     end
 
     def process_payment
