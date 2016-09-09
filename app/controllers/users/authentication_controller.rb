@@ -5,7 +5,7 @@ class Users::AuthenticationController < ApplicationController
     user = User.find_by email: auth_params[:username]
     if user && user.authenticate(auth_params[:password])
       expiration = Time.now.to_i + 4 * 3600
-      payload = { "user_id" => user.id, "client_id" => user.client.id }
+      payload = { "user_id" => user.id, "client_id" => user.client.try(:id) }
       token = JWT.encode payload, Rails.application.secrets.secret_key_base, 'HS256'
       render json: { "token": token, "user": formatted_user(user) }
     else

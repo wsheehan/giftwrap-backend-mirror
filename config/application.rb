@@ -28,17 +28,6 @@ module Giving
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*' # Will be an array of school domains
-        resource '/api/v1/gifts', headers: :any, methods: [:post]
-        resource '/api/v1/donors/:id', headers: :any, methods: [:post, :get]
-        resource '/forms/:id', headers: :any, methods: [:get]
-        resource '/form-embed.js', headers: :any, methods: [:get]
-      end
-      allow do
-        if Rails.env.production?
-          origins 'https://giving.pagefrontapp.com'
-        else
-          origins 'localhost:4200'
-        end
         resource "*", headers: :any, methods: [:get, :post, :patch, :put]
       end
     end
