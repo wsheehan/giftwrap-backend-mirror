@@ -4,5 +4,6 @@ class Metric::Campaign::Conversion < ApplicationRecord
   belongs_to :campaign
   belongs_to :donor
   belongs_to :metric
+  belongs_to :gift
 
 end
