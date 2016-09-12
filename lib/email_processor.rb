@@ -8,10 +8,12 @@ class EmailProcessor
   def process
     validated = validate_response @email.body
     if validated
+      # Find Appropriate Conversion Record
       @donor = Donor.find_by email: @email.from[:email]
       @gift = @donor.gifts.build(total: validated[0])
       if @gift.save
         handle_subscription validated if validated[1]
+        # Update Conversion
         CampaignMailer.successful_gift(@donor, @email.subject).deliver_now
       end
     else
