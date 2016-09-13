@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913200532) do
+ActiveRecord::Schema.define(version: 20160913202139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,8 @@ ActiveRecord::Schema.define(version: 20160913200532) do
     t.integer  "metric_id"
     t.integer  "metric_campaign_conversions_id"
     t.integer  "gift_id"
+    t.integer  "donor_id"
+    t.index ["donor_id"], name: "index_metric_form_conversions_on_donor_id", using: :btree
     t.index ["gift_id"], name: "index_metric_form_conversions_on_gift_id", using: :btree
     t.index ["metric_campaign_conversions_id"], name: "index_metric_form_conversions_on_metric_campaign_conversions_id", using: :btree
     t.index ["metric_id"], name: "index_metric_form_conversions_on_metric_id", using: :btree
@@ -196,6 +198,7 @@ ActiveRecord::Schema.define(version: 20160913200532) do
   add_foreign_key "metric_campaign_conversions", "donors"
   add_foreign_key "metric_campaign_conversions", "gifts"
   add_foreign_key "metric_campaign_conversions", "metrics"
+  add_foreign_key "metric_form_conversions", "donors"
   add_foreign_key "metric_form_conversions", "gifts"
   add_foreign_key "metric_form_conversions", "metric_campaign_conversions", column: "metric_campaign_conversions_id"
   add_foreign_key "metric_form_conversions", "metrics"
