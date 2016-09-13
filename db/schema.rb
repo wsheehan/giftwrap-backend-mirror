@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912185211) do
+ActiveRecord::Schema.define(version: 20160913200532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,12 +136,14 @@ ActiveRecord::Schema.define(version: 20160912185211) do
   end
 
   create_table "metric_form_conversions", force: :cascade do |t|
-    t.boolean  "converted",  default: false
     t.datetime "hit_time"
-    t.string   "identifier"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.integer  "metric_id"
+    t.integer  "metric_campaign_conversions_id"
+    t.integer  "gift_id"
+    t.index ["gift_id"], name: "index_metric_form_conversions_on_gift_id", using: :btree
+    t.index ["metric_campaign_conversions_id"], name: "index_metric_form_conversions_on_metric_campaign_conversions_id", using: :btree
     t.index ["metric_id"], name: "index_metric_form_conversions_on_metric_id", using: :btree
   end
 
@@ -194,6 +196,8 @@ ActiveRecord::Schema.define(version: 20160912185211) do
   add_foreign_key "metric_campaign_conversions", "donors"
   add_foreign_key "metric_campaign_conversions", "gifts"
   add_foreign_key "metric_campaign_conversions", "metrics"
+  add_foreign_key "metric_form_conversions", "gifts"
+  add_foreign_key "metric_form_conversions", "metric_campaign_conversions", column: "metric_campaign_conversions_id"
   add_foreign_key "metric_form_conversions", "metrics"
   add_foreign_key "metrics", "clients"
   add_foreign_key "subscriptions", "clients"

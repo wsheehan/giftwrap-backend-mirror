@@ -6,4 +6,6 @@ class Metric::Campaign::Conversion < ApplicationRecord
   belongs_to :metric
   belongs_to :gift
 
+  has_one :form_conversion, class_name: "Metric::Form::Conversion"
+
 end
