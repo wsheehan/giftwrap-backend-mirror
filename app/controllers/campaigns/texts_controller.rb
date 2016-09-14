@@ -14,8 +14,8 @@ class Campaigns::TextsController < ApplicationController
       @twilio_errors = {}
       @campaign.donor_lists.each do |list|
         list.donors.each do |donor|
-          # Create Conversion Record
           send_text donor.phone_number
+          #MetricCampaignConversion.create()
         end
       end
     end
