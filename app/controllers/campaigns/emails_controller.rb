@@ -23,8 +23,8 @@ class Campaigns::EmailsController < ApplicationController
     def send_email
       list = @campaign.donor_lists.each do |list|
         list.donors.each do |donor|
-          # Create Conversion
-          CampaignMailer.send_email_campaign(@campaign, @email, donor).deliver_now # Send Neccessary info with link
+          CampaignMailer.send_email_campaign(@campaign, @email, donor).deliver_now
+          Metric::Campaign::Conversion.create(campaign: @campaign, donor: donor)
         end
       end
     end

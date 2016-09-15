@@ -15,7 +15,7 @@ class Campaigns::TextsController < ApplicationController
       @campaign.donor_lists.each do |list|
         list.donors.each do |donor|
           send_text donor.phone_number
-          #MetricCampaignConversion.create()
+          Metric::Campaign::Conversion.create(campaign: @campaign, donor: donor)
         end
       end
     end
@@ -24,6 +24,7 @@ class Campaigns::TextsController < ApplicationController
       begin
         @client = Twilio::REST::Client.new
         @client.messages.create(
+          # Need to get the campaign ID into text somehow
           from: "+#{params[:text][:from]}",
           to: "+#{number}",
           body: params[:text][:body]

@@ -3,16 +3,17 @@ class Campaigns::Texts::GiftsController < ApplicationController
   include Campaign::Validator
 
   def create
-    # Find Appropriate Conversion Record
     @validated = validate_response params[:Body]
     @response = Twilio::TwiML::Response.new do |r|
       if @validated
         phone_number = params[:From]
         @donor = Donor.find_by phone_number: phone_number[1..-1]
+        @conversion = Metric::Campaign::Conversion.where(donor: @donor, campaign_id: 1) # Placeholder Campaign ID
         @gift = @donor.gifts.build(total: @validated[0])
         if @gift.save
-          # Update Conversion with gift_method: respond
           if process_payment
+            handle_subscription @validated if validated[1]
+            @conversion.update_attributes(gift: @gift, gift_method: "respond")
             r.Message "Thank you for you gift of $#{@total}"
           else
             r.Message "There was a problem with your payment method, please go to http://localhost:4200/forms/#{@donor.client.id}?k=#{@donor.key}" # put Campaign ID here too
