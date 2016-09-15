@@ -1,5 +1,6 @@
 class EmailProcessor
   include Campaign::Validator
+  include Campaign::Parser
 
   def initialize email
     @email = email
@@ -9,7 +10,8 @@ class EmailProcessor
     validated = validate_response @email.body
     if validated
       @donor = Donor.find_by email: @email.from[:email]
-      @conversion = Metric::Campaign::Conversion.where(donor: @donor, campaign_id: 1)
+      @link = "https://localhost:3000/forms/1?k=kjhtkwrjthkerjg&c=102"
+      @conversion = Metric::Campaign::Conversion.where(donor: @donor, campaign_id: retrieve_campaign_id(@link))
       @gift = @donor.gifts.build(total: validated[0])
       if @gift.save
         if validated[1]

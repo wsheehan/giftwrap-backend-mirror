@@ -1,6 +1,7 @@
 class Campaigns::Texts::GiftsController < ApplicationController
   skip_before_action :authenticate_user
   include Campaign::Validator
+  include Campaign::Parser
 
   def create
     @validated = validate_response params[:Body]
@@ -8,7 +9,8 @@ class Campaigns::Texts::GiftsController < ApplicationController
       if @validated
         phone_number = params[:From]
         @donor = Donor.find_by phone_number: phone_number[1..-1]
-        @conversion = Metric::Campaign::Conversion.where(donor: @donor, campaign_id: 1) # Placeholder Campaign ID
+        @link = "https://localhost:3000/forms/1?k=kjhtkwrjthkerjg&c=102" # Placeholder
+        @conversion = Metric::Campaign::Conversion.where(donor: @donor, campaign_id: retrieve_campaign_id(@link)) # Placeholder Campaign ID
         @gift = @donor.gifts.build(total: @validated[0])
         if @gift.save
           if process_payment
@@ -41,4 +43,5 @@ class Campaigns::Texts::GiftsController < ApplicationController
       )
       @payment.success?
     end
+
 end
