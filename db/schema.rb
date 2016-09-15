@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913202139) do
+ActiveRecord::Schema.define(version: 20160915151007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,13 +126,19 @@ ActiveRecord::Schema.define(version: 20160913202139) do
     t.integer  "donor_id"
     t.integer  "metric_id"
     t.string   "gift_method"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "gift_id"
+    t.boolean  "subscription", default: false
     t.index ["campaign_id"], name: "index_metric_campaign_conversions_on_campaign_id", using: :btree
     t.index ["donor_id"], name: "index_metric_campaign_conversions_on_donor_id", using: :btree
     t.index ["gift_id"], name: "index_metric_campaign_conversions_on_gift_id", using: :btree
     t.index ["metric_id"], name: "index_metric_campaign_conversions_on_metric_id", using: :btree
+  end
+
+  create_table "metric_campaign_hellos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "metric_form_conversions", force: :cascade do |t|
