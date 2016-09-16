@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915151007) do
+ActiveRecord::Schema.define(version: 20160916191639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 20160915151007) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "client_id"
+    t.index ["client_id"], name: "index_donor_lists_on_client_id", using: :btree
   end
 
   create_table "donor_lists_donors", id: false, force: :cascade do |t|
@@ -193,6 +195,7 @@ ActiveRecord::Schema.define(version: 20160915151007) do
   add_foreign_key "campaign_texts", "campaigns"
   add_foreign_key "campaigns", "schools"
   add_foreign_key "campaigns", "users"
+  add_foreign_key "donor_lists", "clients"
   add_foreign_key "donors", "campaigns"
   add_foreign_key "donors", "clients"
   add_foreign_key "donors", "subscriptions"

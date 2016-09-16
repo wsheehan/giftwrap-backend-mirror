@@ -49,6 +49,7 @@ class Campaigns::TextsController < ApplicationController
     end
 
     def campaign_params
-      params.require(:campaign).permit(:user_id, :school_id, donor_list_ids: [])
+      params.require(:campaign).permit(:user_id, :client_id, donor_list_ids: [])
     end
+
 end

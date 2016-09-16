@@ -3,6 +3,7 @@ class Client < ApplicationRecord
   # Associations
   has_many :users
   has_many :donors
+  has_many :donor_lists
   has_many :gifts
   has_many :subscriptions
   has_many :metrics
