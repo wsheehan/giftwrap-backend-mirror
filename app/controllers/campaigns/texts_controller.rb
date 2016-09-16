@@ -1,4 +1,5 @@
 class Campaigns::TextsController < ApplicationController
+
   def create
     unless create_campaign
       render json: { "errors": @campaign.errors.present? ? @campaign.errors : @text.errors }
@@ -15,7 +16,7 @@ class Campaigns::TextsController < ApplicationController
       @campaign.donor_lists.each do |list|
         list.donors.each do |donor|
           send_text donor.phone_number
-          Metric::Campaign::Conversion.create(campaign: @campaign, donor: donor)
+          Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
         end
       end
     end
@@ -35,12 +36,12 @@ class Campaigns::TextsController < ApplicationController
     end
 
     def create_campaign
-      @campaign = Campaign.new(campaign_params)
+      @campaign = ::Campaign.new(campaign_params)
       @campaign.save ? save_text : false
     end
 
     def save_text
-      @text = @campaign.build_text(text_params)
+      @text = @campaign.build_text(text_params.except(:to))
       @text.save
     end
 
