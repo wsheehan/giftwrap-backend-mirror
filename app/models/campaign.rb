@@ -2,7 +2,7 @@ class Campaign < ApplicationRecord
 
   # Associations
   belongs_to :user
-  belongs_to :school
+  belongs_to :client
   has_many :campaign_conversions, class_name: "Metric::Campaign::Conversion"
   has_and_belongs_to_many :donor_lists
 
