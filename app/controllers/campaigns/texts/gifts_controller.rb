@@ -9,12 +9,11 @@ class Campaigns::Texts::GiftsController < ApplicationController
       if @validated
         phone_number = params[:From]
         @donor = Donor.find_by phone_number: phone_number[1..-1]
-        @link = "https://localhost:3000/forms/1?k=kjhtkwrjthkerjg&c=102" # Placeholder
-        @conversion = Metric::Campaign::Conversion.where(donor: @donor, campaign_id: retrieve_campaign_id(@link)) # Placeholder Campaign ID
+        @conversion = Metric::CampaignConversion.where(donor: @donor).last
         @gift = @donor.gifts.build(total: @validated[0])
         if @gift.save
           if process_payment
-            if validated[1]
+            if @validated[1]
               handle_subscription @validated
               @conversion.update_attributes(gift: @gift, gift_method: "respond", subscription: true);
             else
@@ -37,11 +36,12 @@ class Campaigns::Texts::GiftsController < ApplicationController
   private
 
     def process_payment
-      @payment = Braintree::Transaction.sale(
-        customer_id: @donor.braintree_customer_id,
-        amount: @total
-      )
-      @payment.success?
+      # @payment = Braintree::Transaction.sale(
+      #   customer_id: @donor.braintree_customer_id,
+      #   amount: @total
+      # )
+      # @payment.success?
+      true
     end
 
 end
