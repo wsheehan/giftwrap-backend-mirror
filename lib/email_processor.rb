@@ -10,7 +10,7 @@ class EmailProcessor
     validated = validate_response @email.body
     if validated
       @donor = Donor.find_by email: @email.from[:email]
-      @conversion = Metric::Campaign::Conversion.where(donor: @donor).last
+      @conversion = Metric::CampaignConversion.where(donor: @donor).last
       @gift = @donor.gifts.build(total: validated[0])
       if @gift.save
         if validated[1]
