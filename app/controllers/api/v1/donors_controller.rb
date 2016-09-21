@@ -1,4 +1,4 @@
-class DonorsController < ApplicationController
+class Api::V1::DonorsController < ApplicationController
   def create
     @client = Client.find(donor_params[:client_id])
     @donor = @client.donors.find_by_email donor_params[:email]

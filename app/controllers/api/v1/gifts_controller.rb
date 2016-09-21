@@ -1,4 +1,4 @@
-class GiftsController < ApplicationController
+class Api::V1::GiftsController < ApplicationController
   def create
     @donor = Donor.find(gift_params[:form_donor_id])
     @gift = @donor.gifts.build(gift_params.except(:payment_method_nonce, :form_donor_id))

@@ -1,4 +1,4 @@
-class FormsController < ApplicationController
+class Api::V1::FormsController < ApplicationController
 
   def show
     @client = Client.find(params[:id])
