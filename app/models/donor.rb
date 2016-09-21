@@ -5,6 +5,7 @@ class Donor < ApplicationRecord
   belongs_to :client
   belongs_to :subsciption
   belongs_to :campaign
+  has_many :campaign_conversions, class_name: "Metric::CampaignConversion"
   has_and_belongs_to_many :donor_lists
 
   # Validations

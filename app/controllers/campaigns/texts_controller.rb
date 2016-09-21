@@ -1,4 +1,5 @@
 class Campaigns::TextsController < ApplicationController
+
   def create
     unless create_campaign
       render json: { "errors": @campaign.errors.present? ? @campaign.errors : @text.errors }
@@ -14,18 +15,19 @@ class Campaigns::TextsController < ApplicationController
       @twilio_errors = {}
       @campaign.donor_lists.each do |list|
         list.donors.each do |donor|
-          send_text donor.phone_number
+          send_text(donor, @campaign.id)
+          Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
         end
       end
     end
 
-    def send_text number
+    def send_text(donor, cid)
       begin
         @client = Twilio::REST::Client.new
         @client.messages.create(
           from: "+#{params[:text][:from]}",
-          to: "+#{number}",
-          body: params[:text][:body]
+          to: "+#{donor.phone_number}",
+          body: params[:text][:body] + " https://localhost:4200/#{donor.client.id}?k=#{donor.key}&c=#{cid}"
         )
       rescue Twilio::REST::RequestError => error
         @twilio_errors["#{number}"] = error.message
@@ -33,12 +35,12 @@ class Campaigns::TextsController < ApplicationController
     end
 
     def create_campaign
-      @campaign = Campaign.new(campaign_params)
+      @campaign = ::Campaign.new(campaign_params)
       @campaign.save ? save_text : false
     end
 
     def save_text
-      @text = @campaign.build_text(text_params)
+      @text = @campaign.build_text(text_params.except(:to))
       @text.save
     end
 
@@ -47,6 +49,7 @@ class Campaigns::TextsController < ApplicationController
     end
 
     def campaign_params
-      params.require(:campaign).permit(:user_id, :school_id, donor_list_ids: [])
+      params.require(:campaign).permit(:user_id, :client_id, donor_list_ids: [])
     end
+
 end

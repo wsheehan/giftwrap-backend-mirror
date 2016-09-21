@@ -1,5 +1,6 @@
 class EmailProcessor
   include Campaign::Validator
+  include Campaign::Parser
 
   def initialize email
     @email = email
@@ -9,9 +10,15 @@ class EmailProcessor
     validated = validate_response @email.body
     if validated
       @donor = Donor.find_by email: @email.from[:email]
+      @conversion = Metric::CampaignConversion.where(donor: @donor).last
       @gift = @donor.gifts.build(total: validated[0])
       if @gift.save
-        handle_subscription validated if validated[1]
+        if validated[1]
+          handle_subscription validated
+          @conversion.update_attributes(gift: @gift, gift_method: "respond", subscription: true)
+        else
+          @conversion.update_attributes(gift: @gift, gift_method: "respond")
+        end
         CampaignMailer.successful_gift(@donor, @email.subject).deliver_now
       end
     else

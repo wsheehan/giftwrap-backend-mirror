@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816191241) do
+ActiveRecord::Schema.define(version: 20160916194601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(version: 20160816191241) do
 
   create_table "campaigns", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_id"], name: "index_campaigns_on_school_id", using: :btree
+    t.integer  "client_id"
+    t.index ["client_id"], name: "index_campaigns_on_client_id", using: :btree
     t.index ["user_id"], name: "index_campaigns_on_user_id", using: :btree
   end
 
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 20160816191241) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "client_id"
+    t.index ["client_id"], name: "index_donor_lists_on_client_id", using: :btree
   end
 
   create_table "donor_lists_donors", id: false, force: :cascade do |t|
@@ -121,13 +123,37 @@ ActiveRecord::Schema.define(version: 20160816191241) do
     t.index ["donor_id"], name: "index_gifts_on_donor_id", using: :btree
   end
 
-  create_table "metric_form_conversions", force: :cascade do |t|
-    t.boolean  "converted",  default: false
-    t.datetime "hit_time"
-    t.string   "identifier"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+  create_table "metric_campaign_conversions", force: :cascade do |t|
+    t.integer  "campaign_id"
+    t.integer  "donor_id"
     t.integer  "metric_id"
+    t.string   "gift_method"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "gift_id"
+    t.boolean  "subscription", default: false
+    t.index ["campaign_id"], name: "index_metric_campaign_conversions_on_campaign_id", using: :btree
+    t.index ["donor_id"], name: "index_metric_campaign_conversions_on_donor_id", using: :btree
+    t.index ["gift_id"], name: "index_metric_campaign_conversions_on_gift_id", using: :btree
+    t.index ["metric_id"], name: "index_metric_campaign_conversions_on_metric_id", using: :btree
+  end
+
+  create_table "metric_campaign_hellos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "metric_form_conversions", force: :cascade do |t|
+    t.datetime "hit_time"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "metric_id"
+    t.integer  "metric_campaign_conversions_id"
+    t.integer  "gift_id"
+    t.integer  "donor_id"
+    t.index ["donor_id"], name: "index_metric_form_conversions_on_donor_id", using: :btree
+    t.index ["gift_id"], name: "index_metric_form_conversions_on_gift_id", using: :btree
+    t.index ["metric_campaign_conversions_id"], name: "index_metric_form_conversions_on_metric_campaign_conversions_id", using: :btree
     t.index ["metric_id"], name: "index_metric_form_conversions_on_metric_id", using: :btree
   end
 
@@ -143,8 +169,6 @@ ActiveRecord::Schema.define(version: 20160816191241) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "designation",              array: true
-    t.integer  "client_id"
-    t.index ["client_id"], name: "index_schools_on_client_id", using: :btree
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -162,15 +186,16 @@ ActiveRecord::Schema.define(version: 20160816191241) do
     t.string   "email"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.string   "password_digest"
     t.integer  "client_id"
+    t.string   "password_digest"
     t.index ["client_id"], name: "index_users_on_client_id", using: :btree
   end
 
   add_foreign_key "campaign_emails", "campaigns"
   add_foreign_key "campaign_texts", "campaigns"
-  add_foreign_key "campaigns", "schools"
+  add_foreign_key "campaigns", "clients"
   add_foreign_key "campaigns", "users"
+  add_foreign_key "donor_lists", "clients"
   add_foreign_key "donors", "campaigns"
   add_foreign_key "donors", "clients"
   add_foreign_key "donors", "subscriptions"
@@ -178,9 +203,15 @@ ActiveRecord::Schema.define(version: 20160816191241) do
   add_foreign_key "gifts", "campaigns"
   add_foreign_key "gifts", "clients"
   add_foreign_key "gifts", "donors"
+  add_foreign_key "metric_campaign_conversions", "campaigns"
+  add_foreign_key "metric_campaign_conversions", "donors"
+  add_foreign_key "metric_campaign_conversions", "gifts"
+  add_foreign_key "metric_campaign_conversions", "metrics"
+  add_foreign_key "metric_form_conversions", "donors"
+  add_foreign_key "metric_form_conversions", "gifts"
+  add_foreign_key "metric_form_conversions", "metric_campaign_conversions", column: "metric_campaign_conversions_id"
   add_foreign_key "metric_form_conversions", "metrics"
   add_foreign_key "metrics", "clients"
-  add_foreign_key "schools", "clients"
   add_foreign_key "subscriptions", "clients"
   add_foreign_key "users", "clients"
 end
