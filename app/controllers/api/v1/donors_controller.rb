@@ -1,33 +1,39 @@
-class Api::V1::DonorsController < ApplicationController
-  after_action :allow_iframe, only: [:show, :edit, :update]
-  include ActionView::Layouts
-  layout 'application'
-
-  def show
-    @school = School.find(params[:school_id])
-    @donor = @school.donors.find_by email: params[:email]
-    render json: @donor
+class DonorsController < ApplicationController
+  def create
+    @client = Client.find(donor_params[:client_id])
+    @donor = @client.donors.find_by_email donor_params[:email]
+    if @donor
+      render json: { "donor": @donor }
+    else
+      @donor = @client.donors.build(donor_params)
+      if @donor.save
+        render json: { "donor": @donor }
+      else
+        render json: { "errors": { "msg": @donor.errors.first } }
+      end
+    end
   end
 
-  def edit
-    @id = params[:id]
-    @school_id = params[:school_id]
-    render "forms/update_donor"
+  def index
+    client = Client.find(request.headers["AUTH_CLIENT_ID"])
+    render json: { "donors": client.donors.all }
+  end
+
+  def show
+    @donor = Donor.find(params[:id])
+    render json: { "donor": @donor }
   end
 
   def update
-    @school = School.find(params[:school_id])
-    @donor = @school.donors.find(params[:donor_id])
-    if @donor.update_attributes(donor_params)
-      render json: { "Update": "Succeeded" }
-    else
-      render json: { "Update": "Failed" }
-    end
+  end
+
+  def edit
   end
 
   private
 
     def donor_params
-      params.require(:donor).permit(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year)
+      params.require(:donor).permit(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id)
     end
+
 end
