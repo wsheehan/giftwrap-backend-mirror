@@ -1,4 +1,4 @@
-class Campaigns::EmailsController < ApplicationController
+class Api::V1::Campaigns::EmailsController < ApplicationController
   def create
     unless create_campaign
       render json: { "errors": @campaign.errors }

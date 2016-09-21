@@ -1,4 +1,4 @@
-class Campaigns::DemosController < ApplicationController
+class Api::V1::Campaigns::DemosController < ApplicationController
   def create
     @donor = Donor.find(params[:text][:donor_id])
     @client = Twilio::REST::Client.new

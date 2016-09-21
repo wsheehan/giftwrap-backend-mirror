@@ -1,12 +1,11 @@
-class FormsController < ApplicationController
+class Api::V1::ClientsController < ApplicationController
 
   def show
     @client = Client.find(params[:id])
-    if @client.form.present?
-      render json: { "form": @client.form }
+    if @client
+      render json: { "client": @client }
     else
       render json: {}, status: :forbidden
     end
   end
-
 end

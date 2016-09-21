@@ -1,4 +1,4 @@
-class DonorListsController < ApplicationController
+class Api::V1::DonorListsController < ApplicationController
   def index
     render json: { "donor-lists": DonorList.all }
   end

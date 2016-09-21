@@ -1,4 +1,4 @@
-class Campaigns::Emails::DemosController < ApplicationController
+class Api::V1::Campaigns::Emails::DemosController < ApplicationController
 
   def create
     @donor = Donor.find_by email: email_params[:donor_email]

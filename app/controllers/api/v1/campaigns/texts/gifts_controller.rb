@@ -1,4 +1,4 @@
-class Campaigns::Texts::GiftsController < ApplicationController
+class Api::V1::Campaigns::Texts::GiftsController < ApplicationController
   skip_before_action :authenticate_user
   include Campaign::Validator
   include Campaign::Parser

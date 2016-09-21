@@ -1,4 +1,4 @@
-class Forms::DonorsController < ApplicationController
+class Api::V1::Forms::DonorsController < ApplicationController
   skip_before_action :authenticate_user
 
   def show

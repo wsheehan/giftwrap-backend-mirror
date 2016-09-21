@@ -1,4 +1,4 @@
-class Campaigns::TextsController < ApplicationController
+class Api::V1::Campaigns::TextsController < ApplicationController
 
   def create
     unless create_campaign
