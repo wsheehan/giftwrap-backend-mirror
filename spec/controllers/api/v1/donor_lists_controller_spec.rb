@@ -1,10 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe DonorsController, type: :controller do
+RSpec.describe Api::V1::DonorListsController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do
       get :index
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "GET #create" do
+    it "returns http success" do
+      get :create
       expect(response).to have_http_status(:success)
     end
   end
@@ -23,9 +30,9 @@ RSpec.describe DonorsController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
+  describe "GET #new" do
     it "returns http success" do
-      get :edit
+      get :new
       expect(response).to have_http_status(:success)
     end
   end

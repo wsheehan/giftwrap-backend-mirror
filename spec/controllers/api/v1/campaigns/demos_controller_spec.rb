@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe ConversionsController, type: :controller do
+RSpec.describe Api::V1::Campaigns::DemosController, type: :controller do
 
-  describe "GET #create" do
+  describe "GET #new" do
     it "returns http success" do
-      get :create
+      get :new
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #update" do
+  describe "GET #create" do
     it "returns http success" do
-      get :update
+      get :create
       expect(response).to have_http_status(:success)
     end
   end
