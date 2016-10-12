@@ -10,7 +10,6 @@ class Api::V1::Forms::DonorsController < ApplicationController
     client = Client.find(params[:c])
     @donor = client.donors.find_by_key params[:k]
     @payment_details = @donor.get_payment_info if @donor.has_payment_info?
-    puts formatted_donor
     render json: { "forms/donor": formatted_donor }
   end
 

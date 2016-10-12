@@ -30,6 +30,11 @@ class Api::V1::DonorsController < ApplicationController
   def edit
   end
 
+  def find_by_email
+    @donor = Donor.find_by_email params[:email]
+    render json: { "donor": @donor }
+  end
+
   private
 
     def donor_params
