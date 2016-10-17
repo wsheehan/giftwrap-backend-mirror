@@ -7,8 +7,9 @@ class Client < ApplicationRecord
   has_many :gifts
   has_many :campaigns
   has_many :subscriptions
-  has_many :metrics
+  has_one :metric
   has_many :policies, class_name: 'Client::Policy'
+  has_many :form_conversions, class_name: 'Metric:FormConversion'
   has_one :form
   has_one :school
 
