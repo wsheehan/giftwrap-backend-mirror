@@ -1,7 +1,7 @@
 class Api::V1::GiftsController < ApplicationController
   def create
-    @donor = Donor.find(gift_params[:form_donor_id])
-    @gift = @donor.gifts.build(gift_params.except(:payment_method_nonce, :form_donor_id))
+    @donor = Donor.find(gift_params[:donor_id])
+    @gift = @donor.gifts.build(gift_params.except(:payment_method_nonce))
     if @gift.save
       if process_payment
         render json: { "gift": @gift }
@@ -16,7 +16,7 @@ class Api::V1::GiftsController < ApplicationController
   private
 
     def gift_params
-      params.require(:gift).permit(:total, :designation, :gift_type, :donor_id, :payment_method_nonce, :form_donor_id)
+      params.require(:gift).permit(:total, :designation, :gift_type, :donor_id, :payment_method_nonce)
     end
 
     def process_payment
@@ -27,6 +27,7 @@ class Api::V1::GiftsController < ApplicationController
         #   amount: gift_params[:total]
         # )
         # false unless @payment.success
+        @payment = {"errors"=>nil}
       else
         # Add user into Braintree's database
         @payment = Braintree::Transaction.sale(
