@@ -9,6 +9,7 @@ class Api::V1::Forms::GiftsController < ApplicationController
     if @gift.save
       if process_payment
         render json: { "gift": @gift }, status: :created
+        update_form_conversion gift_params[:form_conversion_id]
       else
         render json: { "errors": { "msg": "Payment Information Did not Process" } }, status: :bad_request
       end
@@ -20,7 +21,9 @@ class Api::V1::Forms::GiftsController < ApplicationController
   private
 
     def gift_params
-      params.require("forms/gift").permit(:total, :designation, :gift_type, :payment_method_nonce, :first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id, :payment_method, :paypal_email, :masked_number, :credit_image_url)
+      params.require("forms/gift").permit(:total, :designation, :gift_type, :payment_method_nonce, :first_name,
+        :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id, :payment_method,
+        :paypal_email, :masked_number, :credit_image_url, :form_conversion_id)
     end
 
     def find_or_create_donor
@@ -66,4 +69,14 @@ class Api::V1::Forms::GiftsController < ApplicationController
         end
       end
     end
+
+    def update_form_conversion id
+      @conversion = ::Metric::FormConversion.find(id)
+      if @conversion.donor
+        @conversion.update_attributes(gift: @gift)
+      else
+        @conversion.update_attributes(gift: @gift, donor: @donor)
+      end
+    end
+
 end
