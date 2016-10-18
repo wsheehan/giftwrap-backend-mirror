@@ -9,7 +9,7 @@ class Api::V1::Forms::GiftsController < ApplicationController
     if @gift.save
       if process_payment
         render json: { "gift": @gift }, status: :created
-        update_form_conversion gift_params[:form_conversion_id]
+        update_form_conversion(gift_params[:form_conversion_id])
       else
         render json: { "errors": { "msg": "Payment Information Did not Process" } }, status: :bad_request
       end
@@ -70,7 +70,7 @@ class Api::V1::Forms::GiftsController < ApplicationController
       end
     end
 
-    def update_form_conversion id
+    def update_form_conversion(id)
       @conversion = ::Metric::FormConversion.find(id)
       if @conversion.donor
         @conversion.update_attributes(gift: @gift)
