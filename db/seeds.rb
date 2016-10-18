@@ -16,7 +16,7 @@ Client.all.each do |client|
 	donors = FactoryGirl.create_list :donor, 20
 	donors.each { |d| client.donors << d }
 	client.create_form
-	client.create_metric()
+	client.create_metric
 end
 
 Subscription.create!(frequency: "monthly", interval: 1)
