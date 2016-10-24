@@ -23,7 +23,7 @@ class Api::V1::Forms::GiftsController < ApplicationController
     def gift_params
       params.require("forms/gift").permit(:total, :designation, :gift_type, :payment_method_nonce, :first_name,
         :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id, :payment_method,
-        :paypal_email, :masked_number, :credit_image_url, :form_conversion_id)
+        :paypal_email, :masked_number, :credit_image_url, :form_conversion_id, :new_payment_method)
     end
 
     def find_or_create_donor
@@ -34,13 +34,14 @@ class Api::V1::Forms::GiftsController < ApplicationController
       if @donor
         true
       else
+        # Need to incorporate key creation here
         @donor = @client.donors.build(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id))
         @donor.save
       end
     end
 
     def process_payment
-      if @donor.has_payment_info?
+      if @donor.has_payment_info? && !gift_params[:new_payment_method]
         # Already in database
         @payment = Braintree::Transaction.sale(
           customer_id: @donor.braintree_customer_id,

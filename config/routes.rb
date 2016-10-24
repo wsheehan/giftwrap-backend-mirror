@@ -7,12 +7,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
 
-      resources :forms, only: [:create, :show]
       namespace :forms do
         resources :gifts, only: :create
         resources :donors, only: [:show, :update, :index]
         resources :client, only: [:show]
       end
+      resources :forms, only: [:create, :show]
 
       resources :clients, only: [:show]
       resources :gifts, only: [:create, :show, :index, :update]
