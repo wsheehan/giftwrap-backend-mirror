@@ -1,4 +1,5 @@
 class Api::V1::Metrics::Forms::ConversionsController < ApplicationController
+  skip_before_action :authenticate_user
 
   def create
     @client = Client.find(conversion_params[:client_id])

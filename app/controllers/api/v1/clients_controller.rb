@@ -1,4 +1,5 @@
 class Api::V1::ClientsController < ApplicationController
+  skip_before_action :authenticate_user
 
   def show
     @client = Client.find(params[:id])

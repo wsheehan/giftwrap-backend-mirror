@@ -1,4 +1,6 @@
 class Api::V1::Forms::GiftsController < ApplicationController
+  skip_before_action :authenticate_user
+
   def create
     @client = Client.find(gift_params[:client_id])
     unless find_or_create_donor
