@@ -1,6 +1,7 @@
 class Api::V1::DonorListsController < ApplicationController
   def index
-    render json: { "donor-lists": DonorList.all }
+    @client = Client.find(@user_creds["client_id"])
+    render json: { "donor-lists": @client.donor_lists }
   end
 
   def create

@@ -14,6 +14,8 @@ gem 'twilio-ruby', '~> 4.11.1'
 gem 'griddler', '~> 1.3', '>= 1.3.1'
 gem 'griddler-sendgrid', '~> 0.0.1'
 gem 'jwt', '~> 1.5', '>= 1.5.4'
+gem 'kaminari', '~> 0.16.3'
+gem 'pg_search', '~> 1.0', '>= 1.0.6'
 
 group :development, :test do
   gem 'byebug'
