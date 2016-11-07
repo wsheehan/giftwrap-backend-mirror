@@ -77,6 +77,9 @@ GEM
       multi_json (~> 1.2)
     json (1.8.3)
     jwt (1.5.4)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -97,6 +100,10 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     pg (0.18.4)
+    pg_search (1.0.6)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     pkg-config (1.1.7)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -206,8 +213,10 @@ DEPENDENCIES
   griddler-sendgrid (~> 0.0.1)
   jbuilder (~> 2.0)
   jwt (~> 1.5, >= 1.5.4)
+  kaminari (~> 0.16.3)
   letter_opener
   pg (~> 0.18.4)
+  pg_search (~> 1.0, >= 1.0.6)
   pry
   puma (~> 3.4)
   rack-cors (~> 0.4.0)

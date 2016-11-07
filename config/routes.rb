@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # Authentication
   namespace :users do
     resources :authentication, only: :create
   end
@@ -22,6 +23,9 @@ Rails.application.routes.draw do
         get '/find_by_email' => "api/v1/donors#find_by_email"
       end
 
+      namespace :donor_lists do
+        resources :search, only: [:create]
+      end
       resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
       resources :campaigns, only: [:index, :show]
