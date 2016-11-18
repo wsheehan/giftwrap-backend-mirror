@@ -6,18 +6,16 @@ class Api::V1::Campaigns::TextsController < ApplicationController
       return
     end
     send_batch
-    render json: [{ "campaign": @campaign },{ "text": @text },{ "errors": @twilio_errors}]
+    render json: { "campaigns/text": @campaign.text }, status: :created
   end
 
   private
 
     def send_batch
       @twilio_errors = {}
-      @campaign.donor_lists.each do |list|
-        list.donors.each do |donor|
-          send_text(donor, @campaign.id)
-          Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
-        end
+      @campaign.donor_list_donors.each do |donor|
+        send_text(donor, @campaign.id)
+        Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
       end
     end
 
@@ -25,12 +23,12 @@ class Api::V1::Campaigns::TextsController < ApplicationController
       begin
         @client = Twilio::REST::Client.new
         @client.messages.create(
-          from: "+#{params[:text][:from]}",
+          from: "+18023597135",
           to: "+#{donor.phone_number}",
-          body: params[:text][:body] + " https://localhost:4200/#{donor.client.id}?k=#{donor.key}&c=#{cid}"
+          body: text_params[:body] + " https://localhost:4200/#{donor.client.id}?k=#{donor.key}&c=#{cid}"
         )
       rescue Twilio::REST::RequestError => error
-        @twilio_errors["#{number}"] = error.message
+        @twilio_errors["#{donor.phone_number}"] = error.message
       end
     end
 
@@ -40,16 +38,20 @@ class Api::V1::Campaigns::TextsController < ApplicationController
     end
 
     def save_text
-      @text = @campaign.build_text(text_params.except(:to))
+      @text = @campaign.build_text(text_params)
       @text.save
     end
 
-    def text_params
-      params.require(:text).permit(:to, :body, :from)
+    def global_params
+      params.require("campaigns/text").permit(:user_id, :client_id, :body, :donor_list_id)
     end
 
     def campaign_params
-      params.require(:campaign).permit(:user_id, :client_id, donor_list_ids: [])
+      global_params.except(:body)
+    end
+
+    def text_params
+      global_params.slice(:body)
     end
 
 end

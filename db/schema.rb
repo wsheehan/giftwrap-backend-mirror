@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026021025) do
+ActiveRecord::Schema.define(version: 20161116183125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,18 +35,13 @@ ActiveRecord::Schema.define(version: 20161026021025) do
 
   create_table "campaigns", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "client_id"
+    t.integer  "donor_list_id"
     t.index ["client_id"], name: "index_campaigns_on_client_id", using: :btree
+    t.index ["donor_list_id"], name: "index_campaigns_on_donor_list_id", using: :btree
     t.index ["user_id"], name: "index_campaigns_on_user_id", using: :btree
-  end
-
-  create_table "campaigns_donor_lists", id: false, force: :cascade do |t|
-    t.integer "campaign_id",   null: false
-    t.integer "donor_list_id", null: false
-    t.index ["campaign_id", "donor_list_id"], name: "index_campaigns_donor_lists_on_campaign_id_and_donor_list_id", using: :btree
-    t.index ["donor_list_id", "campaign_id"], name: "index_campaigns_donor_lists_on_donor_list_id_and_campaign_id", using: :btree
   end
 
   create_table "client_policies", force: :cascade do |t|
@@ -195,6 +190,7 @@ ActiveRecord::Schema.define(version: 20161026021025) do
   add_foreign_key "campaign_emails", "campaigns"
   add_foreign_key "campaign_texts", "campaigns"
   add_foreign_key "campaigns", "clients"
+  add_foreign_key "campaigns", "donor_lists"
   add_foreign_key "campaigns", "users"
   add_foreign_key "donor_lists", "clients"
   add_foreign_key "donors", "campaigns"
