@@ -7,7 +7,7 @@ class Api::V1::Campaigns::EmailsController < ApplicationController
     @email = @campaign.build_email(email_params)
     if @email.save
       send_email
-      render json: { "email": @email }
+      render json: { "campaigns/email": @email }
     else
       render json: { "errors": @email.errors }
     end
@@ -21,19 +21,21 @@ class Api::V1::Campaigns::EmailsController < ApplicationController
     end
 
     def send_email
-      list = @campaign.donor_lists.each do |list|
-        list.donors.each do |donor|
-          CampaignMailer.send_email_campaign(@campaign, @email, donor).deliver_now
-          Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
-        end
+      @campaign.donor_list_donors.each do |donor|
+        CampaignMailer.send_email_campaign(@campaign, @email, donor).deliver_later
+        Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
       end
     end
 
+    def global_params
+      params.require("campaigns/email").permit(:user_id, :donor_list_id, :body, :subject, :image)
+    end
+
     def campaign_params
-      params.require(:campaign).permit(:school_id, :user_id, donor_list_ids: [])
+      global_params.slice(:user_id, :donor_list_id)
     end
 
     def email_params
-      params.require(:email).permit(:title, :body)
+      global_params.slice(:body, :subject)
     end
 end
