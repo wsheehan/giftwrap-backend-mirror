@@ -8,6 +8,8 @@ ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard
 ransom.donors.create!(first_name: "Ben", last_name: "Sheehan", email: "sheehan1102@gmail.com", key: SecureRandom.urlsafe_base64(16))
 ransom.donors.create!(first_name: "Will", last_name: "Sheehan", email: "willsheehan95@gmail.com", key: SecureRandom.urlsafe_base64(16))
 
+ransom.users.create!(email: "willsheehan95@gmail.com", password: "foobar")
+
 affiliations = ["Parent", "Student", "Alumni"]
 
 Client.all.each do |client|
@@ -15,7 +17,7 @@ Client.all.each do |client|
 	users.each { |u| client.users << u }
 	40.times do
 		a = affiliations.sample
-		Donor.create!(first_name: Faker::Name.first_name,
+		client.donors.create!(first_name: Faker::Name.first_name,
 			last_name: Faker::Name.last_name,
 			email: Faker::Internet.email,
 			key: SecureRandom.urlsafe_base64(16),
@@ -23,7 +25,6 @@ Client.all.each do |client|
 			class_year: (a == "Alumni" ? rand(1960..2015) : nil),
 			)
 	end
-	Donor.all.each { |d| client.donors << d }
 	client.create_form
 	client.create_metric
 end

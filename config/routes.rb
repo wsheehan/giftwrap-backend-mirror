@@ -19,9 +19,6 @@ Rails.application.routes.draw do
       resources :gifts, only: [:create, :show, :index, :update]
 
       resources :donors, only: [:create, :index, :show, :update, :edit]
-      namespace :donors do
-        get '/find_by_email' => "api/v1/donors#find_by_email"
-      end
 
       namespace :donor_lists do
         resources :search, only: [:create]

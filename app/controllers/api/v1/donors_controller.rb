@@ -15,8 +15,13 @@ class Api::V1::DonorsController < ApplicationController
   end
 
   def index
-    client = Client.find(request.headers["AUTH_CLIENT_ID"])
-    render json: { "donors": client.donors.all }
+    if params[:q]
+      @search_results = Donor.where(client_id: @user_creds["client_id"]).search_records(params[:q])
+      render json: { "donors": @search_results }
+    else
+      @donors = Donor.where(client_id: @user_creds["client_id"]).page(params[:page][:number]).per(params[:page][:size])
+      render json: { "donors": @donors }
+    end
   end
 
   def show
