@@ -1,6 +1,11 @@
 class Api::V1::DonorListsController < ApplicationController
   def index
-    render json: { "donor-lists": DonorList.where(client_id: @user_creds["client_id"]) }
+    if params[:q]
+      @search_results = DonorList.where(client_id: @user_creds["client_id"]).search_records(params[:q])
+      render json: { "donor-lists": @search_results }
+    else
+      render json: { "donor-lists": DonorList.where(client_id: @user_creds["client_id"]).page(params[:page][:number]).per(params[:page][:size]) }
+    end
   end
 
   def create

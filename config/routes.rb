@@ -20,9 +20,6 @@ Rails.application.routes.draw do
 
       resources :donors, only: [:create, :index, :show, :update, :edit]
 
-      namespace :donor_lists do
-        resources :search, only: [:create]
-      end
       resources :donor_lists, only: [:index, :show, :create, :new, :update]
 
       resources :campaigns, only: [:index, :show]
