@@ -45,6 +45,10 @@ GEM
       builder (>= 2.0.0)
     builder (3.2.2)
     byebug (9.0.5)
+    carrierwave (1.0.0.rc)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     chronic (0.10.2)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
@@ -205,6 +209,7 @@ DEPENDENCIES
   bcrypt (~> 3.1, >= 3.1.11)
   braintree (~> 2.63)
   byebug
+  carrierwave (>= 1.0.0.rc, < 2.0)
   database_cleaner (~> 1.5, >= 1.5.3)
   factory_girl_rails (~> 4.7)
   faker (~> 1.6, >= 1.6.3)
