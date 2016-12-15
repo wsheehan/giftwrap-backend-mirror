@@ -20,3 +20,6 @@
 
 # Ignore model schematics
 /doc
+
+# Ignore local uploads
+/public/uploads

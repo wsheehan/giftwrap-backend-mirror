@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161118001925) do
+ActiveRecord::Schema.define(version: 20161212203024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(version: 20161118001925) do
     t.integer  "campaign_id"
     t.string   "subject"
     t.string   "body"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "header_image"
     t.index ["campaign_id"], name: "index_campaign_emails_on_campaign_id", using: :btree
   end
 
