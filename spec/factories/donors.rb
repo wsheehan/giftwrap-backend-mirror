@@ -4,5 +4,7 @@ FactoryGirl.define do
     last_name Faker::Name.last_name
     email Faker::Internet.email
     key SecureRandom.urlsafe_base64(16)
+
+    client
   end
 end

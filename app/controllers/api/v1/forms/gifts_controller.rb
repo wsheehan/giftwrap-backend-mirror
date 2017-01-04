@@ -76,9 +76,9 @@ class Api::V1::Forms::GiftsController < ApplicationController
     def update_form_conversion(id)
       @conversion = ::Metric::FormConversion.find(id)
       if @conversion.donor
-        @conversion.update_attributes(gift: @gift)
-      else
         @conversion.update_attributes(gift: @gift, donor: @donor)
+      else
+        @conversion.update_attributes(gift: @gift)
       end
     end
 
