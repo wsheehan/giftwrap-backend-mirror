@@ -19,14 +19,17 @@ class Api::V1::FormsController < ApplicationController
     def create_conversion
       if @donor
         if params[:ca].present?
-          @conversion = ::Metric::FormConversion.create(donor_id: @donor.id, metric_id: @client.metric.id, campaign_id: params[:ca])
-          ::Metric::CampaignConversion.where(donor: @donor).where(campaign_id: params[:ca]).update_attribute(:form_conversion, @conversion)
-        else
-          @conversion = ::Metric::FormConversion.create(donor_id: @donor.id, metric_id: @client.metric.id)
+          @campaign_conversion = ::Metric::CampaignConversion.where(donor: @donor).where(campaign_id: params[:ca])[0]
         end
+        @conversion = ::Metric::FormConversion.create(
+          donor_id: @donor.id,
+          metric_id: @client.metric.id,
+          metric_campaign_conversions_id: @campaign_conversion
+        )
       else
         @conversion = ::Metric::FormConversion.create(metric_id: @client.metric.id)
       end
+      @conversion
     end
 
 end

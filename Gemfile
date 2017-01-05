@@ -34,6 +34,7 @@ group :development, :test do
   gem 'spring'
   gem 'pry'
   gem 'railroady'
+  gem 'simplecov', require: false
 end
 
 group :development do

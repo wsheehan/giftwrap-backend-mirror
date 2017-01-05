@@ -6,5 +6,6 @@ FactoryGirl.define do
     key SecureRandom.urlsafe_base64(16)
 
     client
+    campaign
   end
 end
