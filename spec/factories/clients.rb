@@ -3,12 +3,13 @@ FactoryGirl.define do
     name Faker::Company.name
     metric
 
+    transient do
+      donors_count 1
+    end
+
     factory :client_with_users_and_donors do
       transient do
         users_count 1
-      end
-      transient do
-        donors_count 5
       end
       after(:create) do |client, evaluator|
         create_list(:donor, evaluator.donors_count, client: client)
@@ -21,9 +22,6 @@ FactoryGirl.define do
     end
 
     factory :client_with_donors do
-      transient do
-        donors_count 5
-      end
       after(:create) do |client, evaluator|
         create_list(:donor, evaluator.donors_count, client: client)
       end
@@ -35,6 +33,12 @@ FactoryGirl.define do
         after(:create) do |client, evaluator|
           create_list(:campaign, evaluator.campaigns_count, client: client)
         end
+      end
+    end
+
+    factory :client_with_payment_info_donors do
+      after(:create) do |client, evaluator|
+        create_list(:donor_with_payment_info, evaluator.donors_count, client: client)
       end
     end
   end

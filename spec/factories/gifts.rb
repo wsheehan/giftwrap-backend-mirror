@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :gift do
     total "MyString"
-school nil
+    donor
   end
-
 end

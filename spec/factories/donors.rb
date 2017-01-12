@@ -10,5 +10,9 @@ FactoryGirl.define do
 
     client
     campaign
+
+    # factory :donor_with_payment_info do
+    #   braintree_customer_id "12345"
+    # end
   end
 end
