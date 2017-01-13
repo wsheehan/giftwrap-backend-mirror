@@ -27,7 +27,7 @@ class Donor < ApplicationRecord
   end
 
   def has_payment_info?
-    braintree_customer_id
+    braintree_customer_id.present?
   end
 
   def full_name

@@ -2,6 +2,21 @@ require 'rails_helper'
 require 'spec_helper'
 require 'braintree'
 
+class BraintreeResult
+
+  def initialize(valid)
+    @valid = valid
+  end
+
+  def success?
+    @valid
+  end
+
+  def errors
+    ['test_error': 'error_message']
+  end
+end
+
 RSpec.describe "/forms/gifts API", type: :request do
   describe "gifts#create" do
     let!(:client) { create(:client) }
@@ -9,20 +24,31 @@ RSpec.describe "/forms/gifts API", type: :request do
     let!(:form_conversion) { create(:metric_form_conversion) }
     let!(:donor) { client_with_donors.donors.first }
 
-    it "invalid donor info" do
-      params = {
-        "forms/gift": {
-          "client_id": client.id,
-          "first_name": "Will",
-          "total": "10",
-          "gift_type": "gift",
-          "payment_method_nonce": "fake-valid-nonce",
-          "form_conversion_id": form_conversion.id
+    context "when donor info is invalid" do
+      before do
+        result = BraintreeResult.new(false)
+        allow(BraintreeService).to receive(:process_payment).and_return(result)
+      end
+
+      let(:params) do
+        { "forms/gift": {
+            "client_id": client.id,
+            "first_name": "Will",
+            "total": "10",
+            "gift_type": "gift",
+            "payment_method_nonce": "fake-valid-nonce",
+            "form_conversion_id": form_conversion.id
+          }
         }
-      }
-      post "/api/v1/forms/gifts", params: params
-      expect(response.status).to eq(400)
-      expect(json_err_msg).to eq("Donor Information Could Not Be Saved")
+      end
+
+      it "invalid donor info" do
+        
+        post "/api/v1/forms/gifts", params: params
+        expect(response.status).to eq(400)
+        expect(JSON.parse(response.body)['errors'].length).to eq 1
+      end
+
     end
 
     it "no donor and no payment info" do
@@ -113,7 +139,7 @@ RSpec.describe "/forms/gifts API", type: :request do
       }
       post "/api/v1/forms/gifts", params: params
       expect(response.status).to eq(400)
-      expect(json_err_msg).to eq("Payment Information Did not Process")
+      expect(JSON.parse(response.body)['errors'].length).to eq 1
     end
 
     it "invalid gift" do
@@ -129,7 +155,7 @@ RSpec.describe "/forms/gifts API", type: :request do
       }
       post "/api/v1/forms/gifts", params: params
       expect(response.status).to eq(400)
-      expect(json_err_msg).to eq("Gift Could not Save")
+      expect(JSON.parse(response.body)["errors"].length).to eq 1 
     end
   end
 end
