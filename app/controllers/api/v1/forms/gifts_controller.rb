@@ -25,20 +25,23 @@ class Api::V1::Forms::GiftsController < ApplicationController
     def gift_params
       params.require("forms/gift").permit(:total, :designation, :gift_type, :payment_method_nonce, :first_name,
         :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id, :payment_method,
-        :paypal_email, :masked_number, :credit_image_url, :form_conversion_id, :new_payment_method)
+        :paypal_email, :masked_number, :credit_image_url, :form_conversion_id, :new_payment_method, :donor_id)
     end
 
     def find_or_create_donor
-      @donor = @client.donors.find_by_email gift_params[:email]
-      # if @donor && gift_params[:gift_frequency]
-      #   # handle new subscription
-      # end
-      if @donor
-        true
+      # client side had donor_id
+      if gift_params[:donor_id]
+        @donor = Donor.find(gift_params[:donor_id])
+        return true
       else
-        # Need to incorporate key creation here
-        @donor = @client.donors.build(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id))
-        @donor.save
+        # donor record exists, but client side didn't have it
+        @donor = Donor.where(client_id: gift_params[:client_id], email: gift_params[:email])[0]
+        if @donor
+          true
+        else
+          @donor = Donor.new(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id))
+          @donor.save
+        end
       end
     end
 
@@ -47,7 +50,10 @@ class Api::V1::Forms::GiftsController < ApplicationController
         # Already in database
         @payment = Braintree::Transaction.sale(
           customer_id: @donor.braintree_customer_id,
-          amount: gift_params[:total]
+          amount: gift_params[:total],
+          options: {
+            submit_for_settlement: true
+          }
         )
         @payment.success? ? true : false
       else
@@ -61,7 +67,8 @@ class Api::V1::Forms::GiftsController < ApplicationController
             email: @donor.email
           },
           options: {
-            store_in_vault: true
+            store_in_vault: true,
+            submit_for_settlement: true
           }
         )
         if @payment.success?
