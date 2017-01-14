@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.0'
 
 gem 'rails',          '5.0.0'
 gem 'pg',             '~> 0.18.4'
@@ -7,10 +8,11 @@ gem 'sdoc',           '~> 0.4.0', group: :doc
 gem 'braintree',      '~> 2.63' # Payments
 gem 'figaro',         '1.1.1'
 gem 'faker',          '~> 1.6', '>= 1.6.3'
-gem 'whenever', '~> 0.9.7'
-gem 'twilio-ruby', '~> 4.11.1'
-gem 'kaminari', '~> 0.16.3' # Pagination
-gem 'pg_search', '~> 1.0', '>= 1.0.6' # Search
+gem 'whenever',       '~> 0.9.7'
+gem 'twilio-ruby',    '~> 4.11.1'
+gem 'kaminari',       '~> 0.16.3' # Pagination
+gem 'pg_search',      '~> 1.0', '>= 1.0.6' # Search
+gem 'annotate',       '2.7.1'
 
 # Image Upload
 gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
