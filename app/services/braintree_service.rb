@@ -1,61 +1,79 @@
 module BraintreeService
-  extend self
-
-  def process_payment(donor, gift_params)
-    if donor.has_payment_info? && !gift_params[:new_payment_method]
-      payment = Braintree::Transaction.sale(
-        customer_id: donor.braintree_customer_id,
-        amount: gift_params[:total],
-        options: {
-          submit_for_settlement: true
-        }
-      )
-    else
-      payment = Braintree::Transaction.sale(
-        amount: gift_params[:total],
-        payment_method_nonce: gift_params[:payment_method_nonce],
-        customer: {
-          first_name: donor.first_name,
-          last_name: donor.last_name,
-          email: donor.email
-        },
-        options: {
-          store_in_vault: true,
-          submit_for_settlement: true
-        }
-      )
-      if payment.success?
-        donor.update_attribute(:braintree_customer_id, payment.transaction.customer_details.id)
-      end
-    end
-    payment
+  
+  def self.call(action, *args)
+    BraintreeService::Transaction.new(*args).send(action.to_sym)
   end
 
-  def process_subscription
-    # def process_user
-    #   new_user = Braintree::Customer.create(
-    #     first_name: @current_user.first_name,
-    #     last_name: @current_user.last_name,
-    #     email: @current_user.email
-    #   )
-    #   @current_user.update_attribute(:braintree_customer_id, new_user.customer.id)
-    #   new_user
-    # end
+  def self.get_payment_method(braintree_customer_id)
+    braintree_customer = Braintree::Customer.find(braintree_customer_id || 'empty')
+    return nil unless braintree_customer
+    braintree_customer.payment_methods[0].token
+  end
 
-    # def process_payment_method(user)
-    #   Braintree::PaymentMethod.create(
-    #     customer_id: @current_user.braintree_customer_id,
-    #     payment_method_nonce: @nonce
-    #   )
-    # end
+  class Transaction
 
-    # def process_subscription
-    #   braintree_customer = Braintree::Customer.find(@current_user.braintree_customer_id )
-    #   Braintree::Subscription.create(
-    #     plan_id: 'yearly_plan',
-    #     payment_method_token: braintree_customer.payment_methods.first.token,
-    #     price: @admin_test ? BigDecimal.new("1.00") : BigDecimal.new(@yearly_total)
-    #   )
-    # end
+    def initialize(donor, opts={})
+      @donor = donor
+      @opts  = opts
+    end
+
+    def create_one_time_payment
+      find_braintree_user
+      process_payment_method
+      process_one_time_payment
+    end
+
+    def create_subscription
+      find_braintree_user
+      process_payment_method
+      process_subscription
+    end
+
+    private
+
+      def find_braintree_user
+        begin
+          @braintree_user = Braintree::Customer.find(@donor.braintree_customer_id || 'empty')
+        rescue Braintree::NotFoundError
+          create_braintree_user
+        end
+      end
+
+      def create_braintree_user
+        @braintree_user = Braintree::Customer.create(
+          first_name: @donor.first_name,
+          last_name: @donor.last_name,
+          email: @donor.email
+        )
+        @donor.update_attribute(:braintree_customer_id, @braintree_user.customer.id)
+      end
+
+      def process_payment_method
+        Braintree::PaymentMethod.create(
+          customer_id: @donor.braintree_customer_id,
+          payment_method_nonce: @opts[:payment_method_nonce]
+        )
+      end
+
+      def process_one_time_payment
+        result = Braintree::Transaction.sale(
+          customer_id: @donor.braintree_customer_id,
+          amount: @opts[:total],
+          options: {
+            submit_for_settlement: true
+          }
+        )
+        result
+      end
+
+      def process_subscription
+        result = Braintree::Subscription.create(
+          plan_id: "charge_#{@opts[:gift_frequency]}",
+          payment_method_token: @braintree_user.payment_methods.first.token,
+          price: BigDecimal.new(@opts[:total])
+        )
+        result
+      end
+
   end
 end

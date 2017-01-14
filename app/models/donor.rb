@@ -35,8 +35,8 @@ class Donor < ApplicationRecord
   end
 
   def get_payment_info
-    braintree_customer = Braintree::Customer.find(braintree_customer_id)
-    payment_method = Braintree::PaymentMethod.find(braintree_customer.payment_methods[0].token)
+    payment_method = BraintreeService.get_payment_method(braintree_customer_id)
+    return {} if payment_method.nil?
     if payment_method.class == Braintree::PayPalAccount
       { "payment_method" => "Paypal", "paypal_email" => payment_method.email }
     else

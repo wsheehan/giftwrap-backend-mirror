@@ -2,18 +2,12 @@ class Api::V1::Forms::GiftsController < ApplicationController
   include BraintreeService
   skip_before_action :authenticate_user
 
-  # meant to be moved into ApplicationController
-  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
-
   def create
     @client = Client.find(gift_params[:client_id])
     find_or_create_donor
-    
-    @gift = @donor.gifts.build(gift_params.slice(:total, :designation, :gift_type))
-    @gift.save
+    create_gift
 
-    result = BraintreeService.process_payment(@donor, gift_params)
+    result = BraintreeService.call("create_#{transaction_type}", @donor, gift_params)
     if result.success?
       update_form_conversion(gift_params[:form_conversion_id])
       render json: { gift: @gift }, status: :created
@@ -23,6 +17,38 @@ class Api::V1::Forms::GiftsController < ApplicationController
   end
 
   private
+
+    def find_or_create_donor
+      @donor = Donor.find_by(id: gift_params[:donor_id])
+      find_donor_by_client_and_email unless @donor.present?
+      create_donor unless @donor.present?
+    end
+
+    def find_donor_by_client_and_email
+      @donor = Donor.where(client_id: gift_params[:client_id], email: gift_params[:email]).take
+    end
+
+    def create_donor
+      @donor = Donor.create(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id))
+    end
+
+    def create_gift
+      @gift = @donor.gifts.build(gift_params.slice(:total, :designation, :gift_type))
+      @gift.save
+    end
+
+    def update_form_conversion(id)
+      @conversion = ::Metric::FormConversion.find(id)
+      if @conversion.donor
+        @conversion.update_attributes(gift: @gift, donor: @donor)
+      else
+        @conversion.update_attributes(gift: @gift)
+      end
+    end
+
+    def transaction_type
+      gift_params[:gift_frequency].present? ? 'one_time_payment' : 'subscription'
+    end
 
     def gift_params
       params.require("forms/gift").permit(
@@ -46,36 +72,6 @@ class Api::V1::Forms::GiftsController < ApplicationController
         :new_payment_method,
         :donor_id
       )
-    end
-
-    def find_or_create_donor
-      @donor = Donor.find_by(id: gift_params[:donor_id])
-
-      unless @donor.present?
-        @donor = Donor.where(client_id: gift_params[:client_id], email: gift_params[:email]).take
-      end
-
-      unless @donor.present?
-        @donor = Donor.create(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id))
-      end
-    end
-
-    def update_form_conversion(id)
-      @conversion = ::Metric::FormConversion.find(id)
-      if @conversion.donor
-        @conversion.update_attributes(gift: @gift, donor: @donor)
-      else
-        @conversion.update_attributes(gift: @gift)
-      end
-    end
-
-    # meant to be moved into ApplicationController
-    def render_unprocessable_entity_response(exception)
-      render json: exception.record.errors, status: :unprocessable_entity
-    end
-
-    def render_not_found_response(exception)
-      render json: { error: exception.message }, status: :not_found
     end
 
 end
