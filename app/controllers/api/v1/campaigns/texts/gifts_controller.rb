@@ -16,7 +16,7 @@ class Api::V1::Campaigns::Texts::GiftsController < ApplicationController
             @conversion.update_attributes(gift: @gift, gift_method: "respond", subscription: @validated[1])
             r.Message "Thank you for you gift of $#{@total}"
           else
-            r.Message "There was a problem with your payment method, please go to https://www.giftwrape.io/forms/#{@donor.client.id}?k=#{@donor.key}" # put Campaign ID here too
+            r.Message "There was a problem with your payment method, please go to https://www.giftwrap.io/forms/#{@donor.client.id}?k=#{@donor.key}" # put Campaign ID here too
           end
         else
           r.Message "We could not process your gift, Please try again"
