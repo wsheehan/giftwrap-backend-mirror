@@ -37,6 +37,8 @@ group :development, :test do
   gem 'pry'
   gem 'railroady'
   gem 'simplecov', require: false
+  gem 'fake_braintree', '0.8.0'
+  gem 'sinatra', '~> 2.0.0.beta2'
 end
 
 group :development do

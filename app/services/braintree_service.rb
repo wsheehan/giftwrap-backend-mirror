@@ -4,10 +4,13 @@ module BraintreeService
     BraintreeService::Transaction.new(*args).send(action.to_sym)
   end
 
-  def self.get_payment_method(braintree_customer_id)
-    braintree_customer = Braintree::Customer.find(braintree_customer_id || 'empty')
-    return nil unless braintree_customer
-    braintree_customer.payment_methods[0].token
+  def self.get_payment_token(braintree_customer_id)
+    begin
+      braintree_customer = Braintree::Customer.find(braintree_customer_id)
+      braintree_customer.payment_methods[0].token
+    rescue Braintree::NotFoundError
+      return nil
+    end
   end
 
   class Transaction
@@ -25,8 +28,8 @@ module BraintreeService
 
     def create_subscription
       find_braintree_user
-      process_payment_method
-      process_subscription
+      result = process_payment_method
+      process_subscription(result.payment_method.token)
     end
 
     private
@@ -44,8 +47,8 @@ module BraintreeService
           first_name: @donor.first_name,
           last_name: @donor.last_name,
           email: @donor.email
-        )
-        @donor.update_attribute(:braintree_customer_id, @braintree_user.customer.id)
+        ).customer
+        @donor.update_attribute(:braintree_customer_id, @braintree_user.id)
       end
 
       def process_payment_method
@@ -66,10 +69,10 @@ module BraintreeService
         result
       end
 
-      def process_subscription
+      def process_subscription(token)
         result = Braintree::Subscription.create(
           plan_id: "charge_#{@opts[:gift_frequency]}",
-          payment_method_token: @braintree_user.payment_methods.first.token,
+          payment_method_token: token,
           price: BigDecimal.new(@opts[:total])
         )
         result
