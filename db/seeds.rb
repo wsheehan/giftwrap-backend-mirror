@@ -47,11 +47,20 @@ end
 	donors.each {|x| list.donors << x }
 end
 
-User.all.each do |user|
-	campaigns = FactoryGirl.create_list :campaign, 7, user_id: user.id
+# User.all.each do |user|
+# 	campaigns = FactoryGirl.create_list :campaign, 7, user_id: user.id
+# end
+
+# Campaign for campaign#show
+donor_list = ransom.donor_lists.create(donors: ransom.donors.sample(20))
+conv_campaign = ransom.campaigns.create(donor_list: donor_list)
+
+donor_list.donors.each do |d|
+	conv = conv_campaign.campaign_conversions.create(donor: d)
+	if rand > 0.6
+		conv.update_attributes(gift: ransom.gifts.create!(total: "100", donor: d, campaign: conv_campaign))
+		if rand > 0.6
+			conv.update_attributes(subscription: true)
+		end
+	end
 end
-
-
-
-
-
