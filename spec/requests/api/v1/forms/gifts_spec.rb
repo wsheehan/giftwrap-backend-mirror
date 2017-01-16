@@ -1,15 +1,77 @@
 require 'rails_helper'
 require 'spec_helper'
-require 'braintree'
-
-class BraintreeResult
-  def initialize(valid); @valid = valid; end
-  def success?; @valid; end
-  def errors; ['test_error': 'error_message']; end
-end
 
 RSpec.describe "/forms/gifts API", type: :request do
-  pending "We need to restructure without Braintree interaction"
+  describe "gifts#create" do
+    context "when client does not exist" do
+      let(:params) do
+        { "forms/gift": {
+            "client_id": "405"
+          }
+        }
+      end
+
+      subject { post "/api/v1/forms/gifts",  params: params }
+
+      it "raises RecordNotFound error" do
+        subject
+        expect(json['error']).to be_truthy
+      end
+    end
+
+    context "when client exists" do
+      context "when donor_id present" do
+        before do
+          @client = FactoryGirl.create :client
+          @donor = FactoryGirl.create :donor
+        end
+
+        context "when gift params are incomplete" do
+          subject do
+            post "/api/v1/forms/gifts",
+            params: { "forms/gift": {
+                "client_id": @client.id,
+                "donor_id": @donor.id
+              }
+            }
+          end
+
+          it "raises error" do
+            expect{ subject }.not_to change{
+              Gift.count
+            }
+          end
+        end
+
+        context "when gift params are complete" do
+          before do
+            allow(BraintreeService).to receive(:call).and_return(BraintreeHelper::SuccessResult)
+          end
+
+          subject do
+            post "/api/v1/forms/gifts",
+            params: { "forms/gift": {
+                "client_id": @client.id,
+                "donor_id": @donor.id,
+                "total": '10'
+              }
+            }
+          end
+
+          it "creates gift" do
+            expect{ subject }.to change{
+              Gift.count
+            }.by 1
+          end
+        end
+      end
+
+      context ""
+    end
+  end
+
+
+
   # describe "gifts#create" do
   #   let!(:client) { create(:client) }
   #   let!(:client_with_donors) { create(:client_with_donors) }

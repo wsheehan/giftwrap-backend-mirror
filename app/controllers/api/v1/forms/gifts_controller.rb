@@ -34,7 +34,7 @@ class Api::V1::Forms::GiftsController < ApplicationController
 
     def create_gift
       @gift = @donor.gifts.build(gift_params.slice(:total, :designation, :gift_type))
-      @gift.save
+      @gift.save!
     end
 
     def update_form_conversion(id)
