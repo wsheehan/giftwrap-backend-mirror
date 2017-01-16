@@ -6,20 +6,4 @@ class CampaignSerializer < ActiveModel::Serializer
   attribute :new_subscriptions
 
   has_many :gifts, serializer: GiftSerializer
-
-  def total_raised
-    object.total_raised
-  end
-
-  def campaigns_sent
-    object.campaigns_sent
-  end
-
-  def campaigns_converted
-    object.campaigns_converted
-  end
-
-  def new_subscriptions
-    object.new_subscriptions
-  end
 end
