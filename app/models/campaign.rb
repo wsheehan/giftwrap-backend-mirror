@@ -24,9 +24,7 @@ class Campaign < ApplicationRecord
   end
 
   def total_raised
-    @total = 0
-    gifts.each { |x| @total += x.total.to_f }
-    @total
+    gifts.pluck(:total).reduce(0) { |total, t| total += t.to_f }
   end
 
   def new_subscriptions
