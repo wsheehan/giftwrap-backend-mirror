@@ -23,7 +23,7 @@ Client.all.each do |client|
 			key: SecureRandom.urlsafe_base64(16),
 			affiliation: a,
 			class_year: (a == "Alumni" ? rand(1960..2015) : nil),
-			)
+		)
 	end
 	client.create_form
 	client.create_metric
@@ -35,7 +35,7 @@ Subscription.create!(frequency: "annually", interval: 12)
 
 Donor.all.each do |x|
 	r  = rand(5..10)
-	r.times do |n|
+		r.times do |n|
 		total = rand(10..100000)
 		Gift.create!(total: total, donor_id: x.id)
 	end
