@@ -23,7 +23,7 @@ Client.all.each do |client|
 			key: SecureRandom.urlsafe_base64(16),
 			affiliation: a,
 			class_year: (a == "Alumni" ? rand(1960..2015) : nil),
-			)
+		)
 	end
 	client.create_form
 	client.create_metric
@@ -35,7 +35,7 @@ Subscription.create!(frequency: "annually", interval: 12)
 
 Donor.all.each do |x|
 	r  = rand(5..10)
-	r.times do |n|
+		r.times do |n|
 		total = rand(10..100000)
 		Gift.create!(total: total, donor_id: x.id)
 	end
@@ -47,11 +47,20 @@ end
 	donors.each {|x| list.donors << x }
 end
 
-User.all.each do |user|
-	campaigns = FactoryGirl.create_list :campaign, 7, user_id: user.id
+# User.all.each do |user|
+# 	campaigns = FactoryGirl.create_list :campaign, 7, user_id: user.id
+# end
+
+# Campaign for campaign#show
+donor_list = ransom.donor_lists.create(donors: ransom.donors.sample(20))
+conv_campaign = ransom.campaigns.create(donor_list: donor_list)
+
+donor_list.donors.each do |d|
+	conv = conv_campaign.campaign_conversions.create(donor: d)
+	if rand > 0.6
+		conv.update_attributes(gift: ransom.gifts.create!(total: "100", donor: d, campaign: conv_campaign))
+		if rand > 0.6
+			conv.update_attributes(subscription: true)
+		end
+	end
 end
-
-
-
-
-

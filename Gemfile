@@ -13,6 +13,7 @@ gem 'twilio-ruby',    '~> 4.11.1'
 gem 'kaminari',       '~> 0.16.3' # Pagination
 gem 'pg_search',      '~> 1.0', '>= 1.0.6' # Search
 gem 'annotate',       '2.7.1'
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Image Upload
 gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
