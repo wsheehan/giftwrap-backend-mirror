@@ -43,7 +43,7 @@ class Api::V1::Campaigns::TextsController < ApplicationController
     end
 
     def global_params
-      params.require("campaigns/text").permit(:user_id, :client_id, :body, :donor_list_id)
+      params.require("campaigns/text").permit(:user_id, :client_id, :body, :donor_list_id, :title, :description)
     end
 
     def campaign_params

@@ -28,11 +28,11 @@ class Api::V1::Campaigns::EmailsController < ApplicationController
     end
 
     def global_params
-      params.require("campaigns/email").permit(:user_id, :donor_list_id, :body, :subject, :header_image, :campaign_id)
+      params.require("campaigns/email").permit(:user_id, :donor_list_id, :body, :subject, :header_image, :campaign_id, :title, :description)
     end
 
     def campaign_params
-      global_params.slice(:user_id, :donor_list_id)
+      global_params.slice(:user_id, :donor_list_id, :title, :description)
     end
 
     def email_params
