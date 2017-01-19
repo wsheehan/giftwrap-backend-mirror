@@ -10,6 +10,8 @@
 #  updated_at      :datetime         not null
 #  client_id       :integer
 #  password_digest :string
+#  admin           :boolean
+#  remember_digest :string
 #
 
 require 'rails_helper'

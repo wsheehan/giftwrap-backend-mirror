@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
 
+  root "admin/v1/static_pages#index"
+
+  get     '/login'      => 'admin/v1/sessions#new'
+  post    '/login'      => 'admin/v1/sessions#create'
+  delete  '/logout'     => 'admin/v1/sessions#destroy'
+
+  namespace :admin do
+    namespace :v1 do
+      resources :clients, only: [:create]
+    end
+  end
+
   # Authentication
   namespace :users do
     resources :authentication, only: :create
