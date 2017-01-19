@@ -23,7 +23,6 @@ module Giving
 
     config.api_only = false
 
-    config.autoload_paths << Rails.root.join('app/helpers')
     config.autoload_paths << Rails.root.join('lib')
 
     config.middleware.insert_before 0, Rack::Cors do
