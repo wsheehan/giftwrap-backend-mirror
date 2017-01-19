@@ -8,4 +8,5 @@ class CampaignSerializer < ActiveModel::Serializer
   attribute :new_subscriptions
 
   has_many :gifts, serializer: GiftSerializer
+  belongs_to :donor_list, serializer: DonorListSerializer
 end
