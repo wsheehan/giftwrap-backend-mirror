@@ -53,7 +53,7 @@ end
 
 # Campaign for campaign#show
 donor_list = ransom.donor_lists.create(donors: ransom.donors.sample(20))
-conv_campaign = ransom.campaigns.create(donor_list: donor_list)
+conv_campaign = ransom.campaigns.create(donor_list: donor_list, title: "Test Campaign!", description: Faker::Lorem.paragraph)
 
 donor_list.donors.each do |d|
 	conv = conv_campaign.campaign_conversions.create(donor: d)
