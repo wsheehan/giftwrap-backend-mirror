@@ -4,6 +4,6 @@ class Api::V1::CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.where(client_id: @user_creds["client_id"], id: params[:id]).take
-    render json: { "campaign": CampaignSerializer.new(@campaign) }, include: 'gifts.donor'
+    render json: { "campaign": CampaignSerializer.new(@campaign) }, include: ['gifts.donor', 'donor_list']
   end
 end
