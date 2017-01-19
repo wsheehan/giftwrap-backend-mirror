@@ -1,0 +1,24 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+h1 {
+	text-align: center;
+}
+
+.giftwrap-admin-alert-control {
+	position: fixed;
+	width: 60%;
+	margin: 0 20%;
+	top: 15px;
+	z-index: 1001;
+	opacity: .9;
+	text-align: center;
+	&.alert-notice {
+		color: #00529B;
+    	background-color: #BDE5F8;
+	}
+	&.alert-warning {
+		color: #D8000C;
+    	background-color: #FFBABA;
+	}
+}
