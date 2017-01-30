@@ -35,6 +35,12 @@ class Campaign < ApplicationRecord
     campaigns_sent - campaign_conversions.where(gift_id: nil).length
   end
 
+  def campaign_conversion_rate
+    rate = ((campaigns_converted.to_f / campaigns_sent.to_f)*100).round(1)
+    i, f = rate.to_i, rate.to_f
+    i == f ? i : f
+  end
+
   def total_raised
     gifts.pluck(:total).reduce(0) { |total, t| total += t.to_f }
   end
