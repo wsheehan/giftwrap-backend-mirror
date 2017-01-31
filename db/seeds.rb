@@ -20,7 +20,7 @@ affiliations = ["Parent", "Student", "Alumni"]
 
 Client.all.each do |client|
 	#users = FactoryGirl.create_list :user, 4
-	users.each { |u| client.users << u }
+	# users.each { |u| client.users << u }
 	40.times do
 		a = affiliations.sample
 		client.donors.create!(first_name: Faker::Name.first_name,
