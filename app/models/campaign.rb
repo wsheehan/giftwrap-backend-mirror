@@ -27,12 +27,22 @@ class Campaign < ApplicationRecord
     donor_list.donors
   end
 
+  def top_gifts
+    gifts.order(total: :desc).take(5)
+  end
+
   def campaigns_sent
     campaign_conversions.size
   end
 
   def campaigns_converted
     campaigns_sent - campaign_conversions.where(gift_id: nil).length
+  end
+
+  def campaign_conversion_rate
+    rate = ((campaigns_converted.to_f / campaigns_sent.to_f)*100).round(1)
+    i, f = rate.to_i, rate.to_f
+    i == f ? i : f
   end
 
   def total_raised

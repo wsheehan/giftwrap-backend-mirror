@@ -15,7 +15,7 @@ ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard
 ransom.donors.create!(first_name: "Ben", last_name: "Sheehan", email: "sheehan1102@gmail.com", key: SecureRandom.urlsafe_base64(16))
 ransom.donors.create!(first_name: "Will", last_name: "Sheehan", email: "willsheehan95@gmail.com", key: SecureRandom.urlsafe_base64(16))
 
-ransom.users.create!(email: "willsheehan95@gmail.com", password: "foobar")
+will_user = ransom.users.create!(email: "willsheehan95@gmail.com", password: "foobar", first_name: "Will", last_name: "Sheehan")
 
 affiliations = ["Parent", "Student", "Alumni"]
 
@@ -60,12 +60,15 @@ end
 
 # Campaign for campaign#show
 donor_list = ransom.donor_lists.create(donors: ransom.donors.sample(20), title: Faker::Company.buzzword, description: Faker::Lorem.paragraph)
-conv_campaign = ransom.campaigns.create(donor_list: donor_list, title: "Test Campaign!", description: Faker::Lorem.paragraph)
+conv_campaign = ransom.campaigns.create(donor_list: donor_list, title: "Test Campaign!", description: Faker::Lorem.paragraph, user: will_user)
+
+designations = ['Annual Fund: Wherever needed most','Annual Fund: Financial Aid', 'Annual Fund: Fine Arts', 'Annual Fund: Technology','Annual Fund: Athletics', 'Annual Fund: Faculty Development', 'Other']
+gift_types = ["payment", "pledge_payment", "pledge"]
 
 donor_list.donors.each do |d|
 	conv = conv_campaign.campaign_conversions.create(donor: d)
 	if rand > 0.6
-		conv.update_attributes(gift: ransom.gifts.create!(total: "100", donor: d, campaign: conv_campaign))
+		conv.update_attributes(gift: ransom.gifts.create!(total: rand(10..1000), donor: d, campaign: conv_campaign, designation: designations.sample, gift_type: gift_types.sample))
 		if rand > 0.6
 			conv.update_attributes(subscription: true)
 		end
