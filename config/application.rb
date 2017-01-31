@@ -27,7 +27,11 @@ module Giving
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*' # Will be an array of school domains
+        if Rails.env.production?
+          origins 'https://giftwrap.io'
+        else
+          origins '*'
+        end
         resource "*", headers: :any, methods: [:get, :post, :patch, :put]
       end
     end
