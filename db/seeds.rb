@@ -15,7 +15,7 @@ ransom.donors.create!(first_name: "Greg", last_name: "Pollard", email: "gpollard
 ransom.donors.create!(first_name: "Ben", last_name: "Sheehan", email: "sheehan1102@gmail.com", key: SecureRandom.urlsafe_base64(16))
 ransom.donors.create!(first_name: "Will", last_name: "Sheehan", email: "willsheehan95@gmail.com", key: SecureRandom.urlsafe_base64(16))
 
-will_user = ransom.users.create!(email: "willsheehan95@gmail.com", password: "foobar", first_name: "Will", last_name: "Sheehan")
+will_user = ransom.users.create!(email: "wsheehan@bates.edu", password: "foobar", first_name: "Will", last_name: "Sheehan")
 
 affiliations = ["Parent", "Student", "Alumni"]
 
