@@ -9,5 +9,7 @@ class CampaignSerializer < ActiveModel::Serializer
   attribute :new_subscriptions
 
   has_many :gifts, serializer: GiftSerializer
+  has_many :top_gifts, serializer: GiftSerializer, key: "top_gifts"
   belongs_to :donor_list, serializer: DonorListSerializer
+  belongs_to :user, serializer: UserSerializer
 end

@@ -27,6 +27,10 @@ class Campaign < ApplicationRecord
     donor_list.donors
   end
 
+  def top_gifts
+    gifts.order(total: :desc).take(5)
+  end
+
   def campaigns_sent
     campaign_conversions.size
   end
