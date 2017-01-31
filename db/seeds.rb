@@ -1,4 +1,3 @@
-require 'factory_girl_rails'
 # Production Seed:
 
 # For Admin App
@@ -20,7 +19,7 @@ will_user = ransom.users.create!(email: "wsheehan@bates.edu", password: "foobar"
 affiliations = ["Parent", "Student", "Alumni"]
 
 Client.all.each do |client|
-	users = FactoryGirl.create_list :user, 4
+	#users = FactoryGirl.create_list :user, 4
 	users.each { |u| client.users << u }
 	40.times do
 		a = affiliations.sample
@@ -48,11 +47,11 @@ Donor.all.each do |x|
 	end
 end
 
-10.times do
-	list = FactoryGirl.create :donor_list
-	donors = Donor.all.sample(rand(10..20))
-	donors.each {|x| list.donors << x }
-end
+# 10.times do
+# 	list = FactoryGirl.create :donor_list
+# 	donors = Donor.all.sample(rand(10..20))
+# 	donors.each {|x| list.donors << x }
+# end
 
 # User.all.each do |user|
 # 	campaigns = FactoryGirl.create_list :campaign, 7, user_id: user.id
