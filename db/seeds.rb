@@ -1,9 +1,9 @@
+require 'factory_girl'
 # Production Seed:
 
 # For Admin App
 User.create! email: 'willsheehan95@gmail.com', password: "Giftwrap1", password_confirmation: "Giftwrap1", admin: true
 User.create! email: 'sheehan1102@gmail.com', password: "Maple1648", password_confirmation: "Maple1648", admin: true
-
 
 ransom = Client.create!(name: "Ransom Everglades")
 #designation: ['Annual Fund: Wherever needed most','Annual Fund: Financial Aid', 'Annual Fund: Fine Arts', 'Annual Fund: Technology','Annual Fund: Athletics', 'Annual Fund: Faculty Development', 'Other']
