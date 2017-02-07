@@ -64,4 +64,8 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+  def avatar_url
+    avatar.url
+  end
+
 end
