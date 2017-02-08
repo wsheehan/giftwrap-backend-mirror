@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
     if correct_user?
       @user = User.find(@user_creds["user_id"])
       @user.update_attributes(user_params)
-      render json: {}, status: :created
+      render json: {}, status: :ok
     else
       render json: {}, status: :forbidden
     end
