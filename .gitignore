@@ -23,6 +23,7 @@
 
 # Ignore local uploads
 /public/uploads
+/public/user_avatars
 
 # Ignore Coverage report
 coverage

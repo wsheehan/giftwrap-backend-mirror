@@ -22,6 +22,7 @@ gem 'simple_form',    '3.4.0'
 # Image Upload
 gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 gem 'carrierwave-base64', '~> 2.3', '>= 2.3.4'
+gem 'fog', '~> 1.38'
 
 # Email Processing
 gem 'griddler', '~> 1.3', '>= 1.3.1'
