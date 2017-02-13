@@ -20,20 +20,25 @@ class Api::V1::Forms::GiftsController < ApplicationController
 
     def find_or_create_donor
       @donor = Donor.find_by(id: gift_params[:donor_id])
-      find_donor_by_client_and_email unless @donor.present?
-      create_donor unless @donor.present?
+      return if @client.donors.exists?(@donor.id)
+      if @donor.present?
+        @donor.clients << @client
+      else
+        find_donor_by_client_and_email
+        create_donor
+      end
     end
 
     def find_donor_by_client_and_email
-      @donor = Donor.where(client_id: gift_params[:client_id], email: gift_params[:email]).take
+      @donor = @client.donors.find_by_email gift_params[:email]
     end
 
     def create_donor
-      @donor = Donor.create(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year, :client_id))
+      @donor = @client.donors.create(gift_params.slice(:first_name, :last_name, :email, :phone_number, :gift_frequency, :affiliation, :class_year))
     end
 
     def create_gift
-      @gift = @donor.gifts.build(gift_params.slice(:total, :designation, :gift_type))
+      @gift = @client.gifts.build(gift_params.slice(:total, :designation, :gift_type, :client_id).merge({donor: @donor}))
       @gift.save!
     end
 

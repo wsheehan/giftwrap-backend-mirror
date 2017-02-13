@@ -22,7 +22,7 @@ FactoryGirl.define do
         users_count 1
       end
       after(:create) do |client, evaluator|
-        create_list(:donor, evaluator.donors_count, client: client)
+        create_list(:donor, evaluator.donors_count, clients: [client])
         create_list(:user, evaluator.users_count, client: client)
       end
     end
@@ -33,7 +33,7 @@ FactoryGirl.define do
 
     factory :client_with_donors do
       after(:create) do |client, evaluator|
-        create_list(:donor, evaluator.donors_count, client: client)
+        create_list(:donor, evaluator.donors_count, clients: [client])
       end
 
       factory :client_with_campaigns do
@@ -48,7 +48,7 @@ FactoryGirl.define do
 
     factory :client_with_payment_info_donors do
       after(:create) do |client, evaluator|
-        create_list(:donor_with_payment_info, evaluator.donors_count, client: client)
+        create_list(:donor_with_payment_info, evaluator.donors_count, clients: [client])
       end
     end
   end
