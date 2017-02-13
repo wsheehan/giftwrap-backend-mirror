@@ -1,6 +1,6 @@
 class Api::V1::Campaigns::TextsController < ApplicationController
-
   def create
+    @client = Client.find(global_params[:client_id])
     unless create_campaign
       render json: { "errors": @campaign.errors.present? ? @campaign.errors : @text.errors }
       return
@@ -12,23 +12,8 @@ class Api::V1::Campaigns::TextsController < ApplicationController
   private
 
     def send_batch
-      @twilio_errors = {}
       @campaign.donor_list_donors.each do |donor|
-        send_text(donor, @campaign.id)
-        Metric::CampaignConversion.create(campaign: @campaign, donor: donor)
-      end
-    end
-
-    def send_text(donor, cid)
-      begin
-        @client = Twilio::REST::Client.new
-        @client.messages.create(
-          from: "+18023597135",
-          to: "+#{donor.phone_number}",
-          body: text_params[:body] + " https://localhost:4200/#{donor.client.id}?k=#{donor.key}&c=#{cid}"
-        )
-      rescue Twilio::REST::RequestError => error
-        @twilio_errors["#{donor.phone_number}"] = error.message
+        SendCampaignTextsJob.perform_later(@campaign, donor, @twilio_client)
       end
     end
 
