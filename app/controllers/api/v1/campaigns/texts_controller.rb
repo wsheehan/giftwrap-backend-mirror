@@ -13,7 +13,7 @@ class Api::V1::Campaigns::TextsController < ApplicationController
 
     def send_batch
       @campaign.donor_list_donors.each do |donor|
-        SendCampaignTextsJob.perform_later(@campaign, donor, @twilio_client)
+        SendCampaignTextsJob.perform_later(@campaign, donor, text_params)
       end
     end
 
