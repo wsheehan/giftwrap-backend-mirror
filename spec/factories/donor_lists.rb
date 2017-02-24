@@ -13,5 +13,14 @@
 FactoryGirl.define do
   factory :donor_list do
     title Faker::Company.buzzword
+    client
+
+    transient do
+      donors_count 5
+    end
+
+    after(:create) do |donor_list, evaluator|
+      create_list(:donor, evaluator.donors_count, donor_lists: [donor_list])
+    end
   end
 end
