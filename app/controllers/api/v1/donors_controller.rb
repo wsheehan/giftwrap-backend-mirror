@@ -1,16 +1,11 @@
 class Api::V1::DonorsController < ApplicationController
   def create
-    @client = Client.find(donor_params[:client_id])
-    @donor = @client.donors.find_by_email donor_params[:email]
-    if @donor
-      render json: { "donor": @donor }
+    @client = Client.find(@user_creds["client_id"])
+    @donor = @client.donors.build(donor_params)
+    if @donor.save
+      render json: { "donor": DonorSerializer.new(@donor) }, status: :ok
     else
-      @donor = @client.donors.build(donor_params)
-      if @donor.save
-        render json: { "donor": @donor }
-      else
-        render json: { "errors": { "msg": @donor.errors.first } }
-      end
+      render json: { "errors": { "msg": @donor.errors.first } }, status: :bad_request
     end
   end
 
