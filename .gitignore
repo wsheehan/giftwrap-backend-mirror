@@ -27,3 +27,6 @@
 
 # Ignore Coverage report
 coverage
+
+# Ignore Redis dump
+dump.rdb
