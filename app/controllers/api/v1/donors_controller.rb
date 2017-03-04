@@ -3,7 +3,7 @@ class Api::V1::DonorsController < ApplicationController
     @client = Client.find(@user_creds["client_id"])
     @donor = @client.donors.build(donor_params)
     if @donor.save
-      render json: { "donor": DonorSerializer.new(@donor) }, status: :ok
+      render json: @donor, status: :ok, serializer: DonorSerializer, head: 'donor'
     else
       render json: { "errors": { "msg": @donor.errors.first } }, status: :bad_request
     end
